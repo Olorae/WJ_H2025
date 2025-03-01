@@ -139,7 +139,6 @@ public class Item : MonoBehaviour
         Destroy(popUpInstance);
         Item itemToDestroy = this.GetComponent<Item>();
         Destroy(itemToDestroy.gameObject);
-        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= visible;
         Destroy(this);
     }
 
@@ -179,8 +178,12 @@ public class Item : MonoBehaviour
         }
     }
 
-    
 
+    private void OnDestroy()
+    {
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= visible;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= invisible;
+    }
 }
 
     
