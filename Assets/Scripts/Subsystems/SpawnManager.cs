@@ -1,26 +1,65 @@
+using System;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
-public class SpawnManager : ISubSystem
+public class SpawnManager : MonoBehaviour
 {
     private static SpawnManager SpawnSubsystemInstance;
 
     private static int nbTotalEnemy;
     private Camera mainCamera;
+    public EnemyCharacter Enemy; // public GameObject GameObjectToSpawn;
+    private EnemyCharacter Clone;
+    public float timeToSpawn = 4f;
+    public float FirstSpawn = 10f;
+    private Vector3 SpawnPosition = new Vector3(0, 0, 0);
+    public float offset = 10f;
 
     public void Start()
     {
-        mainCamera = GameObject.FindObjectOfType<Camera>();
+        mainCamera = FindObjectOfType<Camera>(); //GameObject.
+        SpawnEnemy();
     }
 
     public void SpawnEnemy()
     {
-        // SceneView.currentDrawingSceneView.camera.pixelHeight
-        /*
-        if ( Vector2.Distance(a, b) < rangeMin && Vector2.Distance(a, b) > maxRange )
+        //SceneView sceneView = mainCamera.GetComponent<SceneView>();
+        float heightCamera = mainCamera.orthographicSize;
+        float widthCamera = heightCamera * mainCamera.aspect;
+        
+        Vector3 CameraPosition = mainCamera.transform.position;
+        
+        Vector3 lowerCorner = new Vector3(CameraPosition.x - widthCamera , CameraPosition.y - heightCamera , 0);
+        Vector3 upperCorner = new Vector3(CameraPosition.x + widthCamera , CameraPosition.y + heightCamera , 0);
+        
+        float randomX = Random.Range(lowerCorner.x - offset, upperCorner.x + offset);
+        float randomY;
+        // if X is in the screen
+        if (randomX > lowerCorner.x && randomX < upperCorner.x)
         {
+            randomY = (Random.value > 0.5)? Random.Range(lowerCorner.y - offset, lowerCorner.y) : Random.Range(upperCorner.y + offset, upperCorner.y);
         }
-        */
+        else{ // X is out of the screen
+            randomY = Random.Range(lowerCorner.y - offset, upperCorner.y + offset);
+        }
+        SpawnPosition = new Vector3(randomX, randomY, 0);
+        
+        Debug.Log("Spawn Position = " + SpawnPosition.x + ", " + SpawnPosition.y);
+        
+        // Spawn Enemy
+        // Enemy = new EnemyCharacter();
+        Clone = Instantiate(Enemy, SpawnPosition, Quaternion.identity);
+        
         nbTotalEnemy++;
     }
+    
+    /*
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawSphere(SpawnPosition, 1);
+    }
+    */
 }
