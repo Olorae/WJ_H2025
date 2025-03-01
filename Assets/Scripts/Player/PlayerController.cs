@@ -30,6 +30,8 @@ public class PlayerController : MonoBehaviour
     public  GameObject ArmorPrefab;
     public GameObject portalRef;
     public GameObject insanityBarRef;
+    private float EndHitCooldown;
+    private float CoolDownTime = 5f;
 
     private void Awake()
     {
@@ -44,19 +46,10 @@ public class PlayerController : MonoBehaviour
         StopCoroutine = false;
         
         coroutine = WaitAndPrint(1f);
-        hitCooldownCoroutine = resetHitCooldown(1f);
         HitElapsed = true;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
     }
-    private IEnumerator hitCooldownCoroutine;
-    private IEnumerator resetHitCooldown(float waitTime)
-    {
-        //Debug.Log("wait and print");
-        
-            yield return new WaitForSeconds(waitTime);
-            HitElapsed = true;
-
-    }
+   
     
     private IEnumerator coroutine;
     private IEnumerator WaitAndPrint(float waitTime)
@@ -87,10 +80,25 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void OnHit()
+    private void Update()
     {
-        HitElapsed = false;
-        StartCoroutine(hitCooldownCoroutine);
+        if (EndHitCooldown != 0 && EndHitCooldown < Time.time)
+        {
+            HitElapsed = true;
+            EndHitCooldown = 0;
+        }
+    }
+
+    public void OnHit(float damage)
+    {
+        Debug.Log(HitElapsed);
+        if (HitElapsed)
+        {
+            HitElapsed = false;
+            EndHitCooldown = Time.time + CoolDownTime;
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(damage,true);
+        }
+       
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -126,7 +134,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 moveValue = move.ReadValue<Vector2>();
-        Debug.Log(GetMovementSpeed());
+        //Debug.Log(GetMovementSpeed());
         rb.velocity = new Vector2(moveValue.x * GetMovementSpeed(), moveValue.y * GetMovementSpeed());
 
     }
@@ -158,7 +166,7 @@ public class PlayerController : MonoBehaviour
            Destroy(gObject); 
         }
         
-        Debug.Log(GetDamage());
+        //Debug.Log(GetDamage());
         
     }
 
