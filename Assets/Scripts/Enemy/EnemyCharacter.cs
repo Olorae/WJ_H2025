@@ -16,13 +16,14 @@ public class EnemyCharacter : MonoBehaviour
     public SpriteRenderer SpriteRenderer;
     private CapsuleCollider2D CapsuleCollider2D;
     public bool RealEnemy;
-    private bool followPlayer;
+    public bool followPlayer;
     private bool TouchingPlayer;
     public float Life;
     public float MaxLife;
     public float Damage;
     private HealthManager healthManager;
     public float pushForce = 500f;
+    public Animator animator;
     
     private IEnumerator coroutine;
 
@@ -41,6 +42,7 @@ public class EnemyCharacter : MonoBehaviour
         SpriteRenderer = GetComponent<SpriteRenderer>();
         CapsuleCollider2D = GetComponent<CapsuleCollider2D>();
         healthManager = FindObjectOfType<HealthManager>();
+        animator = GetComponent<Animator>();
         followPlayer = true;
         TouchingPlayer = false;
         runAway = false;
@@ -111,7 +113,7 @@ public class EnemyCharacter : MonoBehaviour
             
             Life -= 1;//damage;
             healthManager.takeDamage(damage);
-            
+            animator.SetTrigger("Hit");
             runAway = true;
             Speed = pushForce;
             Invoke("PushedBackOver", .1f);
@@ -128,14 +130,7 @@ public class EnemyCharacter : MonoBehaviour
         }
 
         Debug.Log("Life = " + Life);
-        if (Life <= 0)
-        {
-            if (RealEnemy)
-            {
-                GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab,Player.HatPrefab,Player.ArmorPrefab,transform.position,transform.rotation);
-            }
-            
-        }
+        
         return Life <= 0;
     }
 
@@ -190,8 +185,12 @@ public class EnemyCharacter : MonoBehaviour
     {
         if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
         {
-            followPlayer = true;
-            TouchingPlayer = false;
+            if (Life > 0)
+            {
+                followPlayer = true;
+                TouchingPlayer = false; 
+            }
+           
         }
         
     }
@@ -225,6 +224,16 @@ public class EnemyCharacter : MonoBehaviour
     {
         followPlayer = true;
         changeOpacity(1f);
+    }
+
+    public void Die()
+    {
+        if (RealEnemy)
+        {
+            GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab,Player.HatPrefab,Player.ArmorPrefab,transform.position,transform.rotation);
+        }
+        Destroy(this.GameObject());
+        Destroy(this);
     }
 
     // Update is called once per frame
