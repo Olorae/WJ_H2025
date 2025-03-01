@@ -22,7 +22,8 @@ public class EnemyCharacter : MonoBehaviour
     public float MaxLife;
     public float Damage;
     private HealthManager healthManager;
-    public float pushForce = 500f;
+    public float pushForce;// = 500f;
+    private bool bossIsComing;
     
     private IEnumerator coroutine;
 
@@ -31,6 +32,7 @@ public class EnemyCharacter : MonoBehaviour
     private void bossSpawned()
     {
         runAway = true;
+        bossIsComing = true;
     }
 
     void Start()
@@ -45,6 +47,7 @@ public class EnemyCharacter : MonoBehaviour
         TouchingPlayer = false;
         runAway = false;
         InitialSpeed = Speed;
+        bossIsComing = false;
         
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
@@ -74,8 +77,10 @@ public class EnemyCharacter : MonoBehaviour
         }
         else if (runAway)
         {
-            // TODO: if boss, don't run away
-            
+            if (bossIsComing)
+            {
+                // TODO: something pour que les ennemis regarde derrière eux en partant
+            }
             // Calculate the opposite direction
             Vector3 oppositeDirection = (currentLocation - targetLocation).normalized;
 
@@ -84,16 +89,21 @@ public class EnemyCharacter : MonoBehaviour
             rigidbody2D.position = newPosition;
             
         }
-        
+
+        Rotate(currentLocation, targetLocation);
+    }
+
+    private void Rotate(Vector3 currentLocation, Vector3 targetLocation)
+    {
         if ((targetLocation - currentLocation).x >= 0)
         {
-            transform.rotation = new Quaternion(transform.rotation.x, 0f, transform.rotation.z, transform.rotation.w);
-            healthManager.transform.rotation = new Quaternion(healthManager.transform.rotation.x, 0f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
+            transform.rotation = new Quaternion(0f, 0f, transform.rotation.z, transform.rotation.w);
+            healthManager.transform.rotation = new Quaternion(0f, 0f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
         }
         else
         {
-            transform.rotation = new Quaternion(transform.rotation.x, 180f, transform.rotation.z, transform.rotation.w);
-            healthManager.transform.rotation = new Quaternion(healthManager.transform.rotation.x, 180f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
+            transform.rotation = new Quaternion(0f, 180f, transform.rotation.z, transform.rotation.w);
+            healthManager.transform.rotation = new Quaternion(0f, 180f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
         }
     }
 
@@ -109,12 +119,12 @@ public class EnemyCharacter : MonoBehaviour
         {
             Debug.Log("Real enemy attacked");
             
-            Life -= 1;//damage;
+            Life -= damage;
             healthManager.takeDamage(damage);
             
             runAway = true;
             Speed = pushForce;
-            Invoke("PushedBackOver", .1f);
+            Invoke("PushedBackOver", .05f);
             /*
             Vector2 force = -(Player.transform.position - transform.position) * 1f;
             rigidbody2D.AddForce(force);
@@ -151,7 +161,14 @@ public class EnemyCharacter : MonoBehaviour
 
                 if (RealEnemy)
                 {
-                    Player.OnHit(Damage);
+                    if (CompareTag("Boss"))
+                    {
+                        Player.OnHit(-Damage);
+                    }
+                    else
+                    {
+                        Player.OnHit(Damage);
+                    }
                     //GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
                     coroutine = WaitAndPrint(5.0f);
                     //StartCoroutine(coroutine);
