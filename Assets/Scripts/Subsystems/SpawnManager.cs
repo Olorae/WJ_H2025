@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -17,10 +18,33 @@ public class SpawnManager : MonoBehaviour
     private Vector3 SpawnPosition = new Vector3(0, 0, 0);
     public float offset = 10f;
 
+    /*
     public void Start()
     {
         mainCamera = FindObjectOfType<Camera>(); //GameObject.
+        Invoke("SpawnEnemy", 5f);
+        
+        
+    }*/
+    
+    private IEnumerator coroutine;
+
+    public void Start()
+    {
+        mainCamera = FindObjectOfType<Camera>();
+
+        // Start function WaitAndPrint as a coroutine.
+
+        coroutine = WaitAndPrint(5.0f);
+        StartCoroutine(coroutine);
+    }
+
+    private IEnumerator WaitAndPrint(float waitTime)
+    {
+        //while (true) {
+        yield return new WaitForSeconds(waitTime);
         SpawnEnemy();
+        //}
     }
 
     public void SpawnEnemy()
