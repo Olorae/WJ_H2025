@@ -31,7 +31,7 @@ public class SpawnManager : MonoBehaviour
         // Start function WaitAndPrint as a coroutine.
 
         coroutine = WaitAndPrint(5.0f);
-        StartCoroutine(coroutine);
+        //StartCoroutine(coroutine);
     }
 
     private IEnumerator WaitAndPrint(float waitTime)
@@ -97,6 +97,11 @@ public class SpawnManager : MonoBehaviour
         }
 
         nbTotalEnemy++;
+    }
+
+    public void StartSpawning()
+    {
+        StartCoroutine(coroutine); 
     }
     // folie 
 
