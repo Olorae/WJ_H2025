@@ -170,7 +170,7 @@ public class Item : MonoBehaviour
         }
     }
 
-    static Item ItemSpawn()
+    public static Item ItemSpawn()
     {
         Item itemToSpawn;
         float chance = Random.Range(0f, 1f);
