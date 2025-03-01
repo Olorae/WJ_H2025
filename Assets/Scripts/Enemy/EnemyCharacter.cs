@@ -122,6 +122,7 @@ public class EnemyCharacter : MonoBehaviour
                 yield return new WaitForSeconds(waitTime);
                 GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
                 
+                Debug.Log("touching player");
             }
             else
             {
