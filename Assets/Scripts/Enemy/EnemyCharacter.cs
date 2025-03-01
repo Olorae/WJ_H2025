@@ -18,7 +18,9 @@ public class EnemyCharacter : MonoBehaviour
     private bool followPlayer;
     private bool TouchingPlayer;
     public float Life;
+    public float MaxLife;
     public float Damage;
+    private HealthManager healthManager;
     
     private IEnumerator coroutine;
 
@@ -36,6 +38,7 @@ public class EnemyCharacter : MonoBehaviour
         Rigidbody2D = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
         CapsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        healthManager = FindObjectOfType<HealthManager>();
         followPlayer = true;
         TouchingPlayer = false;
         runAway = false;
@@ -84,8 +87,11 @@ public class EnemyCharacter : MonoBehaviour
     {
         if (RealEnemy)
         {
-            Life -= damage;
-            //FindObjectOfType<HealthManager>().takeDamage(damage);
+            Debug.Log("Real enemy attacked");
+            
+            Life -= 1;//damage;
+            healthManager.takeDamage(damage);
+            followPlayer = false;
             
             // TODO: test
             Vector2 force = Vector2.right*100000f; /*(transform.position - Player.transform.position).normalized * Speed*/;
@@ -94,7 +100,7 @@ public class EnemyCharacter : MonoBehaviour
         else
         {
             Life = 0;
-            //FindObjectOfType<HealthManager>().takeDamage(Life);
+            healthManager.takeDamage(Life);
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,false);
         }
 
@@ -169,12 +175,10 @@ public class EnemyCharacter : MonoBehaviour
 
     private void OnDestroy()
     {
-        
+        FindObjectOfType<SpawnManager>().BossSpawned -= bossSpawned;
         
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
-
-        FindObjectOfType<SpawnManager>().BossSpawned -= bossSpawned;
     }
 
     private void changeOpacity(float opacity)

@@ -4,10 +4,12 @@ using UnityEngine;
 using UnityEngine.UI;
 public class HealthManager : MonoBehaviour
 {
-    
+    public GameObject thisUi;
     public Image healthBar;
     public float healthAmount;
     public float healthMax;
+
+    private EnemyCharacter owner;
 
     public void takeDamage(float damage)
     {
@@ -19,18 +21,18 @@ public class HealthManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        owner = gameObject.GetComponent<EnemyCharacter>();
         healthMax = 100f;
         healthAmount = healthMax;
+        
     }
 
     // Update is called once per frame
-    /*
+    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            takeDamage();
-        }
+        //TODO: remplacer par owner.MaxLife
+        healthBar.fillAmount = owner.Life / 100;
     }
-    */
+    
 }
