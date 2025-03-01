@@ -10,7 +10,6 @@ public class PlayerController : MonoBehaviour
     public IAPlayer playerInput;
     public float baseSpeed = 5f;
     public Rigidbody2D rb;
-    CharacterController controller;
 
     private InputAction move;
 
