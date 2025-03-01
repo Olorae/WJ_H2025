@@ -1,17 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using UnityEditor.UI;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 
 public class Item : MonoBehaviour
 {
-    protected string name;
+    public string name;
     protected float attackSpeed;
     protected float attackDamage;
     protected float mouvementSpeed;
     protected float folieHitDefense;
     protected float foliePerSecondReduce;
     protected float bossSpawnChanceReduction;
+    public GameObject popUpPreFab;
+    protected GameObject popUpInstance;
 
+    
     string Name
     {
         get { return name; }
@@ -53,14 +60,54 @@ public class Item : MonoBehaviour
         get { return bossSpawnChanceReduction; }
         set { bossSpawnChanceReduction = value; }
     }
-/*
-    public void SpawnItemStatWindow()
+
+    public void Start()
     {
-        if (FindObjectOfType<Player>())
+        Initialize();
+    }
+
+    protected virtual void Initialize()
+    {
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        
+        if (other.tag == "Player")
         {
-            
+            popUpInstance = Instantiate(popUpPreFab,transform.position,Quaternion.identity);
+            switch (name)
+            {
+                case "Weapon":
+                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text = $"Name: {Name}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Attack Damage: {AttackDamage}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Attack Speed: {AttackSpeed}";
+                    break;
+                case "Armor":
+                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text = $"Name: {Name}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Madness Defense: {AttackDamage}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Mouvement Speed: {AttackSpeed}";
+                    break;
+                case "Hat":
+                    break;
+                default:
+                    break;
+            }
+           
+        }
+        
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            if (popUpInstance != null)
+            { 
+                Destroy(popUpInstance);
+            }
         }
     }
-    */
-
 }
+
+    
