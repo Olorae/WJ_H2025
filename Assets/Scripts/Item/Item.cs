@@ -11,12 +11,12 @@ public class Item : MonoBehaviour
 {
     public string name;
     public string type;
-    protected float attackSpeed;
-    protected float attackDamage;
-    protected float mouvementSpeed;
-    protected float madnessDefense;
-    protected float madnessPerSecondReduce;
-    protected float bossSpawnChanceReduction;
+    public float attackSpeed;
+    public float attackDamage;
+    public float mouvementSpeed;
+    public float madnessDefense;
+    public float madnessPerSecondReduce;
+    public float bossSpawnChanceReduction;
     public GameObject popUpPreFab;
     protected GameObject popUpInstance;
     protected bool isPickable = false;
