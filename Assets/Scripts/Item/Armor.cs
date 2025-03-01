@@ -6,8 +6,9 @@ public class Armor : Item
 { 
     protected override void Initialize()
     {
-        name = "Armor";
+        name = "Armor test";
+        type = "Armor";
         mouvementSpeed = Random.Range(0, 100);
-        folieHitDefense = Random.Range(0, 100);
+        madnessDefense = Random.Range(0, 100);
     }
 }
