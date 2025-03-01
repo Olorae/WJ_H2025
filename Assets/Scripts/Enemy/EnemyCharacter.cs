@@ -85,16 +85,16 @@ public class EnemyCharacter : MonoBehaviour
         if (RealEnemy)
         {
             Life -= damage;
-            FindObjectOfType<HealthManager>().takeDamage(damage);
+            //FindObjectOfType<HealthManager>().takeDamage(damage);
             
             // TODO: test
-            Vector2 force = (transform.position - Player.transform.position).normalized * Speed;
+            Vector2 force = Vector2.right*100000f; /*(transform.position - Player.transform.position).normalized * Speed*/;
             Rigidbody2D.AddForce(force, ForceMode2D.Force);
         }
         else
         {
             Life = 0;
-            FindObjectOfType<HealthManager>().takeDamage(Life);
+            //FindObjectOfType<HealthManager>().takeDamage(Life);
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,false);
         }
 
