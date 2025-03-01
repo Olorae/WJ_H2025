@@ -11,6 +11,7 @@ using Random = UnityEngine.Random;
 public class Item : MonoBehaviour
 {
     public string name;
+    public string description;
     public string type;
     public float attackSpeed;
     public float attackDamage;
@@ -27,6 +28,11 @@ public class Item : MonoBehaviour
     {
         get { return name; }
         set { name = value; }
+    }
+    string Description
+    {
+        get { return description; }
+        set { description = value; }
     }
 
     string Type
@@ -99,32 +105,37 @@ public class Item : MonoBehaviour
         {
             other.GameObject().GetComponent<PlayerController>().pickableItem = this;
             isPickable = true;
-            popUpInstance = Instantiate(popUpPreFab, transform.position, Quaternion.identity);
+            
+            Vector3 vectorItemPosition = transform.position;
+            vectorItemPosition.y = vectorItemPosition.y + 1.5f;
+            
+            popUpInstance = Instantiate(popUpPreFab, vectorItemPosition, Quaternion.identity);
             switch (type)
             {
                 case "Weapon":
-                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text =
-                        $"Name: {Name}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text =
-                        $"Attack Damage: {AttackDamage}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text =
-                        $"Attack Speed: {AttackSpeed}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Title").GetComponent<TextMeshProUGUI>().text = "Sword of";
+                    popUpInstance.transform.Find("PopUp/BackGround/Description").GetComponent<TextMeshProUGUI>().text = description;
+                    
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = "Attack Damage:";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().text = compareStat(this,"Attack Damage").ToString();
+
+                    
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Attack Speed: {AttackSpeed}";
                     break;
                 case "Armor":
-                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text =
-                        $"Name: {Name}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text =
-                        $"Madness Defense: {MadnessDefense}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text =
-                        $"Mouvement Speed: {MouvementSpeed}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Title").GetComponent<TextMeshProUGUI>().text = "Armor of";
+                    popUpInstance.transform.Find("PopUp/BackGround/Description").GetComponent<TextMeshProUGUI>().text = description;
+                    
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = "Madness Defense:";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().text = compareStat(this,"Madness Defense").ToString();
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = "Mouvement Speed:";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2/Stat2Number").GetComponent<TextMeshProUGUI>().text = compareStat(this,"Mouvement Speed").ToString();
                     break;
                 case "Hat":
-                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text =
-                        $"Name: {Name}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text =
-                        $"Madness Per Second Reduce: {MadnessPerSecondReduce}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text =
-                        $"Reduce Boss Chance: {BossSpawnChanceReduction}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Title").GetComponent<TextMeshProUGUI>().text = "Hat of";
+                    popUpInstance.transform.Find("PopUp/BackGround/Description").GetComponent<TextMeshProUGUI>().text = description;
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Madness Per Second Reduce: {MadnessPerSecondReduce}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Reduce Boss Chance: {BossSpawnChanceReduction}";
                     break;
                 default:
                     break;
@@ -183,6 +194,90 @@ public class Item : MonoBehaviour
     {
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= visible;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= invisible;
+    }
+
+    private float compareStat(Item ItemOnGround, String statName)
+    {
+        float differenceStat = 0;
+        switch (ItemOnGround.type)
+        {
+            case "Weapon":
+                if (statName == "Attack Damage")
+                {
+                    differenceStat = ItemOnGround.attackDamage - FindObjectOfType<PlayerController>().GetDamage() + FindObjectOfType<PlayerController>().baseDamage;
+                    if(differenceStat > 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.green;
+                    }
+                    else if (differenceStat < 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.red;
+
+                    }
+                    else
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.white;
+
+                    }
+                }
+                else if (statName == "Attack Speed")
+                {
+                    
+                }
+                break;
+            case "Hat":
+                if (statName == "Madness Per Second Reduce")
+                {
+                
+                }
+                else if (statName == "Reduce Boss Chance")
+                {
+                    
+                }
+                break;
+            case "Armor":
+                if (statName == "Madness Defense")
+                {
+                   differenceStat = ItemOnGround.madnessDefense - FindObjectOfType<PlayerController>().GetDefense() + FindObjectOfType<PlayerController>().baseDefense;
+                   if(differenceStat > 0)
+                   {
+                       popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.green;
+                   }
+                   else if (differenceStat < 0)
+                   {
+                       popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.red;
+
+                   }
+                   else
+                   {
+                       popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.white;
+
+                   }
+                   
+                }
+                else if (statName == "Mouvement Speed")
+                {
+                    differenceStat = ItemOnGround.mouvementSpeed - FindObjectOfType<PlayerController>().GetMovementSpeed() + FindObjectOfType<PlayerController>().baseSpeed ;
+                    if(differenceStat > 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat2/Stat2Number").GetComponent<TextMeshProUGUI>().color = Color.green;
+                    }
+                    else if (differenceStat < 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat2/Stat2Number").GetComponent<TextMeshProUGUI>().color = Color.red;
+
+                    }
+                    else
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat2/Stat2Number").GetComponent<TextMeshProUGUI>().color = Color.white;
+
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        return differenceStat;
     }
 }
 
