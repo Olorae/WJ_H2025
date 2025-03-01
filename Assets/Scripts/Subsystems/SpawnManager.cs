@@ -74,11 +74,21 @@ public class SpawnManager : MonoBehaviour
         Debug.Log("Spawn Position = " + SpawnPosition.x + ", " + SpawnPosition.y);
         
         // Spawn Enemy
-        // Enemy = new EnemyCharacter();
+        float folie = GameManager.GetGameManager().GetSubsystem<DataSubsystem>().insanity;
+        float chance = Random.Range(0, 100);
+        if (chance <= folie / 2)
+        {
+            // TODO: spawn faux
+        }
+        else
+        {
+            // TODO: spawn vrai
+        }
         Clone = Instantiate(Enemy, SpawnPosition, Quaternion.identity);
         
         nbTotalEnemy++;
-    }
+        
+        // folie 
     
     /*
     private void OnDrawGizmos()
