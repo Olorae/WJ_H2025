@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor.VersionControl;
 using UnityEngine;
 using UnityEngine.UIElements;
@@ -10,10 +11,12 @@ public class ButtonBackGround : MonoBehaviour
 {
     public int i;
     public Image button ;
+    public TextMeshProUGUI text;
     private Image backgroundCurrent;
     public Sprite backgroundHover;
     public Sprite backgroundPressed;
     public Sprite backgroundNormal;
+    private Color colorHover = new Color(0.7137255f, 0.8980393f, 0.8313726f, 1f);
     
     // Start is called before the first frame update
     void Start()
@@ -23,7 +26,6 @@ public class ButtonBackGround : MonoBehaviour
             Debug.LogError("buttonGameObject n'est pas assigné dans l'Inspector !");
             return;
         }
-
         backgroundCurrent = button.GetComponent<Image>();
 
         if (backgroundCurrent == null)
@@ -42,10 +44,13 @@ public class ButtonBackGround : MonoBehaviour
     }
     public void HoverButton()
     {
+        text.color = colorHover;
         backgroundCurrent.sprite = backgroundHover;
+        
     }
     public void UnhoverButton()
     {
+        text.color = Color.white;
         backgroundCurrent.sprite = backgroundNormal;
         
     }
