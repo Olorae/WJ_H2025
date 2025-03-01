@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour
 {
     public IAPlayer playerInput;
     public float baseSpeed = 5f;
+    public float baseDamage = 5;
+    public float baseDefense = 5;
     public Rigidbody2D rb;
     private BoxCollider2D WeapondHitBox;
     private InputAction move;
@@ -69,8 +71,12 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D other)
-    { 
-        ObjectsInHitBox.Remove(other.GameObject());
+    {
+        if (other != null)
+        {
+            ObjectsInHitBox.Remove(other.GameObject());
+        }
+        
     }
 
     private void OnEnable()
@@ -104,19 +110,19 @@ public class PlayerController : MonoBehaviour
         {
             if (gObject.tag.Equals("Enemy"))
             {
-                toDestroy.Add(gObject);
-                //TODO: remove health from enemy and add to destroy list if health equals 0
+                if (gObject.GetComponent<EnemyCharacter>().Attacked(baseDamage))
+                {
+                    toDestroy.Add(gObject);
+                }
 
             }
         }
 
-        foreach (GameObject gObject in toDestroy)
+        foreach (var gObject in toDestroy)
         {
-            Destroy(gObject);
-            
+           Destroy(gObject); 
         }
-
-       
+        
         Debug.Log("Attack");
         
     }
