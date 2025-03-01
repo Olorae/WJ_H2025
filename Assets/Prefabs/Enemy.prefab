@@ -166,3 +166,5 @@ MonoBehaviour:
   SpriteRenderer: {fileID: 0}
   CircleCollider2D: {fileID: 0}
   RealEnemy: 1
+  Life: 10
+  Damage: 10
