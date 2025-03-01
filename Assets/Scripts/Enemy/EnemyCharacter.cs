@@ -2,31 +2,33 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
+
 public class EnemyCharacter : MonoBehaviour
 {
     // Start is called before the first frame update
 
     public static PlayerController Player = null;
-    private float Speed = 2.0f;
+    public float Speed = 2.0f;
     public Rigidbody2D Rigidbody2D;
+    public SpriteRenderer SpriteRenderer;
+    public CircleCollider2D CircleCollider2D;
     void Start()
     {
         // get Player
         Player = FindObjectOfType<PlayerController>();
+        Rigidbody2D = GetComponent<Rigidbody2D>();
+        SpriteRenderer = GetComponent<SpriteRenderer>();
+        CircleCollider2D = GetComponent<CircleCollider2D>();
+        
         if (Player == null)
         {
-            Debug.LogError("Player not found");
             Debug.Log("Player not found");
             return;
-            // tODO: disabled
+            // tODO: disable
         }
-        Debug.Log("Player : "+ Player.name +" found \\^o^/");
-        Rigidbody2D = GetComponent<Rigidbody2D>();
-    }
-
-    private void Spawn()
-    {
         
+        Debug.Log("Player : "+ Player.name +" found \\^o^/");
     }
 
     private void FixedUpdate()
