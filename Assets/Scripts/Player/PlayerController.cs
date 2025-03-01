@@ -15,6 +15,7 @@ public class PlayerController : MonoBehaviour
     private InputAction move;
     private List<GameObject> ObjectsInHitBox;
     private Animator animator;
+    private bool StopCoroutine;
     public Item armor;
     public Item weapon;
     public Item hat;
@@ -28,8 +29,34 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         WeapondHitBox = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
+        StopCoroutine = false;
+        
+        coroutine = WaitAndPrint(0.5f);
+       
     }
-   
+    private IEnumerator coroutine;
+    private IEnumerator WaitAndPrint(float waitTime)
+    {
+        Debug.Log("wait and print");
+        while (true) {
+            yield return new WaitForSeconds(waitTime);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(1);
+        }
+    }
+    private void ToLivingLand()
+    {
+        Debug.Log("in living land");
+        StopCoroutine(coroutine);
+    }
+
+    private void ToDeadLand()
+    {
+        Debug.Log("in dead land");
+        StartCoroutine(coroutine);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
