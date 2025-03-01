@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -24,7 +25,6 @@ public class HealthManager : MonoBehaviour
         owner = gameObject.GetComponent<EnemyCharacter>();
         healthMax = 100f;
         healthAmount = healthMax;
-        
     }
 
     // Update is called once per frame
@@ -32,7 +32,10 @@ public class HealthManager : MonoBehaviour
     void Update()
     {
         //TODO: remplacer par owner.MaxLife
-        healthBar.fillAmount = owner.Life / 100;
+        if (owner)
+        {
+            healthBar.fillAmount = owner.Life / 100;
+        }
     }
     
 }
