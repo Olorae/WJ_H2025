@@ -332,6 +332,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: HatPrefab
+      value: 
+      objectReference: {fileID: 2485749364794719034, guid: 7e91b6c2cd9acc043885a1128aaae1e7, type: 3}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ArmorPrefab
+      value: 
+      objectReference: {fileID: 2485749364794719034, guid: 9ec7c6b31e7731745b8258f41dec13e8, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
