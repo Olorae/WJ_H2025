@@ -166,7 +166,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   baseSpeed: 5
   baseDamage: 5
-  baseDefense: 5
+  baseDefense: 0
   rb: {fileID: 0}
   armor: {fileID: 0}
   weapon: {fileID: 0}
