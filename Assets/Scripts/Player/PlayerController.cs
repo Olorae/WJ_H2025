@@ -31,7 +31,7 @@ public class PlayerController : MonoBehaviour
     public GameObject portalRef;
     public GameObject insanityBarRef;
     private float EndHitCooldown;
-    private float CoolDownTime = 5f;
+    private float CoolDownTime = 2f;
 
     private void Awake()
     {
