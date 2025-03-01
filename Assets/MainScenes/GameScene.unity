@@ -155,7 +155,6 @@ MonoBehaviour:
   EnemyReal: {fileID: 3432444620411077157, guid: 50c7c541b0affe34faa2d45cb65d17a0, type: 3}
   EnemyBoss: {fileID: 0}
   timeToSpawn: 4
-  FirstSpawn: 10
   offset: 10
   InsanityToSpawnBoss: 50
 --- !u!4 &78829521
@@ -438,9 +437,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2485749364794719034, guid: 7e91b6c2cd9acc043885a1128aaae1e7, type: 3}
     - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: portalRef
+      value: 
+      objectReference: {fileID: 1551694324}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: ArmorPrefab
       value: 
       objectReference: {fileID: 2485749364794719034, guid: 9ec7c6b31e7731745b8258f41dec13e8, type: 3}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: insanityBarRef
+      value: 
+      objectReference: {fileID: 2075935725}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -458,6 +465,10 @@ PrefabInstance:
       propertyPath: thisUI
       value: 
       objectReference: {fileID: 2075935725}
+    - target: {fileID: 755367367174595896, guid: 9f0f339464b77b04f972b7e5ab9cdad4, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2017251892238743309, guid: 9f0f339464b77b04f972b7e5ab9cdad4, type: 3}
       propertyPath: m_Layer
       value: 5
@@ -717,6 +728,11 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1551694324 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4658291281551565425, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
+  m_PrefabInstance: {fileID: 8950349705911684120}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1598496081
 GameObject:
   m_ObjectHideFlags: 0

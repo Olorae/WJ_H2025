@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> ObjectsInHitBox;
     private Animator animator;
     private bool StopCoroutine;
+    public bool InsanityEnabled;
     public bool HitElapsed;
     public ItemData armor;
     public ItemData weapon;
@@ -27,6 +28,8 @@ public class PlayerController : MonoBehaviour
     public  GameObject WeaponPrefab;
     public  GameObject HatPrefab;
     public  GameObject ArmorPrefab;
+    public GameObject portalRef;
+    public GameObject insanityBarRef;
 
     private void Awake()
     {
@@ -37,7 +40,7 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
-        
+        InsanityEnabled = false;
         StopCoroutine = false;
         
         coroutine = WaitAndPrint(1f);
@@ -72,8 +75,13 @@ public class PlayerController : MonoBehaviour
 
     private void ToDeadLand()
     {
-        //Debug.Log("in dead land");
-        StartCoroutine(coroutine);
+
+        if (InsanityEnabled)
+        {
+            //Debug.Log("in dead land");
+            StartCoroutine(coroutine);
+        }
+        
     }
 
     // Start is called before the first frame update
@@ -235,5 +243,14 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
+    }
+
+    public void EnableInsanity()
+    {
+       Debug.Log("INSANITYENABLED");
+       portalRef.SetActive(true);
+       insanityBarRef.SetActive(true);
+       
+        InsanityEnabled = true;
     }
 }

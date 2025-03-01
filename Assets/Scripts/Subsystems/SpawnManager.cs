@@ -16,7 +16,6 @@ public class SpawnManager : MonoBehaviour
     public EnemyCharacter EnemyBoss;
     private EnemyCharacter Clone;
     public float timeToSpawn = 4f;
-    public float FirstSpawn = 10f;
     private Vector3 SpawnPosition = new Vector3(0, 0, 0);
     public float offset = 10f;
     public float InsanityToSpawnBoss = 50;
@@ -101,6 +100,7 @@ public class SpawnManager : MonoBehaviour
 
     public void StartSpawning()
     {
+        SpawnEnemy();
         StartCoroutine(coroutine); 
     }
     // folie 
