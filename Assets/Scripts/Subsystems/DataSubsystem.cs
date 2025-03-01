@@ -15,7 +15,7 @@ public class DataSubsystem : ISubSystem
 
     public DataSubsystem()
     {
-        insanity = 50;
+        insanity = 0;
         maxInsanity = 120;
     }
 

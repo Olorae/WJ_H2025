@@ -9,7 +9,7 @@ public class InsanityBar : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        thisUI.SetActive(false);
         
     }
 
@@ -18,6 +18,7 @@ public class InsanityBar : MonoBehaviour
     {
         thisUI.GetComponent<Slider>().value = GameManager.GetGameManager().GetSubsystem<DataSubsystem>().insanity;
         thisUI.GetComponent<Slider>().maxValue = GameManager.GetGameManager().GetSubsystem<DataSubsystem>().maxInsanity;
+        
     }
 
     public void UpdateValue(float newValue)
