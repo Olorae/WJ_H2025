@@ -98,7 +98,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 moveValue = move.ReadValue<Vector2>();
-        rb.velocity = new Vector2(moveValue.x * baseSpeed, moveValue.y * baseSpeed);
+        rb.velocity = new Vector2(moveValue.x * baseSpeed, moveValue.y * GetMovementSpeed());
 
     }
 
@@ -110,7 +110,8 @@ public class PlayerController : MonoBehaviour
         {
             if (gObject.tag.Equals("Enemy"))
             {
-                if (gObject.GetComponent<EnemyCharacter>().Attacked(baseDamage))
+                //TODO: give knockback to enemy
+                if (gObject.GetComponent<EnemyCharacter>().Attacked(GetDamage()))
                 {
                     toDestroy.Add(gObject);
                 }
@@ -154,5 +155,20 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Cant Pick Up in the living");
         }
+    }
+
+    public float GetDefense()
+    {
+        return baseDefense + hat.madnessDefense + armor.madnessDefense + weapon.madnessDefense;
+    }
+
+    public float GetDamage()
+    {
+        return baseDamage + hat.attackDamage + armor.attackDamage + weapon.attackDamage;
+    }
+
+    public float GetMovementSpeed()
+    {
+        return baseSpeed + hat.mouvementSpeed + armor.mouvementSpeed + weapon.mouvementSpeed;
     }
 }
