@@ -10,11 +10,14 @@ public class PlayerController : MonoBehaviour
 {
     public IAPlayer playerInput;
     public float baseSpeed = 5f;
+    public float baseDamage = 5;
+    public float baseDefense = 5;
     public Rigidbody2D rb;
     private BoxCollider2D WeapondHitBox;
     private InputAction move;
     private List<GameObject> ObjectsInHitBox;
     private Animator animator;
+    private bool StopCoroutine;
     public Item armor;
     public Item weapon;
     public Item hat;
@@ -28,8 +31,34 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         WeapondHitBox = GetComponent<BoxCollider2D>();
         animator = GetComponent<Animator>();
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
+        StopCoroutine = false;
+        
+        coroutine = WaitAndPrint(0.5f);
+       
     }
-   
+    private IEnumerator coroutine;
+    private IEnumerator WaitAndPrint(float waitTime)
+    {
+        Debug.Log("wait and print");
+        while (true) {
+            yield return new WaitForSeconds(waitTime);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(1);
+        }
+    }
+    private void ToLivingLand()
+    {
+        Debug.Log("in living land");
+        StopCoroutine(coroutine);
+    }
+
+    private void ToDeadLand()
+    {
+        Debug.Log("in dead land");
+        StartCoroutine(coroutine);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -42,8 +71,12 @@ public class PlayerController : MonoBehaviour
     }
 
     private void OnTriggerExit2D(Collider2D other)
-    { 
-        ObjectsInHitBox.Remove(other.GameObject());
+    {
+        if (other != null)
+        {
+            ObjectsInHitBox.Remove(other.GameObject());
+        }
+        
     }
 
     private void OnEnable()
@@ -65,7 +98,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 moveValue = move.ReadValue<Vector2>();
-        rb.velocity = new Vector2(moveValue.x * baseSpeed, moveValue.y * baseSpeed);
+        rb.velocity = new Vector2(moveValue.x * baseSpeed, moveValue.y * GetMovementSpeed());
 
     }
 
@@ -77,19 +110,20 @@ public class PlayerController : MonoBehaviour
         {
             if (gObject.tag.Equals("Enemy"))
             {
-                toDestroy.Add(gObject);
-                //TODO: remove health from enemy and add to destroy list if health equals 0
+                //TODO: give knockback to enemy
+                if (gObject.GetComponent<EnemyCharacter>().Attacked(GetDamage()))
+                {
+                    toDestroy.Add(gObject);
+                }
 
             }
         }
 
-        foreach (GameObject gObject in toDestroy)
+        foreach (var gObject in toDestroy)
         {
-            Destroy(gObject);
-            
+           Destroy(gObject); 
         }
-
-       
+        
         Debug.Log("Attack");
         
     }
@@ -121,5 +155,20 @@ public class PlayerController : MonoBehaviour
         {
             Debug.Log("Cant Pick Up in the living");
         }
+    }
+
+    public float GetDefense()
+    {
+        return baseDefense + hat.madnessDefense + armor.madnessDefense + weapon.madnessDefense;
+    }
+
+    public float GetDamage()
+    {
+        return baseDamage + hat.attackDamage + armor.attackDamage + weapon.attackDamage;
+    }
+
+    public float GetMovementSpeed()
+    {
+        return baseSpeed + hat.mouvementSpeed + armor.mouvementSpeed + weapon.mouvementSpeed;
     }
 }
