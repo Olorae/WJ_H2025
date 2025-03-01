@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 3509900358810912435}
   - component: {fileID: 3432444620411077157}
   m_Layer: 0
-  m_Name: Enemy
+  m_Name: FakeEnemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -165,4 +165,3 @@ MonoBehaviour:
   Rigidbody2D: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   CircleCollider2D: {fileID: 0}
-  RealEnemy: 1

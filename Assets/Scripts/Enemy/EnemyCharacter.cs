@@ -13,8 +13,12 @@ public class EnemyCharacter : MonoBehaviour
     public Rigidbody2D Rigidbody2D;
     public SpriteRenderer SpriteRenderer;
     public CircleCollider2D CircleCollider2D;
-
+    public bool RealEnemy;
     private bool followPlayer;
+    private bool TouchingPlayer;
+    public float Life;
+    private IEnumerator coroutine;
+    
     void Start()
     {
         // Initialisations
@@ -23,6 +27,7 @@ public class EnemyCharacter : MonoBehaviour
         SpriteRenderer = GetComponent<SpriteRenderer>();
         CircleCollider2D = GetComponent<CircleCollider2D>();
         followPlayer = true;
+        TouchingPlayer = false;
         
         if (Player == null)
         {
@@ -44,17 +49,60 @@ public class EnemyCharacter : MonoBehaviour
             Rigidbody2D.position = newPosition;
         }
     }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    
+    private void Attacked(float damage)
     {
-        Debug.Log("OnTriggerEnter");
-        followPlayer = false;
+        if (RealEnemy)
+        {
+            Life -= damage;
+        }
+        else
+        {
+            Life = 0;
+            // TODO: Augmenter la folie du joueur
+        }
+        Debug.Log("Life = " + Life);
+        if (Life <= 0)
+        {
+            // TODO: Destroy Enemy
+            // Destroy(this);
+        }
+    }
+
+    // Enemy touched player
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            followPlayer = false;
+            TouchingPlayer = true;
+
+            if (RealEnemy)
+            {
+                // TODO: Augmenter la folie du joueur
+                coroutine = WaitAndPrint(5.0f);
+                StartCoroutine(coroutine);
+            }
+            else
+            {
+                // TODO: Destroy Enemy
+                // TODO: Baisser la folie du joueur
+            }
+        }
+    }
+    
+    private IEnumerator WaitAndPrint(float waitTime)
+    {
+        while (TouchingPlayer) {
+        yield return new WaitForSeconds(waitTime);
+        // TODO: Augmenter la folie du joueur
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        Debug.Log("OnTriggerExit");
         followPlayer = true;
+        TouchingPlayer = false;
     }
 
     // Update is called once per frame
