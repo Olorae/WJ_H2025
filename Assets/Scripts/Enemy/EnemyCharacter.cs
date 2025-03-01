@@ -45,6 +45,7 @@ public class EnemyCharacter : MonoBehaviour
 
         FindObjectOfType<SpawnManager>().BossSpawned += bossSpawned;
 
+        followPlayer = GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand;
         if (Player == null)
         {
             Debug.Log("Player not found");
@@ -97,24 +98,28 @@ public class EnemyCharacter : MonoBehaviour
     // Enemy touched player
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.CompareTag("Player"))
+        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
         {
-            followPlayer = false;
-            TouchingPlayer = true;
+            if (other.CompareTag("Player"))
+            {
+                followPlayer = false;
+                TouchingPlayer = true;
 
-            if (RealEnemy)
-            {
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
-                coroutine = WaitAndPrint(5.0f);
-                StartCoroutine(coroutine);
-            }
-            else
-            {
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2,false);
-                Destroy(this.GameObject());
-                Destroy(this);
+                if (RealEnemy)
+                {
+                    GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
+                    coroutine = WaitAndPrint(5.0f);
+                    //StartCoroutine(coroutine);
+                }
+                else
+                {
+                    GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2,false);
+                    Destroy(this.GameObject());
+                    Destroy(this);
+                }
             }
         }
+        
     }
 
     private IEnumerator WaitAndPrint(float waitTime)
@@ -138,8 +143,12 @@ public class EnemyCharacter : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        followPlayer = true;
-        TouchingPlayer = false;
+        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
+        {
+            followPlayer = true;
+            TouchingPlayer = false;
+        }
+        
     }
 
     private void OnDestroy()
@@ -155,7 +164,7 @@ public class EnemyCharacter : MonoBehaviour
     private void changeOpacity(float opacity)
     {
         Color spColor = SpriteRenderer.color;
-        spColor.a = .5f;
+        spColor.a = opacity;
         SpriteRenderer.color = spColor;
     }
 
