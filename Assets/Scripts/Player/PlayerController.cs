@@ -143,6 +143,7 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Attack");
         List<GameObject> toDestroy = new();
+        Debug.Log("attack");
         foreach (GameObject gObject in ObjectsInHitBox)
         {
             if (gObject != null)
