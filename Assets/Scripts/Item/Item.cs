@@ -19,6 +19,9 @@ public class Item : MonoBehaviour
     public float madnessPerSecondReduce;
     public float bossSpawnChanceReduction;
     public GameObject popUpPreFab;
+    public GameObject WeaponPrefab;
+    public GameObject HatPrefab;
+    public GameObject ArmorPrefab;
     protected GameObject popUpInstance;
     protected bool isPickable = false;
 

@@ -139,6 +139,7 @@ public class EnemyCharacter : MonoBehaviour
 
     private void OnDestroy()
     {
+        
         Item.ItemSpawn();
     }
 
