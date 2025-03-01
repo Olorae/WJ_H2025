@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 6021116584014697935}
   - component: {fileID: 5191129331748708124}
   - component: {fileID: 3432444620411077157}
-  - component: {fileID: 8915845656187877834}
+  - component: {fileID: -126375861314704453}
   m_Layer: 0
-  m_Name: FakeEnemy
-  m_TagString: Enemy
+  m_Name: BossEnemy
+  m_TagString: Boss
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.11084986, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -129,10 +129,10 @@ MonoBehaviour:
   Speed: 3
   Rigidbody2D: {fileID: 0}
   SpriteRenderer: {fileID: 0}
-  RealEnemy: 0
-  Life: 0
-  Damage: 10
---- !u!70 &8915845656187877834
+  RealEnemy: 1
+  Life: 1800
+  Damage: 15
+--- !u!70 &-126375861314704453
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -7,11 +7,14 @@ using UnityEngine;
 public class PortalScript : MonoBehaviour
 {
     private CircleCollider2D portalHitBox;
+    public Sprite DeadLand;
+    public Sprite LivingLand;
     
     // Start is called before the first frame update
     private void Awake()
     {
         portalHitBox = GetComponent<CircleCollider2D>();
+        this.GameObject().SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -23,12 +26,14 @@ public class PortalScript : MonoBehaviour
             {
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = false;
+                GetComponent<SpriteRenderer>().sprite = LivingLand;
 
             }
             else
             {
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
+                GetComponent<SpriteRenderer>().sprite = DeadLand;
             }
         }
         
@@ -50,5 +55,6 @@ public class PortalScript : MonoBehaviour
     void Update()
     {
         
+
     }
 }

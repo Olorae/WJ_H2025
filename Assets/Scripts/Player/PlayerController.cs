@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> ObjectsInHitBox;
     private Animator animator;
     private bool StopCoroutine;
+    public bool InsanityEnabled;
     public bool HitElapsed;
     public ItemData armor;
     public ItemData weapon;
@@ -27,6 +28,10 @@ public class PlayerController : MonoBehaviour
     public  GameObject WeaponPrefab;
     public  GameObject HatPrefab;
     public  GameObject ArmorPrefab;
+    public GameObject portalRef;
+    public GameObject insanityBarRef;
+    private float EndHitCooldown;
+    private float CoolDownTime = 2f;
 
     private void Awake()
     {
@@ -37,23 +42,14 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
-        
+        InsanityEnabled = false;
         StopCoroutine = false;
         
         coroutine = WaitAndPrint(1f);
-        hitCooldownCoroutine = resetHitCooldown(1f);
         HitElapsed = true;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
     }
-    private IEnumerator hitCooldownCoroutine;
-    private IEnumerator resetHitCooldown(float waitTime)
-    {
-        //Debug.Log("wait and print");
-        
-            yield return new WaitForSeconds(waitTime);
-            HitElapsed = true;
-
-    }
+   
     
     private IEnumerator coroutine;
     private IEnumerator WaitAndPrint(float waitTime)
@@ -66,14 +62,16 @@ public class PlayerController : MonoBehaviour
     }
     private void ToLivingLand()
     {
-        //Debug.Log("in living land");
         StopCoroutine(coroutine);
     }
 
     private void ToDeadLand()
     {
-        //Debug.Log("in dead land");
-        StartCoroutine(coroutine);
+        if (InsanityEnabled)
+        {
+            StartCoroutine(coroutine);
+        }
+        
     }
 
     // Start is called before the first frame update
@@ -82,10 +80,25 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    public void OnHit()
+    private void Update()
     {
-        HitElapsed = false;
-        StartCoroutine(hitCooldownCoroutine);
+        if (EndHitCooldown != 0 && EndHitCooldown < Time.time)
+        {
+            HitElapsed = true;
+            EndHitCooldown = 0;
+        }
+    }
+
+    public void OnHit(float damage)
+    {
+        Debug.Log(HitElapsed);
+        if (HitElapsed)
+        {
+            HitElapsed = false;
+            EndHitCooldown = Time.time + CoolDownTime;
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(damage,true);
+        }
+       
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -121,7 +134,7 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 moveValue = move.ReadValue<Vector2>();
-        Debug.Log(GetMovementSpeed());
+        //Debug.Log(GetMovementSpeed());
         rb.velocity = new Vector2(moveValue.x * GetMovementSpeed(), moveValue.y * GetMovementSpeed());
 
     }
@@ -130,6 +143,7 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Attack");
         List<GameObject> toDestroy = new();
+        Debug.Log("attack");
         foreach (GameObject gObject in ObjectsInHitBox)
         {
             if (gObject != null)
@@ -153,7 +167,7 @@ public class PlayerController : MonoBehaviour
            Destroy(gObject); 
         }
         
-        Debug.Log(GetDamage());
+        //Debug.Log(GetDamage());
         
     }
 
@@ -235,5 +249,14 @@ public class PlayerController : MonoBehaviour
     {
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
+    }
+
+    public void EnableInsanity()
+    {
+       Debug.Log("INSANITYENABLED");
+       portalRef.SetActive(true);
+       insanityBarRef.SetActive(true);
+       
+        InsanityEnabled = true;
     }
 }

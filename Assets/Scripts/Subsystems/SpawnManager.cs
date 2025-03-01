@@ -15,8 +15,6 @@ public class SpawnManager : MonoBehaviour
     public EnemyCharacter EnemyReal;
     public EnemyCharacter EnemyBoss;
     private EnemyCharacter Clone;
-    public float timeToSpawn = 4f;
-    public float FirstSpawn = 10f;
     private Vector3 SpawnPosition = new Vector3(0, 0, 0);
     public float offset = 10f;
     public float InsanityToSpawnBoss = 50;
@@ -31,16 +29,15 @@ public class SpawnManager : MonoBehaviour
         // Start function WaitAndPrint as a coroutine.
 
         coroutine = WaitAndPrint(5.0f);
-        StartCoroutine(coroutine);
+        //StartCoroutine(coroutine);
     }
 
     private IEnumerator WaitAndPrint(float waitTime)
     {
-        // TODO: enlever commentaires pour que ça marche
-        while (true) {
-        yield return new WaitForSeconds(waitTime);
-        SpawnEnemy();
-
+        while (true)
+        {
+            yield return new WaitForSeconds(waitTime);
+            SpawnEnemy();
         }
     }
 
@@ -81,8 +78,11 @@ public class SpawnManager : MonoBehaviour
 
         if (folie >= InsanityToSpawnBoss && chanceToSpawnBoss <= (folie - InsanityToSpawnBoss) * 2)
         {
-            //Spawn Boss
+            // Spawn Boss
             BossSpawned.Invoke();
+            
+            // TODO: check if stop works
+            StopCoroutine(coroutine);
             Clone = Instantiate(EnemyBoss, SpawnPosition, Quaternion.identity);
         }
         else if (chanceToSpawnFake <= folie / 2)
@@ -98,13 +98,10 @@ public class SpawnManager : MonoBehaviour
 
         nbTotalEnemy++;
     }
-    // folie 
 
-    /*
-    private void OnDrawGizmos()
+    public void StartSpawning()
     {
-        Gizmos.color = Color.green;
-        Gizmos.DrawSphere(SpawnPosition, 1);
+        SpawnEnemy();
+        StartCoroutine(coroutine);
     }
-    */
 }

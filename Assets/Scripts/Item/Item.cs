@@ -19,6 +19,7 @@ public class Item : MonoBehaviour
     public float madnessDefense;
     public float madnessPerSecondReduce;
     public float bossSpawnChanceReduction;
+    public bool firstItem;
     public GameObject popUpPreFab;
     protected GameObject popUpInstance;
     protected bool isPickable = false;
@@ -148,6 +149,13 @@ public class Item : MonoBehaviour
     public void ItemPickedUp()
     {
         Destroy(popUpInstance);
+        if (firstItem)
+        {
+            FindObjectOfType<SpawnManager>().StartSpawning();
+            FindObjectOfType<PlayerController>().EnableInsanity();
+            GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
+            GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
+        }
         Item itemToDestroy = this.GetComponent<Item>();
         Destroy(itemToDestroy.gameObject);
         Destroy(this);
