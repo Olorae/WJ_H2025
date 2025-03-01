@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
+using Random = UnityEngine.Random;
 
 public class Item : MonoBehaviour
 {
@@ -21,7 +22,7 @@ public class Item : MonoBehaviour
     protected GameObject popUpInstance;
     protected bool isPickable = false;
 
-    
+
     string Name
     {
         get { return name; }
@@ -83,53 +84,65 @@ public class Item : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
-        if (other.tag == "Player" &&  GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand.Equals(false))
+
+        if (other.tag == "Player" &&
+            GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand.Equals(false))
         {
             other.GameObject().GetComponent<PlayerController>().pickableItem = this;
             isPickable = true;
-            popUpInstance = Instantiate(popUpPreFab,transform.position,Quaternion.identity);
+            popUpInstance = Instantiate(popUpPreFab, transform.position, Quaternion.identity);
             switch (type)
             {
                 case "Weapon":
-                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text = $"Name: {Name}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Attack Damage: {AttackDamage}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Attack Speed: {AttackSpeed}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text =
+                        $"Name: {Name}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text =
+                        $"Attack Damage: {AttackDamage}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text =
+                        $"Attack Speed: {AttackSpeed}";
                     break;
                 case "Armor":
-                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text = $"Name: {Name}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Madness Defense: {MadnessDefense}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Mouvement Speed: {MouvementSpeed}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text =
+                        $"Name: {Name}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text =
+                        $"Madness Defense: {MadnessDefense}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text =
+                        $"Mouvement Speed: {MouvementSpeed}";
                     break;
                 case "Hat":
-                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text = $"Name: {Name}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Madness Per Second Reduce: {MadnessPerSecondReduce}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Reduce Boss Chance: {BossSpawnChanceReduction}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text =
+                        $"Name: {Name}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text =
+                        $"Madness Per Second Reduce: {MadnessPerSecondReduce}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text =
+                        $"Reduce Boss Chance: {BossSpawnChanceReduction}";
                     break;
                 default:
                     break;
             }
-           
+
         }
-        
+
     }
 
     public void ItemPickedUp()
-     {
+    {
         Destroy(popUpInstance);
         Item itemToDestroy = this.GetComponent<Item>();
         Destroy(itemToDestroy.gameObject);
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= visible;
         Destroy(this);
     }
+
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Player" && GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand.Equals(false))
+        if (other.tag == "Player" &&
+            GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand.Equals(false))
         {
             other.GameObject().GetComponent<PlayerController>().pickableItem = null;
             isPickable = false;
             if (popUpInstance != null)
-            { 
+            {
                 Destroy(popUpInstance);
             }
         }
@@ -154,9 +167,38 @@ public class Item : MonoBehaviour
             Color tempColor = sr.color;
             tempColor.a = 0.5f;
             sr.color = tempColor;
-        }   
+        }
     }
 
+    static Item ItemSpawn()
+    {
+        Item itemToSpawn;
+        float chance = Random.Range(0f, 1f);
+       
+        if(0.5f < chance && chance <= 0.667f)
+        {
+            // Spawn Casque
+            Item casqueSpawned = new Hat();
+            return casqueSpawned;
+        }
+        else if (0.667f < chance && chance <= 0.834f)
+        {
+            // spawn Armure
+            Item armorSpawned = new Armor();
+            return armorSpawned;
+        }
+        else if (0.834f < chance && chance <= 1f)
+        {
+            // spawn Weapon 
+            Item weaponSpawned = new Weapon();
+            return weaponSpawned;
+        }
+        else
+        { 
+            return null;
+        }
+       
+    }
 
 }
 
