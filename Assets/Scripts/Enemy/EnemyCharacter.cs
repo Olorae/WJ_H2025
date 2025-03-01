@@ -86,6 +86,10 @@ public class EnemyCharacter : MonoBehaviour
         {
             Life -= damage;
             FindObjectOfType<HealthManager>().takeDamage(damage);
+            
+            // TODO: test
+            Vector2 force = (transform.position - Player.transform.position).normalized * Speed;
+            Rigidbody2D.AddForce(force, ForceMode2D.Force);
         }
         else
         {
