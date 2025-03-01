@@ -163,8 +163,10 @@ public class PlayerController : MonoBehaviour
 
         foreach (var gObject in toDestroy)
         {
+            gObject.GetComponent<EnemyCharacter>().animator.SetTrigger("Death");
+            gObject.GetComponent<EnemyCharacter>().followPlayer = false;
             ObjectsInHitBox.Remove(gObject);
-           Destroy(gObject); 
+           //Destroy(gObject); 
         }
         
         //Debug.Log(GetDamage());
