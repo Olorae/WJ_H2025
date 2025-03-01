@@ -1080,6 +1080,14 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2731771691696171208, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2731771691696171208, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 2731771691696171208, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 9.17
       objectReference: {fileID: 0}
@@ -1119,6 +1127,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2834143976463889887, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 9965baa994ffeb64fadced016e7b0d1b, type: 3}
+    - target: {fileID: 4405766691352426624, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
+      propertyPath: DeadLand
+      value: 
+      objectReference: {fileID: 21300000, guid: 9965baa994ffeb64fadced016e7b0d1b, type: 3}
+    - target: {fileID: 4405766691352426624, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
+      propertyPath: LivingLand
+      value: 
+      objectReference: {fileID: 21300000, guid: 72e2df7c67a877349af4228769da1a3a, type: 3}
     - target: {fileID: 4658291281551565425, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
       propertyPath: m_Name
       value: Portal
