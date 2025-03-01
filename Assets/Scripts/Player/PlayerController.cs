@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     private List<GameObject> ObjectsInHitBox;
     private Animator animator;
     private bool StopCoroutine;
+    public bool HitElapsed;
     public ItemData armor;
     public ItemData weapon;
     public ItemData hat;
@@ -41,16 +42,27 @@ public class PlayerController : MonoBehaviour
         StopCoroutine = false;
         
         coroutine = WaitAndPrint(1f);
+        hitCooldownCoroutine = resetHitCooldown(1f);
         
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
     }
+    private IEnumerator hitCooldownCoroutine;
+    private IEnumerator resetHitCooldown(float waitTime)
+    {
+        //Debug.Log("wait and print");
+        
+            yield return new WaitForSeconds(waitTime);
+            HitElapsed = true;
+
+    }
+    
     private IEnumerator coroutine;
     private IEnumerator WaitAndPrint(float waitTime)
     {
         //Debug.Log("wait and print");
         while (true) {
             yield return new WaitForSeconds(waitTime);
-            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(0.5f);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(0.5f,false);
         }
     }
     private void ToLivingLand()
@@ -69,6 +81,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         
+    }
+
+    public void OnHit()
+    {
+        HitElapsed = false;
+        StartCoroutine(hitCooldownCoroutine);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -212,5 +230,11 @@ public class PlayerController : MonoBehaviour
     {
         
         return baseSpeed + ((hat != null)? hat.mouvementSpeed : 0) + ((armor != null)? armor.mouvementSpeed : 0) + ((weapon != null)? weapon.mouvementSpeed : 0) ;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
     }
 }

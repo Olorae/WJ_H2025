@@ -17,20 +17,32 @@ public class DataSubsystem : ISubSystem
     {
         insanity = 50;
         maxInsanity = 120;
-       
-
     }
 
-    public void GainInsanity(float amountGained)
-    {Debug.Log("gain insanity");
+    public void GainInsanity(float amountGained,bool hit)
+    {
+        
+        PlayerController player = GameObject.FindObjectOfType<PlayerController>();
         if (amountGained < 0)
         {
             insanity += amountGained;
         }
         else
         {
-            Debug.Log("defense" +GameObject.FindObjectOfType<PlayerController>().GetDefense());
-            insanity += Math.Max(amountGained - GameObject.FindObjectOfType<PlayerController>().GetDefense(), 0);
+            if (hit)
+            {
+                if (player.HitElapsed)
+                {
+                    player.OnHit();
+                    insanity += Math.Max(amountGained - player.GetDefense(), 0);
+                }
+            }
+            else
+            {
+                insanity += Math.Max(amountGained - player.GetDefense(), 0);
+            }
+            
+            
         }
         
     }

@@ -84,7 +84,7 @@ public class EnemyCharacter : MonoBehaviour
         else
         {
             Life = 0;
-            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,false);
         }
 
         Debug.Log("Life = " + Life);
@@ -101,13 +101,13 @@ public class EnemyCharacter : MonoBehaviour
 
             if (RealEnemy)
             {
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
                 coroutine = WaitAndPrint(5.0f);
                 StartCoroutine(coroutine);
             }
             else
             {
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2);
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2,false);
                 Destroy(this.GameObject());
                 Destroy(this);
             }
@@ -121,7 +121,7 @@ public class EnemyCharacter : MonoBehaviour
             if (TouchingPlayer)
             {
                 yield return new WaitForSeconds(waitTime);
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
                 
                 Debug.Log("touching player");
             }
