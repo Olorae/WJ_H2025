@@ -7,6 +7,8 @@ using UnityEngine;
 public class PortalScript : MonoBehaviour
 {
     private CircleCollider2D portalHitBox;
+    public Sprite DeadLand;
+    public Sprite LivingLand;
     
     // Start is called before the first frame update
     private void Awake()
@@ -24,12 +26,14 @@ public class PortalScript : MonoBehaviour
             {
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = false;
+                GetComponent<SpriteRenderer>().sprite = LivingLand;
 
             }
             else
             {
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
+                GetComponent<SpriteRenderer>().sprite = DeadLand;
             }
         }
         
