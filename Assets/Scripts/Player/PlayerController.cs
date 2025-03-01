@@ -42,7 +42,7 @@ public class PlayerController : MonoBehaviour
         
         coroutine = WaitAndPrint(1f);
         hitCooldownCoroutine = resetHitCooldown(1f);
-        
+        HitElapsed = true;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
     }
     private IEnumerator hitCooldownCoroutine;
