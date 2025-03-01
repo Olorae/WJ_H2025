@@ -165,11 +165,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   baseSpeed: 5
+  baseDamage: 5
+  baseDefense: 5
   rb: {fileID: 0}
   armor: {fileID: 0}
   weapon: {fileID: 0}
   hat: {fileID: 0}
   pickableItem: {fileID: 0}
+  WeaponPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
+  HatPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
+  ArmorPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
 --- !u!95 &5446287653172816192
 Animator:
   serializedVersion: 5
