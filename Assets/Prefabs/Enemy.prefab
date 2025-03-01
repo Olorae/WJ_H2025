@@ -129,6 +129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 3
+  InitialSpeed: 0
   rigidbody2D: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   RealEnemy: 1
@@ -226,11 +227,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1065667384661010553, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 5.0449
+      value: 15.47
       objectReference: {fileID: 0}
     - target: {fileID: 1065667384661010553, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 1.0994
+      value: 4.221
       objectReference: {fileID: 0}
     - target: {fileID: 1065667384661010553, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_LocalScale.x
@@ -274,11 +275,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1065667384661010553, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: -5.08
+      value: 0.76
       objectReference: {fileID: 0}
     - target: {fileID: 1065667384661010553, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 8.32
+      value: 11.72
       objectReference: {fileID: 0}
     - target: {fileID: 1065667384661010553, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -297,32 +298,56 @@ PrefabInstance:
       value: HealthBar
       objectReference: {fileID: 0}
     - target: {fileID: 4868670326349260612, guid: 48b93478566c11b4196189c2438379d1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 18.174
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868670326349260612, guid: 48b93478566c11b4196189c2438379d1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 3.338
+      objectReference: {fileID: 0}
+    - target: {fileID: 4868670326349260612, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 1.1099977
       objectReference: {fileID: 0}
     - target: {fileID: 4868670326349260612, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.13999748
       objectReference: {fileID: 0}
     - target: {fileID: 4872403060246468676, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_RenderMode
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6966143404281840658, guid: 48b93478566c11b4196189c2438379d1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 18.546
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966143404281840658, guid: 48b93478566c11b4196189c2438379d1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 3.709
+      objectReference: {fileID: 0}
+    - target: {fileID: 6966143404281840658, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 1.11
       objectReference: {fileID: 0}
     - target: {fileID: 6966143404281840658, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969213315378535567, guid: 48b93478566c11b4196189c2438379d1, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 18.174
+      objectReference: {fileID: 0}
+    - target: {fileID: 6969213315378535567, guid: 48b93478566c11b4196189c2438379d1, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 3.338
       objectReference: {fileID: 0}
     - target: {fileID: 6969213315378535567, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 1.1099977
       objectReference: {fileID: 0}
     - target: {fileID: 6969213315378535567, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 0.13999748
       objectReference: {fileID: 0}
     - target: {fileID: 8441590712072163081, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_FillAmount
