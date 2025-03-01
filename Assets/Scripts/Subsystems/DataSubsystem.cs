@@ -8,6 +8,8 @@ public class DataSubsystem : ISubSystem
     private static DataSubsystem DataSubsystemInstance;
 
     public float money;
+    public float nbKill;
+    public float insanity;
 
     public DataSubsystem()
     {
@@ -21,5 +23,10 @@ public class DataSubsystem : ISubSystem
         }
 
         return DataSubsystemInstance;
+    }
+
+    public void EnemyKilled()
+    {
+        nbKill++;
     }
 }
