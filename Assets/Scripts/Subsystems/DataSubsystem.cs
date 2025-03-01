@@ -31,10 +31,15 @@ public class DataSubsystem : ISubSystem
         {
             if (hit)
             {
+                
                 if (player.HitElapsed)
                 {
                     player.OnHit();
                     insanity += Math.Max(amountGained - player.GetDefense(), 0);
+                }
+                else
+                {
+                    Debug.Log("hit not elapsed");
                 }
             }
             else
