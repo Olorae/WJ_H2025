@@ -120,7 +120,8 @@ public class EnemyCharacter : MonoBehaviour
             if (TouchingPlayer)
             {
                 yield return new WaitForSeconds(waitTime);
-                // TODO: Augmenter la folie du joueur
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
+                
             }
             else
             {
@@ -135,7 +136,11 @@ public class EnemyCharacter : MonoBehaviour
         followPlayer = true;
         TouchingPlayer = false;
     }
-    
+
+    private void OnDestroy()
+    {
+        Item.ItemSpawn();
+    }
 
     // Update is called once per frame
     void Update()
