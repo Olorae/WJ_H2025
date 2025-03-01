@@ -19,16 +19,32 @@ public class DataSubsystem : ISubSystem
         maxInsanity = 120;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
+        
+    }
+    
+    private IEnumerator coroutine;
+    private IEnumerator WaitAndPrint(float waitTime)
+    {
+        while (!StopCoroutine) {
+        yield return new WaitForSeconds(waitTime);
+        GainInsanity(1);
+        }
+    }
+
+    public void GainInsanity(float amountGained)
+    {
+        insanity += amountGained;
     }
 
     private void ToLivingLand()
     {
-        throw new System.NotImplementedException();
+        
     }
 
     private void ToDeadLand()
     {
-        throw new System.NotImplementedException();
+        coroutine = WaitAndPrint(5.0f);
+       // StartCoroutine(coroutine);
     }
 
     public static ISubSystem GetSubSystem()

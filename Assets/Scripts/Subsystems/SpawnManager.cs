@@ -44,6 +44,7 @@ public class SpawnManager : MonoBehaviour
         //while (true) {
         yield return new WaitForSeconds(waitTime);
         SpawnEnemy();
+        
         //}
     }
 
