@@ -61,7 +61,7 @@ public class EnemyCharacter : MonoBehaviour
         Vector3 currentLocation = transform.position;
         Vector3 targetLocation = Player.transform.position;
         
-        if (followPlayer && !runAway)
+        if ((followPlayer && !runAway) || CompareTag("Boss"))
         {
             Vector3 newPosition = Vector3.MoveTowards(currentLocation, targetLocation, Speed * Time.deltaTime);
             Rigidbody2D.position = newPosition;
@@ -76,6 +76,7 @@ public class EnemyCharacter : MonoBehaviour
             // Move away from the player
             Vector3 newPosition = Vector3.MoveTowards(currentLocation, currentLocation + oppositeDirection, Speed * Time.deltaTime);
             Rigidbody2D.position = newPosition;
+            
         }
     }
 
