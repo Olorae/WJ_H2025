@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
@@ -9,20 +10,28 @@ using UnityEngine.Experimental.AI;
 public class Item : MonoBehaviour
 {
     public string name;
+    public string type;
     protected float attackSpeed;
     protected float attackDamage;
     protected float mouvementSpeed;
-    protected float folieHitDefense;
-    protected float foliePerSecondReduce;
+    protected float madnessDefense;
+    protected float madnessPerSecondReduce;
     protected float bossSpawnChanceReduction;
     public GameObject popUpPreFab;
     protected GameObject popUpInstance;
+    protected bool isPickable = false;
 
     
     string Name
     {
         get { return name; }
         set { name = value; }
+    }
+
+    string Type
+    {
+        get { return type; }
+        set { type = value; }
     }
 
     float AttackSpeed
@@ -43,16 +52,16 @@ public class Item : MonoBehaviour
         set { mouvementSpeed = value; }
     }
 
-    float FolieHitDefense
+    float MadnessDefense
     {
-        get { return folieHitDefense; }
-        set { folieHitDefense = value; }
+        get { return madnessDefense; }
+        set { madnessDefense = value; }
     }
 
-    float FoliePerSecondReduce
+    float MadnessPerSecondReduce
     {
-        get { return foliePerSecondReduce; }
-        set { foliePerSecondReduce = value; }
+        get { return madnessPerSecondReduce; }
+        set { madnessPerSecondReduce = value; }
     }
 
     float BossSpawnChanceReduction
@@ -75,8 +84,10 @@ public class Item : MonoBehaviour
         
         if (other.tag == "Player")
         {
+            other.GameObject().GetComponent<PlayerController>().pickableItem = this;
+            isPickable = true;
             popUpInstance = Instantiate(popUpPreFab,transform.position,Quaternion.identity);
-            switch (name)
+            switch (type)
             {
                 case "Weapon":
                     popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text = $"Name: {Name}";
@@ -85,10 +96,13 @@ public class Item : MonoBehaviour
                     break;
                 case "Armor":
                     popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text = $"Name: {Name}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Madness Defense: {AttackDamage}";
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Mouvement Speed: {AttackSpeed}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Madness Defense: {MadnessDefense}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Mouvement Speed: {MouvementSpeed}";
                     break;
                 case "Hat":
+                    popUpInstance.transform.Find("PopUp/BackGround/Name").GetComponent<TextMeshProUGUI>().text = $"Name: {Name}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Madness Per Second Reduce: {MadnessPerSecondReduce}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Reduce Boss Chance: {BossSpawnChanceReduction}";
                     break;
                 default:
                     break;
@@ -98,16 +112,25 @@ public class Item : MonoBehaviour
         
     }
 
+    public void ItemPickedUp()
+    {
+        Destroy(popUpInstance);
+        Destroy(this);
+    }
     private void OnTriggerExit2D(Collider2D other)
     {
         if (other.tag == "Player")
         {
+            other.GameObject().GetComponent<PlayerController>().pickableItem = null;
+            isPickable = false;
             if (popUpInstance != null)
             { 
                 Destroy(popUpInstance);
             }
         }
     }
+    
+    
 }
 
     
