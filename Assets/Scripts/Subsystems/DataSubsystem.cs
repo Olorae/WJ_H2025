@@ -11,12 +11,26 @@ public class DataSubsystem : ISubSystem
     public float nbKill;
     public float insanity;
     public float maxInsanity;
+    private bool StopCoroutine;
 
     public DataSubsystem()
     {
         insanity = 50;
         maxInsanity = 120;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
     }
+
+    private void ToLivingLand()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    private void ToDeadLand()
+    {
+        throw new System.NotImplementedException();
+    }
+
     public static ISubSystem GetSubSystem()
     {
 

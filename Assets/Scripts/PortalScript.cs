@@ -36,7 +36,14 @@ public class PortalScript : MonoBehaviour
 
     void Start()
     {
+        Camera mainCamera = FindObjectOfType<Camera>(); //GameObject.
+        float heightCamera = mainCamera.orthographicSize;
+        float widthCamera = heightCamera * mainCamera.aspect;
         
+        Vector3 CameraPosition = mainCamera.transform.position;
+        Vector3 upperCorner = new Vector3(CameraPosition.x + widthCamera - (GetComponent<SpriteRenderer>().bounds.size.x/2) , CameraPosition.y + heightCamera - (GetComponent<SpriteRenderer>().bounds.size.y/2) , 0);
+        
+        transform.position = upperCorner;
     }
 
     // Update is called once per frame
