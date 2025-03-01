@@ -1,3 +1,4 @@
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -108,19 +109,24 @@ public class PlayerController : MonoBehaviour
         List<GameObject> toDestroy = new();
         foreach (GameObject gObject in ObjectsInHitBox)
         {
-            if (gObject.tag.Equals("Enemy"))
+            if (gObject != null)
             {
-                //TODO: give knockback to enemy
-                if (gObject.GetComponent<EnemyCharacter>().Attacked(GetDamage()))
+                if (gObject.tag.Equals("Enemy"))
                 {
-                    toDestroy.Add(gObject);
-                }
+                    //TODO: give knockback to enemy
+                    if (gObject.GetComponent<EnemyCharacter>().Attacked(GetDamage()))
+                    {
+                        toDestroy.Add(gObject);
+                    }
 
+                }
             }
+            
         }
 
         foreach (var gObject in toDestroy)
         {
+            ObjectsInHitBox.Remove(gObject);
            Destroy(gObject); 
         }
         
@@ -159,16 +165,16 @@ public class PlayerController : MonoBehaviour
 
     public float GetDefense()
     {
-        return baseDefense + hat.madnessDefense + armor.madnessDefense + weapon.madnessDefense;
+        return baseDefense + ((hat != null)? hat.madnessDefense : 0) + ((armor != null)? armor.madnessDefense : 0) + ((weapon != null)? weapon.madnessDefense : 0) ;
     }
 
     public float GetDamage()
     {
-        return baseDamage + hat.attackDamage + armor.attackDamage + weapon.attackDamage;
+        return baseDamage + ((hat != null)? hat.attackDamage : 0) + ((armor != null)? armor.attackDamage : 0) + ((weapon != null)? weapon.attackDamage : 0) ;
     }
 
     public float GetMovementSpeed()
     {
-        return baseSpeed + hat.mouvementSpeed + armor.mouvementSpeed + weapon.mouvementSpeed;
+        return baseDamage + ((hat != null)? hat.mouvementSpeed : 0) + ((armor != null)? armor.mouvementSpeed : 0) + ((weapon != null)? weapon.mouvementSpeed : 0) ;
     }
 }

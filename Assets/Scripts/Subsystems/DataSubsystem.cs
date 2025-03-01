@@ -22,7 +22,15 @@ public class DataSubsystem : ISubSystem
 
     public void GainInsanity(float amountGained)
     {Debug.Log("gain insanity");
-        insanity += amountGained;
+        if (amountGained < 0)
+        {
+            insanity += amountGained;
+        }
+        else
+        {
+            insanity += amountGained - GameObject.FindObjectOfType<PlayerController>().GetDefense();
+        }
+        
     }
     
 

@@ -135,6 +135,7 @@ public class EnemyCharacter : MonoBehaviour
         followPlayer = true;
         TouchingPlayer = false;
     }
+    
 
     // Update is called once per frame
     void Update()
