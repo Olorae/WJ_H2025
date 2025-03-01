@@ -141,6 +141,9 @@ public class Item : MonoBehaviour
         if (firstItem)
         {
             FindObjectOfType<SpawnManager>().StartSpawning();
+            FindObjectOfType<PlayerController>().EnableInsanity();
+            GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
+            GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
         }
         Item itemToDestroy = this.GetComponent<Item>();
         Destroy(itemToDestroy.gameObject);

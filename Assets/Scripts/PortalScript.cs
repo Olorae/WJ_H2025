@@ -12,6 +12,7 @@ public class PortalScript : MonoBehaviour
     private void Awake()
     {
         portalHitBox = GetComponent<CircleCollider2D>();
+        this.GameObject().SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -50,5 +51,6 @@ public class PortalScript : MonoBehaviour
     void Update()
     {
         
+
     }
 }
