@@ -18,6 +18,7 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
+        ObjectsInHitBox = new();
         playerInput = new IAPlayer();
         rb = GetComponent<Rigidbody2D>();
         WeapondHitBox = GetComponent<BoxCollider2D>();
@@ -66,6 +67,24 @@ public class PlayerController : MonoBehaviour
     public void Attack(InputAction.CallbackContext obj)
     {
         animator.SetTrigger("Attack");
+        List<GameObject> toDestroy = new();
+        foreach (GameObject gObject in ObjectsInHitBox)
+        {
+            if (gObject.tag.Equals("Enemy"))
+            {
+                toDestroy.Add(gObject);
+                //TODO: remove health from enemy and add to destroy list if health equals 0
+
+            }
+        }
+
+        foreach (GameObject gObject in toDestroy)
+        {
+            Destroy(gObject);
+            
+        }
+
+       
         Debug.Log("Attack");
         
     }
