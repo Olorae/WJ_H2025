@@ -136,7 +136,7 @@ MonoBehaviour:
   Life: 10
   MaxLife: 100
   Damage: 10
-  pushForce: 10
+  pushForce: 800
 --- !u!70 &-126375861314704453
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -275,11 +275,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1065667384661010553, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0.76
+      value: 0.75
       objectReference: {fileID: 0}
     - target: {fileID: 1065667384661010553, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 11.72
+      value: 11.75
       objectReference: {fileID: 0}
     - target: {fileID: 1065667384661010553, guid: 48b93478566c11b4196189c2438379d1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
