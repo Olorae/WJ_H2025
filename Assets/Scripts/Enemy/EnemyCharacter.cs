@@ -39,6 +39,9 @@ public class EnemyCharacter : MonoBehaviour
         followPlayer = true;
         TouchingPlayer = false;
         runAway = false;
+        
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
 
         FindObjectOfType<SpawnManager>().BossSpawned += bossSpawned;
 
@@ -142,6 +145,34 @@ public class EnemyCharacter : MonoBehaviour
     private void OnDestroy()
     {
         GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab,Player.HatPrefab,Player.ArmorPrefab,transform.position,transform.rotation);
+        
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
+
+        FindObjectOfType<SpawnManager>().BossSpawned -= bossSpawned;
+    }
+
+    private void changeOpacity(float opacity)
+    {
+        Color spColor = SpriteRenderer.color;
+        spColor.a = .5f;
+        SpriteRenderer.color = spColor;
+    }
+
+    private void ToDeadLand()
+    {
+        followPlayer = false;
+        changeOpacity(.5f);
+        if (TouchingPlayer)
+        {
+            OnTriggerExit2D(Player.GetComponent<Collider2D>());
+        }
+    }
+
+    private void ToLivingLand()
+    {
+        followPlayer = true;
+        changeOpacity(1f);
     }
 
     // Update is called once per frame

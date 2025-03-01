@@ -27,7 +27,6 @@ public class PlayerController : MonoBehaviour
     public  GameObject WeaponPrefab;
     public  GameObject HatPrefab;
     public  GameObject ArmorPrefab;
-    
 
     private void Awake()
     {
