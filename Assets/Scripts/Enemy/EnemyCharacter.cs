@@ -20,7 +20,14 @@ public class EnemyCharacter : MonoBehaviour
     public float Life;
     public float Damage;
     private IEnumerator coroutine;
-    
+
+    private bool runAway;
+
+    private void bossSpawned()
+    {
+        runAway = true;
+    }
+
     void Start()
     {
         // Initialisations
@@ -30,28 +37,43 @@ public class EnemyCharacter : MonoBehaviour
         CircleCollider2D = GetComponent<CircleCollider2D>();
         followPlayer = true;
         TouchingPlayer = false;
-        
+        runAway = false;
+
+        FindObjectOfType<SpawnManager>().BossSpawned += bossSpawned;
+
         if (Player == null)
         {
             Debug.Log("Player not found");
             return;
             // TODO: disable
         }
-        
-        Debug.Log("Player : "+ Player.name +" found \\^o^/");
+
+        Debug.Log("Player : " + Player.name + " found \\^o^/");
     }
 
     private void FixedUpdate()
     {
-       if (followPlayer == true)
+        Vector3 currentLocation = transform.position;
+        Vector3 targetLocation = Player.transform.position;
+        
+        if (followPlayer && !runAway)
         {
-            Vector3 currentLocation = transform.position;
-            Vector3 targetLocation = Player.transform.position;
             Vector3 newPosition = Vector3.MoveTowards(currentLocation, targetLocation, Speed * Time.deltaTime);
             Rigidbody2D.position = newPosition;
         }
+        else if (runAway)
+        {
+            // TODO: if boss, don't run away
+            
+            // Calculate the opposite direction
+            Vector3 oppositeDirection = (currentLocation - targetLocation).normalized;
+
+            // Move away from the player
+            Vector3 newPosition = Vector3.MoveTowards(currentLocation, currentLocation + oppositeDirection, Speed * Time.deltaTime);
+            Rigidbody2D.position = newPosition;
+        }
     }
-    
+
     public bool Attacked(float damage)
     {
         if (RealEnemy)
@@ -63,9 +85,9 @@ public class EnemyCharacter : MonoBehaviour
             Life = 0;
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
         }
+
         Debug.Log("Life = " + Life);
         return Life <= 0;
-        
     }
 
     // Enemy touched player
@@ -84,17 +106,26 @@ public class EnemyCharacter : MonoBehaviour
             }
             else
             {
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2);
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage / 2);
                 Destroy(this);
             }
         }
     }
-    
+
     private IEnumerator WaitAndPrint(float waitTime)
     {
-        while (TouchingPlayer) {
-        yield return new WaitForSeconds(waitTime);
-        // TODO: Augmenter la folie du joueur
+        while (true)
+        {
+            if (TouchingPlayer)
+            {
+                yield return new WaitForSeconds(waitTime);
+                // TODO: Augmenter la folie du joueur
+            }
+            else
+            {
+                //StopCoroutine("WaitAndPrint");
+                break;
+            }
         }
     }
 
