@@ -124,8 +124,8 @@ public class EnemyCharacter : MonoBehaviour
             }
             else
             {
-                //StopCoroutine("WaitAndPrint");
-                break;
+                StopCoroutine("WaitAndPrint");
+                //break;
             }
         }
     }
