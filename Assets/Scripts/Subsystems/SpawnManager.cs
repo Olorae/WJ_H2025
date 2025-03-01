@@ -11,22 +11,17 @@ public class SpawnManager : MonoBehaviour
 
     private static int nbTotalEnemy;
     private Camera mainCamera;
-    public EnemyCharacter Enemy; // public GameObject GameObjectToSpawn;
+    public EnemyCharacter EnemyFake;
+    public EnemyCharacter EnemyReal;
+    public EnemyCharacter EnemyBoss;
     private EnemyCharacter Clone;
     public float timeToSpawn = 4f;
     public float FirstSpawn = 10f;
     private Vector3 SpawnPosition = new Vector3(0, 0, 0);
     public float offset = 10f;
+    private float InsanityToSpawnBoss;
+    public Action BossSpawned;
 
-    /*
-    public void Start()
-    {
-        mainCamera = FindObjectOfType<Camera>(); //GameObject.
-        Invoke("SpawnEnemy", 5f);
-        
-        
-    }*/
-    
     private IEnumerator coroutine;
 
     public void Start()
@@ -41,10 +36,11 @@ public class SpawnManager : MonoBehaviour
 
     private IEnumerator WaitAndPrint(float waitTime)
     {
+        // TODO: enlever commentaires pour que ça marche
         //while (true) {
         yield return new WaitForSeconds(waitTime);
         SpawnEnemy();
-        
+
         //}
     }
 
@@ -80,22 +76,30 @@ public class SpawnManager : MonoBehaviour
 
         // Spawn Enemy
         float folie = GameManager.GetGameManager().GetSubsystem<DataSubsystem>().insanity;
-        float chance = Random.Range(0, 100);
-        if (chance <= folie / 2)
+        float chanceToSpawnFake = Random.Range(1, 100);
+        float chanceToSpawnBoss = Random.Range(1, 100);
+
+        if (folie >= InsanityToSpawnBoss && chanceToSpawnBoss <= (folie - InsanityToSpawnBoss) * 2)
         {
-            // TODO: spawn faux
+            //Spawn Boss
+            BossSpawned.Invoke();
+            Clone = Instantiate(EnemyBoss, SpawnPosition, Quaternion.identity);
+        }
+        else if (chanceToSpawnFake <= folie / 2)
+        {
+            // Spawn faux
+            Clone = Instantiate(EnemyFake, SpawnPosition, Quaternion.identity);
         }
         else
         {
-            // TODO: spawn vrai
+            // Spawn vrai
+            Clone = Instantiate(EnemyReal, SpawnPosition, Quaternion.identity);
         }
-
-        Clone = Instantiate(Enemy, SpawnPosition, Quaternion.identity);
 
         nbTotalEnemy++;
     }
     // folie 
-    
+
     /*
     private void OnDrawGizmos()
     {
