@@ -106,7 +106,8 @@ public class EnemyCharacter : MonoBehaviour
             }
             else
             {
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage / 2);
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2);
+                Destroy(this.GameObject());
                 Destroy(this);
             }
         }
