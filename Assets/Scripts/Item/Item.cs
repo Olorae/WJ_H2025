@@ -73,6 +73,8 @@ public class Item : MonoBehaviour
     public void Start()
     {
         Initialize();
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += visible;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += invisible;
     }
 
     protected virtual void Initialize()
@@ -82,7 +84,7 @@ public class Item : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         
-        if (other.tag == "Player")
+        if (other.tag == "Player" &&  GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand.Equals(false))
         {
             other.GameObject().GetComponent<PlayerController>().pickableItem = this;
             isPickable = true;
@@ -113,13 +115,16 @@ public class Item : MonoBehaviour
     }
 
     public void ItemPickedUp()
-    {
+     {
         Destroy(popUpInstance);
+        Item itemToDestroy = this.GetComponent<Item>();
+        Destroy(itemToDestroy.gameObject);
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= visible;
         Destroy(this);
     }
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.tag == "Player")
+        if (other.tag == "Player" && GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand.Equals(false))
         {
             other.GameObject().GetComponent<PlayerController>().pickableItem = null;
             isPickable = false;
@@ -129,8 +134,30 @@ public class Item : MonoBehaviour
             }
         }
     }
-    
-    
+
+    private void visible()
+    {
+        if (FindObjectsOfType<Item>().Length > 0)
+        {
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            Color tempColor = sr.color;
+            tempColor.a = 1f;
+            sr.color = tempColor;
+        }
+    }
+
+    private void invisible()
+    {
+        if (FindObjectsOfType<Item>().Length > 0)
+        {
+            SpriteRenderer sr = GetComponent<SpriteRenderer>();
+            Color tempColor = sr.color;
+            tempColor.a = 0.5f;
+            sr.color = tempColor;
+        }   
+    }
+
+
 }
 
     
