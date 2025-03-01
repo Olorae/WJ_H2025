@@ -93,6 +93,14 @@ public class EnemyCharacter : MonoBehaviour
         }
 
         Debug.Log("Life = " + Life);
+        if (Life <= 0)
+        {
+            if (RealEnemy)
+            {
+                GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab,Player.HatPrefab,Player.ArmorPrefab,transform.position,transform.rotation);
+            }
+            
+        }
         return Life <= 0;
     }
 
@@ -108,7 +116,8 @@ public class EnemyCharacter : MonoBehaviour
 
                 if (RealEnemy)
                 {
-                    GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
+                    Player.OnHit(Damage);
+                    //GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
                     coroutine = WaitAndPrint(5.0f);
                     //StartCoroutine(coroutine);
                 }
@@ -154,7 +163,7 @@ public class EnemyCharacter : MonoBehaviour
 
     private void OnDestroy()
     {
-        GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab,Player.HatPrefab,Player.ArmorPrefab,transform.position,transform.rotation);
+        
         
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
