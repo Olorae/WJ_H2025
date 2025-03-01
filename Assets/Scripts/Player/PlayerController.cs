@@ -15,6 +15,11 @@ public class PlayerController : MonoBehaviour
     private InputAction move;
     private List<GameObject> ObjectsInHitBox;
     private Animator animator;
+    public Item armor;
+    public Item weapon;
+    public Item hat;
+    public Item pickableItem;
+    
 
     private void Awake()
     {
@@ -33,11 +38,11 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-       ObjectsInHitBox.Add(other.GameObject());
+        ObjectsInHitBox.Add(other.GameObject());
     }
 
     private void OnTriggerExit2D(Collider2D other)
-    {
+    { 
         ObjectsInHitBox.Remove(other.GameObject());
     }
 
@@ -91,6 +96,24 @@ public class PlayerController : MonoBehaviour
 
     public void Pickup(InputAction.CallbackContext obj)
     {
-        Debug.Log("pickup");   
+        
+        switch (pickableItem.type)
+        {
+            case "Hat":
+                hat = pickableItem;
+                pickableItem.ItemPickedUp();
+                break;
+            case "Armor":
+                armor = pickableItem;
+                pickableItem.ItemPickedUp();
+                break;
+            case "Weapon":
+                weapon = pickableItem;
+                pickableItem.ItemPickedUp();
+                break;
+            default:
+                break;
+        }
+        Debug.Log(pickableItem);   
     }
 }
