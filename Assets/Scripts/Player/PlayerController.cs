@@ -96,9 +96,10 @@ public class PlayerController : MonoBehaviour
 
     public void Pickup(InputAction.CallbackContext obj)
     {
-        
-        switch (pickableItem.type)
+        if (!GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand && pickableItem != null)
         {
+            switch (pickableItem.type)
+            {
             case "Hat":
                 hat = pickableItem;
                 pickableItem.ItemPickedUp();
@@ -113,7 +114,12 @@ public class PlayerController : MonoBehaviour
                 break;
             default:
                 break;
+            }
+        Debug.Log(pickableItem);
         }
-        Debug.Log(pickableItem);   
+        else
+        {
+            Debug.Log("Cant Pick Up in the living");
+        }
     }
 }
