@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -17,6 +18,7 @@ public class EnemyCharacter : MonoBehaviour
     private bool followPlayer;
     private bool TouchingPlayer;
     public float Life;
+    public float Damage;
     private IEnumerator coroutine;
     
     void Start()
@@ -50,7 +52,7 @@ public class EnemyCharacter : MonoBehaviour
         }
     }
     
-    private void Attacked(float damage)
+    public bool Attacked(float damage)
     {
         if (RealEnemy)
         {
@@ -59,14 +61,11 @@ public class EnemyCharacter : MonoBehaviour
         else
         {
             Life = 0;
-            // TODO: Augmenter la folie du joueur
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
         }
         Debug.Log("Life = " + Life);
-        if (Life <= 0)
-        {
-            // TODO: Destroy Enemy
-            // Destroy(this);
-        }
+        return Life <= 0;
+        
     }
 
     // Enemy touched player
@@ -79,14 +78,14 @@ public class EnemyCharacter : MonoBehaviour
 
             if (RealEnemy)
             {
-                // TODO: Augmenter la folie du joueur
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
                 coroutine = WaitAndPrint(5.0f);
                 StartCoroutine(coroutine);
             }
             else
             {
-                // TODO: Destroy Enemy
-                // TODO: Baisser la folie du joueur
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2);
+                Destroy(this);
             }
         }
     }
