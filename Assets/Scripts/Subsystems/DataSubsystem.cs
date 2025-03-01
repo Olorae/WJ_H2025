@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -28,7 +29,8 @@ public class DataSubsystem : ISubSystem
         }
         else
         {
-            insanity += amountGained - GameObject.FindObjectOfType<PlayerController>().GetDefense();
+            Debug.Log("defense" +GameObject.FindObjectOfType<PlayerController>().GetDefense());
+            insanity += Math.Max(amountGained - GameObject.FindObjectOfType<PlayerController>().GetDefense(), 0);
         }
         
     }

@@ -3,7 +3,11 @@ guid: e2b1ba230d6a7724f88942fc2c220aa8
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - popUpPreFab: {instanceID: 0}
+  - WeaponPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
+  - HatPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
+  - ArmorPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

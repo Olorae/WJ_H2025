@@ -19,6 +19,7 @@ public class EnemyCharacter : MonoBehaviour
     private bool TouchingPlayer;
     public float Life;
     public float Damage;
+    
     private IEnumerator coroutine;
 
     private bool runAway;
@@ -140,7 +141,7 @@ public class EnemyCharacter : MonoBehaviour
 
     private void OnDestroy()
     {
-        Item.ItemSpawn();
+        GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab,Player.HatPrefab,Player.ArmorPrefab,transform.position,transform.rotation);
     }
 
     // Update is called once per frame

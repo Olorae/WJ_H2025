@@ -3,7 +3,13 @@ guid: ccfaef52806fe05469c3b6b324526261
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - Rigidbody2D: {instanceID: 0}
+  - SpriteRenderer: {instanceID: 0}
+  - CircleCollider2D: {instanceID: 0}
+  - WeaponPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
+  - HatPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
+  - ArmorPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

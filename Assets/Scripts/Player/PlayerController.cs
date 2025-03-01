@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public IAPlayer playerInput;
     public float baseSpeed = 5f;
     public float baseDamage = 5;
-    public float baseDefense = 5;
+    public float baseDefense = 0;
     public Rigidbody2D rb;
     private BoxCollider2D WeapondHitBox;
     private InputAction move;
@@ -23,6 +23,9 @@ public class PlayerController : MonoBehaviour
     public Item weapon;
     public Item hat;
     public Item pickableItem;
+    public  GameObject WeaponPrefab;
+    public  GameObject HatPrefab;
+    public  GameObject ArmorPrefab;
     
 
     private void Awake()
@@ -34,10 +37,12 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
+        
         StopCoroutine = false;
         
-        coroutine = WaitAndPrint(0.5f);
-       
+        coroutine = WaitAndPrint(1f);
+        
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
     }
     private IEnumerator coroutine;
     private IEnumerator WaitAndPrint(float waitTime)

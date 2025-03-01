@@ -37,11 +37,11 @@ public class SpawnManager : MonoBehaviour
     private IEnumerator WaitAndPrint(float waitTime)
     {
         // TODO: enlever commentaires pour que ça marche
-        //while (true) {
+        while (true) {
         yield return new WaitForSeconds(waitTime);
         SpawnEnemy();
 
-        //}
+        }
     }
 
     public void SpawnEnemy()

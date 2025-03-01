@@ -76,10 +76,19 @@ public class Item : MonoBehaviour
         Initialize();
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += visible;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += invisible;
+        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
+        {
+           invisible();
+        }
+        else
+        {
+           visible();
+        }
     }
 
     protected virtual void Initialize()
     {
+        
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -170,35 +179,7 @@ public class Item : MonoBehaviour
         }
     }
 
-    public static Item ItemSpawn()
-    {
-        Item itemToSpawn;
-        float chance = Random.Range(0f, 1f);
-       
-        if(0.5f < chance && chance <= 0.667f)
-        {
-            // Spawn Casque
-            Item casqueSpawned = new Hat();
-            return casqueSpawned;
-        }
-        else if (0.667f < chance && chance <= 0.834f)
-        {
-            // spawn Armure
-            Item armorSpawned = new Armor();
-            return armorSpawned;
-        }
-        else if (0.834f < chance && chance <= 1f)
-        {
-            // spawn Weapon 
-            Item weaponSpawned = new Weapon();
-            return weaponSpawned;
-        }
-        else
-        { 
-            return null;
-        }
-       
-    }
+    
 
 }
 
