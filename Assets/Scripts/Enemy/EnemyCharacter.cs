@@ -13,7 +13,7 @@ public class EnemyCharacter : MonoBehaviour
     public float Speed;
     public Rigidbody2D Rigidbody2D;
     public SpriteRenderer SpriteRenderer;
-    public CircleCollider2D CircleCollider2D;
+    private CapsuleCollider2D CapsuleCollider2D;
     public bool RealEnemy;
     private bool followPlayer;
     private bool TouchingPlayer;
@@ -35,7 +35,7 @@ public class EnemyCharacter : MonoBehaviour
         Player = FindObjectOfType<PlayerController>();
         Rigidbody2D = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
-        CircleCollider2D = GetComponent<CircleCollider2D>();
+        CapsuleCollider2D = GetComponent<CapsuleCollider2D>();
         followPlayer = true;
         TouchingPlayer = false;
         runAway = false;
