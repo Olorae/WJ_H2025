@@ -53,32 +53,48 @@ public class SpawnManager : MonoBehaviour
         //SceneView sceneView = mainCamera.GetComponent<SceneView>();
         float heightCamera = mainCamera.orthographicSize;
         float widthCamera = heightCamera * mainCamera.aspect;
-        
+
         Vector3 CameraPosition = mainCamera.transform.position;
-        
-        Vector3 lowerCorner = new Vector3(CameraPosition.x - widthCamera , CameraPosition.y - heightCamera , 0);
-        Vector3 upperCorner = new Vector3(CameraPosition.x + widthCamera , CameraPosition.y + heightCamera , 0);
-        
+
+        Vector3 lowerCorner = new Vector3(CameraPosition.x - widthCamera, CameraPosition.y - heightCamera, 0);
+        Vector3 upperCorner = new Vector3(CameraPosition.x + widthCamera, CameraPosition.y + heightCamera, 0);
+
         float randomX = Random.Range(lowerCorner.x - offset, upperCorner.x + offset);
         float randomY;
         // if X is in the screen
         if (randomX > lowerCorner.x && randomX < upperCorner.x)
         {
-            randomY = (Random.value > 0.5)? Random.Range(lowerCorner.y - offset, lowerCorner.y) : Random.Range(upperCorner.y + offset, upperCorner.y);
+            randomY = (Random.value > 0.5)
+                ? Random.Range(lowerCorner.y - offset, lowerCorner.y)
+                : Random.Range(upperCorner.y + offset, upperCorner.y);
         }
-        else{ // X is out of the screen
+        else
+        {
+            // X is out of the screen
             randomY = Random.Range(lowerCorner.y - offset, upperCorner.y + offset);
         }
+
         SpawnPosition = new Vector3(randomX, randomY, 0);
-        
+
         Debug.Log("Spawn Position = " + SpawnPosition.x + ", " + SpawnPosition.y);
-        
+
         // Spawn Enemy
-        // Enemy = new EnemyCharacter();
+        float folie = GameManager.GetGameManager().GetSubsystem<DataSubsystem>().insanity;
+        float chance = Random.Range(0, 100);
+        if (chance <= folie / 2)
+        {
+            // TODO: spawn faux
+        }
+        else
+        {
+            // TODO: spawn vrai
+        }
+
         Clone = Instantiate(Enemy, SpawnPosition, Quaternion.identity);
-        
+
         nbTotalEnemy++;
     }
+    // folie 
     
     /*
     private void OnDrawGizmos()
