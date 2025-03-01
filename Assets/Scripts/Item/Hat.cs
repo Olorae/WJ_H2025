@@ -6,8 +6,9 @@ public class Hat : Item
 {
     protected override void Initialize()
     {
-        name = "Hat";
-        foliePerSecondReduce = Random.Range(0, 100);
+        name = "Hat test";
+        type = "Hat";
+        madnessPerSecondReduce = Random.Range(0, 100);
         bossSpawnChanceReduction = Random.Range(0, 100);
     }
 }
