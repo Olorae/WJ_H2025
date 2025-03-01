@@ -11,14 +11,18 @@ public class EnemyCharacter : MonoBehaviour
 
     public static PlayerController Player = null;
     public float Speed;
-    public Rigidbody2D Rigidbody2D;
+    public float InitialSpeed;
+    public Rigidbody2D rigidbody2D;
     public SpriteRenderer SpriteRenderer;
     private CapsuleCollider2D CapsuleCollider2D;
     public bool RealEnemy;
     private bool followPlayer;
     private bool TouchingPlayer;
     public float Life;
+    public float MaxLife;
     public float Damage;
+    private HealthManager healthManager;
+    public float pushForce = 500f;
     
     private IEnumerator coroutine;
 
@@ -33,12 +37,14 @@ public class EnemyCharacter : MonoBehaviour
     {
         // Initialisations
         Player = FindObjectOfType<PlayerController>();
-        Rigidbody2D = GetComponent<Rigidbody2D>();
+        rigidbody2D = GetComponent<Rigidbody2D>();
         SpriteRenderer = GetComponent<SpriteRenderer>();
         CapsuleCollider2D = GetComponent<CapsuleCollider2D>();
+        healthManager = FindObjectOfType<HealthManager>();
         followPlayer = true;
         TouchingPlayer = false;
         runAway = false;
+        InitialSpeed = Speed;
         
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
@@ -64,7 +70,7 @@ public class EnemyCharacter : MonoBehaviour
         if ((followPlayer && !runAway) || CompareTag("Boss"))
         {
             Vector3 newPosition = Vector3.MoveTowards(currentLocation, targetLocation, Speed * Time.deltaTime);
-            Rigidbody2D.position = newPosition;
+            rigidbody2D.position = newPosition;
         }
         else if (runAway)
         {
@@ -75,26 +81,49 @@ public class EnemyCharacter : MonoBehaviour
 
             // Move away from the player
             Vector3 newPosition = Vector3.MoveTowards(currentLocation, currentLocation + oppositeDirection, Speed * Time.deltaTime);
-            Rigidbody2D.position = newPosition;
+            rigidbody2D.position = newPosition;
             
         }
+        
+        if ((targetLocation - currentLocation).x >= 0)
+        {
+            transform.rotation = new Quaternion(transform.rotation.x, 0f, transform.rotation.z, transform.rotation.w);
+            healthManager.transform.rotation = new Quaternion(healthManager.transform.rotation.x, 0f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
+        }
+        else
+        {
+            transform.rotation = new Quaternion(transform.rotation.x, 180f, transform.rotation.z, transform.rotation.w);
+            healthManager.transform.rotation = new Quaternion(healthManager.transform.rotation.x, 180f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
+        }
+    }
+
+    private void PushedBackOver()
+    {
+        runAway = false;
+        Speed = InitialSpeed;
     }
 
     public bool Attacked(float damage)
     {
         if (RealEnemy)
         {
-            Life -= damage;
-            //FindObjectOfType<HealthManager>().takeDamage(damage);
+            Debug.Log("Real enemy attacked");
             
-            // TODO: test
-            Vector2 force = Vector2.right*100000f; /*(transform.position - Player.transform.position).normalized * Speed*/;
-            Rigidbody2D.AddForce(force, ForceMode2D.Force);
+            Life -= 1;//damage;
+            healthManager.takeDamage(damage);
+            
+            runAway = true;
+            Speed = pushForce;
+            Invoke("PushedBackOver", .1f);
+            /*
+            Vector2 force = -(Player.transform.position - transform.position) * 1f;
+            rigidbody2D.AddForce(force);
+            */
         }
         else
         {
             Life = 0;
-            //FindObjectOfType<HealthManager>().takeDamage(Life);
+            healthManager.takeDamage(Life);
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,false);
         }
 
@@ -169,12 +198,10 @@ public class EnemyCharacter : MonoBehaviour
 
     private void OnDestroy()
     {
-        
+        // FindObjectOfType<SpawnManager>().BossSpawned -= bossSpawned;
         
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
-
-        FindObjectOfType<SpawnManager>().BossSpawned -= bossSpawned;
     }
 
     private void changeOpacity(float opacity)
@@ -203,5 +230,6 @@ public class EnemyCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        
     }
 }
