@@ -85,10 +85,12 @@ public class EnemyCharacter : MonoBehaviour
         if (RealEnemy)
         {
             Life -= damage;
+            FindObjectOfType<HealthManager>().takeDamage(damage);
         }
         else
         {
             Life = 0;
+            FindObjectOfType<HealthManager>().takeDamage(Life);
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,false);
         }
 
