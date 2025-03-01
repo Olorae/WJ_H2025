@@ -69,16 +69,13 @@ public class PlayerController : MonoBehaviour
     }
     private void ToLivingLand()
     {
-        //Debug.Log("in living land");
         StopCoroutine(coroutine);
     }
 
     private void ToDeadLand()
     {
-
         if (InsanityEnabled)
         {
-            //Debug.Log("in dead land");
             StartCoroutine(coroutine);
         }
         
