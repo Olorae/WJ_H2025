@@ -50,7 +50,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("wait and print");
         while (true) {
             yield return new WaitForSeconds(waitTime);
-            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(1);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(0.5f);
         }
     }
     private void ToLivingLand()
