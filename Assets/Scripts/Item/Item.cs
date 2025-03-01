@@ -23,6 +23,7 @@ public class Item : MonoBehaviour
     public GameObject popUpPreFab;
     protected GameObject popUpInstance;
     protected bool isPickable = false;
+    private int switchWorldCount = 0;
 
 
     string Name
@@ -83,6 +84,8 @@ public class Item : MonoBehaviour
         Initialize();
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += visible;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += invisible;
+        // GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += destroySwitchWorld;
+
         if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
         {
            invisible();
@@ -194,6 +197,26 @@ public class Item : MonoBehaviour
             Color tempColor = sr.color;
             tempColor.a = 0.5f;
             sr.color = tempColor;
+            if (switchWorldCount == 1)
+            { 
+                Destroy(this.gameObject);
+                switchWorldCount = 0;
+            }
+            else
+            {
+                switchWorldCount++;
+            }
+           
+            
+        }
+    }
+
+    private void destroySwitchWorld()
+    {
+        if (FindObjectsOfType<Item>().Length > 0)
+        {
+            // Destroy(this.gameObject);
+
         }
     }
 
