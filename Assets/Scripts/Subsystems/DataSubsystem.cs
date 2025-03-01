@@ -10,10 +10,12 @@ public class DataSubsystem : ISubSystem
     public float money;
     public float nbKill;
     public float insanity;
+    public float maxInsanity;
 
     public DataSubsystem()
     {
-        money = 50;
+        insanity = 50;
+        maxInsanity = 120;
     }
     public static ISubSystem GetSubSystem()
     {
