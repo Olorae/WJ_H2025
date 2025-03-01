@@ -19,7 +19,7 @@ public class SpawnManager : MonoBehaviour
     public float FirstSpawn = 10f;
     private Vector3 SpawnPosition = new Vector3(0, 0, 0);
     public float offset = 10f;
-    private float InsanityToSpawnBoss;
+    public float InsanityToSpawnBoss = 50;
     public Action BossSpawned;
 
     private IEnumerator coroutine;
@@ -37,11 +37,11 @@ public class SpawnManager : MonoBehaviour
     private IEnumerator WaitAndPrint(float waitTime)
     {
         // TODO: enlever commentaires pour que ça marche
-        //while (true) {
+        while (true) {
         yield return new WaitForSeconds(waitTime);
         SpawnEnemy();
 
-        //}
+        }
     }
 
     public void SpawnEnemy()

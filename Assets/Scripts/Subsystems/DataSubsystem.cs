@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,19 +17,32 @@ public class DataSubsystem : ISubSystem
     {
         insanity = 50;
         maxInsanity = 120;
-       
-
     }
 
-    public void GainInsanity(float amountGained)
-    {Debug.Log("gain insanity");
+    public void GainInsanity(float amountGained,bool hit)
+    {
+        
+        PlayerController player = GameObject.FindObjectOfType<PlayerController>();
         if (amountGained < 0)
         {
             insanity += amountGained;
         }
         else
         {
-            insanity += amountGained - GameObject.FindObjectOfType<PlayerController>().GetDefense();
+            if (hit)
+            {
+                if (player.HitElapsed)
+                {
+                    player.OnHit();
+                    insanity += Math.Max(amountGained - player.GetDefense(), 0);
+                }
+            }
+            else
+            {
+                insanity += Math.Max(amountGained - player.GetDefense(), 0);
+            }
+            
+            
         }
         
     }

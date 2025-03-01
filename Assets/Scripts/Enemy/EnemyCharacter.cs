@@ -19,6 +19,7 @@ public class EnemyCharacter : MonoBehaviour
     private bool TouchingPlayer;
     public float Life;
     public float Damage;
+    
     private IEnumerator coroutine;
 
     private bool runAway;
@@ -38,6 +39,9 @@ public class EnemyCharacter : MonoBehaviour
         followPlayer = true;
         TouchingPlayer = false;
         runAway = false;
+        
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
 
         FindObjectOfType<SpawnManager>().BossSpawned += bossSpawned;
 
@@ -83,7 +87,7 @@ public class EnemyCharacter : MonoBehaviour
         else
         {
             Life = 0;
-            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,false);
         }
 
         Debug.Log("Life = " + Life);
@@ -100,13 +104,13 @@ public class EnemyCharacter : MonoBehaviour
 
             if (RealEnemy)
             {
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage);
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
                 coroutine = WaitAndPrint(5.0f);
                 StartCoroutine(coroutine);
             }
             else
             {
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2);
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2,false);
                 Destroy(this.GameObject());
                 Destroy(this);
             }
@@ -120,12 +124,14 @@ public class EnemyCharacter : MonoBehaviour
             if (TouchingPlayer)
             {
                 yield return new WaitForSeconds(waitTime);
-                // TODO: Augmenter la folie du joueur
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
+                
+                Debug.Log("touching player");
             }
             else
             {
-                //StopCoroutine("WaitAndPrint");
-                break;
+                StopCoroutine("WaitAndPrint");
+                //break;
             }
         }
     }
@@ -135,7 +141,39 @@ public class EnemyCharacter : MonoBehaviour
         followPlayer = true;
         TouchingPlayer = false;
     }
-    
+
+    private void OnDestroy()
+    {
+        GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab,Player.HatPrefab,Player.ArmorPrefab,transform.position,transform.rotation);
+        
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
+
+        FindObjectOfType<SpawnManager>().BossSpawned -= bossSpawned;
+    }
+
+    private void changeOpacity(float opacity)
+    {
+        Color spColor = SpriteRenderer.color;
+        spColor.a = .5f;
+        SpriteRenderer.color = spColor;
+    }
+
+    private void ToDeadLand()
+    {
+        followPlayer = false;
+        changeOpacity(.5f);
+        if (TouchingPlayer)
+        {
+            OnTriggerExit2D(Player.GetComponent<Collider2D>());
+        }
+    }
+
+    private void ToLivingLand()
+    {
+        followPlayer = true;
+        changeOpacity(1f);
+    }
 
     // Update is called once per frame
     void Update()

@@ -12,18 +12,21 @@ public class PlayerController : MonoBehaviour
     public IAPlayer playerInput;
     public float baseSpeed = 5f;
     public float baseDamage = 5;
-    public float baseDefense = 5;
+    public float baseDefense = 0;
     public Rigidbody2D rb;
     private BoxCollider2D WeapondHitBox;
     private InputAction move;
     private List<GameObject> ObjectsInHitBox;
     private Animator animator;
     private bool StopCoroutine;
-    public Item armor;
-    public Item weapon;
-    public Item hat;
+    public bool HitElapsed;
+    public ItemData armor;
+    public ItemData weapon;
+    public ItemData hat;
     public Item pickableItem;
-    
+    public  GameObject WeaponPrefab;
+    public  GameObject HatPrefab;
+    public  GameObject ArmorPrefab;
 
     private void Awake()
     {
@@ -34,29 +37,42 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
+        
         StopCoroutine = false;
         
-        coroutine = WaitAndPrint(0.5f);
-       
+        coroutine = WaitAndPrint(1f);
+        hitCooldownCoroutine = resetHitCooldown(1f);
+        
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
     }
+    private IEnumerator hitCooldownCoroutine;
+    private IEnumerator resetHitCooldown(float waitTime)
+    {
+        //Debug.Log("wait and print");
+        
+            yield return new WaitForSeconds(waitTime);
+            HitElapsed = true;
+
+    }
+    
     private IEnumerator coroutine;
     private IEnumerator WaitAndPrint(float waitTime)
     {
-        Debug.Log("wait and print");
+        //Debug.Log("wait and print");
         while (true) {
             yield return new WaitForSeconds(waitTime);
-            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(1);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(0.5f,false);
         }
     }
     private void ToLivingLand()
     {
-        Debug.Log("in living land");
+        //Debug.Log("in living land");
         StopCoroutine(coroutine);
     }
 
     private void ToDeadLand()
     {
-        Debug.Log("in dead land");
+        //Debug.Log("in dead land");
         StartCoroutine(coroutine);
     }
 
@@ -64,6 +80,12 @@ public class PlayerController : MonoBehaviour
     void Start()
     {
         
+    }
+
+    public void OnHit()
+    {
+        HitElapsed = false;
+        StartCoroutine(hitCooldownCoroutine);
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -99,7 +121,8 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         Vector2 moveValue = move.ReadValue<Vector2>();
-        rb.velocity = new Vector2(moveValue.x * baseSpeed, moveValue.y * GetMovementSpeed());
+        Debug.Log(GetMovementSpeed());
+        rb.velocity = new Vector2(moveValue.x * GetMovementSpeed(), moveValue.y * GetMovementSpeed());
 
     }
 
@@ -130,7 +153,7 @@ public class PlayerController : MonoBehaviour
            Destroy(gObject); 
         }
         
-        Debug.Log("Attack");
+        Debug.Log(GetDamage());
         
     }
 
@@ -141,21 +164,50 @@ public class PlayerController : MonoBehaviour
             switch (pickableItem.type)
             {
             case "Hat":
-                hat = pickableItem;
+                Debug.Log("hat");
+                hat = new ItemData();
+                hat.attackDamage = pickableItem.attackDamage;
+                hat.mouvementSpeed = pickableItem.mouvementSpeed;
+                hat.madnessDefense = pickableItem.madnessDefense;
+                hat.attackSpeed = pickableItem.attackSpeed;
+                hat.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
+                hat.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
+                hat.type = pickableItem.type;
+                hat.name = pickableItem.name;
                 pickableItem.ItemPickedUp();
                 break;
             case "Armor":
-                armor = pickableItem;
+                Debug.Log("armor");
+                armor = new ItemData();
+                armor.attackDamage = pickableItem.attackDamage;
+                armor.mouvementSpeed = pickableItem.mouvementSpeed;
+                armor.madnessDefense = pickableItem.madnessDefense;
+                armor.attackSpeed = pickableItem.attackSpeed;
+                armor.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
+                armor.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
+                armor.type = pickableItem.type;
+                armor.name = pickableItem.name;
+                //armor = pickableItem;
                 pickableItem.ItemPickedUp();
                 break;
             case "Weapon":
-                weapon = pickableItem;
+                Debug.Log("weapon");
+                weapon = new ItemData();
+                weapon.attackDamage = pickableItem.attackDamage;
+                weapon.mouvementSpeed = pickableItem.mouvementSpeed;
+                weapon.madnessDefense = pickableItem.madnessDefense;
+                weapon.attackSpeed = pickableItem.attackSpeed;
+                weapon.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
+                weapon.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
+                weapon.type = pickableItem.type;
+                weapon.name = pickableItem.name;
+                //weapon = pickableItem;
                 pickableItem.ItemPickedUp();
                 break;
             default:
                 break;
             }
-        Debug.Log(pickableItem);
+        
         }
         else
         {
@@ -175,6 +227,13 @@ public class PlayerController : MonoBehaviour
 
     public float GetMovementSpeed()
     {
-        return baseDamage + ((hat != null)? hat.mouvementSpeed : 0) + ((armor != null)? armor.mouvementSpeed : 0) + ((weapon != null)? weapon.mouvementSpeed : 0) ;
+        
+        return baseSpeed + ((hat != null)? hat.mouvementSpeed : 0) + ((armor != null)? armor.mouvementSpeed : 0) + ((weapon != null)? weapon.mouvementSpeed : 0) ;
+    }
+
+    private void OnDestroy()
+    {
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
     }
 }
