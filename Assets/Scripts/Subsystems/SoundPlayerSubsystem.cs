@@ -22,6 +22,13 @@ public class SoundPlayerSubsystem : MonoBehaviour, ISubSystem
     public AudioClip SwordSFX;
     public AudioClip btnSound;
 
+    public AudioClip LoseJingle;
+    public AudioClip VictoryJingle;
+    public AudioClip DeathEnemy;
+    public AudioClip DeathBoss;
+    public AudioClip EvilLaugh;
+    public AudioClip MenuMusic;
+
     [Range(0.0f, 1.0f)]
     public float maxVolume = 1.0f;
 

@@ -165,6 +165,7 @@ public class EnemyCharacter : MonoBehaviour
         {
             Life = 0;
             healthManager.takeDamage(Life, MaxLife);
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().EvilLaugh);
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage, false);
         }
 
@@ -182,6 +183,9 @@ public class EnemyCharacter : MonoBehaviour
             // Change scene
             
             //TODO: change music
+
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().LoseJingle);
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().MenuMusic);
             SceneManager.LoadSceneAsync("MainScenes/LostScene");
         }
     }
@@ -299,6 +303,18 @@ public class EnemyCharacter : MonoBehaviour
         {
             GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab, Player.HatPrefab,
                 Player.ArmorPrefab, transform.position, transform.rotation);
+        }
+        if (tag.Equals("Boss"))
+        {
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().DeathBoss);
+        }
+        else
+        {
+            if (RealEnemy)
+            {
+                GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().DeathEnemy);
+            }
+            
         }
 
         Destroy(this.GameObject());

@@ -6,6 +6,7 @@ using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -86,7 +87,12 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("wait and print");
         while (true)
         {
-            float reducGainMadness = (FindObjectOfType<PlayerController>().hat.madnessPerSecondReduce) / 100f;
+            float reducGainMadness = 0;
+            if (FindObjectOfType<PlayerController>().hat != null)
+            {
+                reducGainMadness = (FindObjectOfType<PlayerController>().hat.madnessPerSecondReduce) / 100f;  
+            }
+            
             float amountGained = 0.5f;
             
             yield return new WaitForSeconds(waitTime);
@@ -103,6 +109,7 @@ public class PlayerController : MonoBehaviour
     {
         if (InsanityEnabled)
         {
+            coroutine = WaitAndPrint(0.5f);
             StartCoroutine(coroutine);
         }
     }
@@ -159,8 +166,8 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Pickup.performed += Pickup;
         playerInput.Player.Pickup.Enable();
         
-        playerInput.Player.Pause.performed += setPause;
-        playerInput.Player.Pause.Enable();
+        //playerInput.Player.Pause.performed += setPause;
+        //playerInput.Player.Pause.Enable();
         
     }
 
@@ -172,7 +179,10 @@ public class PlayerController : MonoBehaviour
            CameraPosition.z = 0;
            menuInstance = Instantiate(menuPreFab, CameraPosition, Quaternion.identity);
            isPaused = true;
-           Time.timeScale = 0;
+           
+           
+           //menuInstance.GetComponent<EventSystem>().isFocused;
+           //Time.timeScale = .5f;
 
            // set valeur dans le menu 
            if (FindObjectOfType<PlayerController>().hat != null)
@@ -220,7 +230,7 @@ public class PlayerController : MonoBehaviour
            {
                Destroy(menuInstance);
                isPaused = false;
-               Time.timeScale = 1;
+               //Time.timeScale = 1;
            }
        }
         
@@ -228,9 +238,11 @@ public class PlayerController : MonoBehaviour
 
     public void setPause2()
     {
-        isPaused = false;
-        Destroy(this.gameObject);
-        Time.timeScale = 1;
+        //isPaused = false;
+        //Time.timeScale = 1;
+        //Destroy(this.gameObject);
+        //Destroy(this);
+        
     }
 
     private void OnDisable()
@@ -270,6 +282,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Boss iS Dead");
 
             // Change scene
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().VictoryJingle);
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().MenuMusic);
             SceneManager.LoadSceneAsync("MainScenes/WinScene");
         }
     }
@@ -309,6 +323,9 @@ public class PlayerController : MonoBehaviour
             foreach (var gObject in toDestroy)
             {
                 gObject.GetComponent<EnemyCharacter>().animator.SetTrigger("Death");
+                
+                
+                
                 gObject.GetComponent<EnemyCharacter>().followPlayer = false;
                 ObjectsInHitBox.Remove(gObject);
                 //Destroy(gObject); 
