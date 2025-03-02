@@ -85,7 +85,12 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("wait and print");
         while (true)
         {
-            float reducGainMadness = (FindObjectOfType<PlayerController>().hat.madnessPerSecondReduce) / 100f;
+            float reducGainMadness = 0;
+            if (FindObjectOfType<PlayerController>().hat != null)
+            {
+                reducGainMadness = (FindObjectOfType<PlayerController>().hat.madnessPerSecondReduce) / 100f;  
+            }
+            
             float amountGained = 0.5f;
             
             yield return new WaitForSeconds(waitTime);
