@@ -21,6 +21,19 @@ public class SpawnManager : MonoBehaviour
     public Action BossSpawned;
     public bool bossIaAlive;
 
+    private float heightCamera;
+    private float widthCamera;
+    private Vector3 CameraPosition;
+    private float offsetX;
+    private float offsetY;
+    private Vector3 lowerCorner;
+    private Vector3 upperCorner;
+
+    public GameObject LeftWall;
+    public GameObject RightWall;
+    public GameObject TopWall;
+    public GameObject BottomWall;
+
     private IEnumerator coroutine;
 
     public void Start()
@@ -33,6 +46,13 @@ public class SpawnManager : MonoBehaviour
         //StartCoroutine(coroutine);
         
         bossIaAlive = false;
+
+        setCorners();
+        
+        LeftWall.transform.position = new Vector3(lowerCorner.x, LeftWall.transform.position.y, 0f);
+        RightWall.transform.position = new Vector3(upperCorner.x, RightWall.transform.position.y, 0f);
+        TopWall.transform.position = new Vector3(TopWall.transform.position.x, lowerCorner.y, 0f);
+        BottomWall.transform.position = new Vector3(BottomWall.transform.position.x, upperCorner.y, 0f);
     }
 
     private IEnumerator WaitAndPrint(float waitTime)
@@ -44,21 +64,25 @@ public class SpawnManager : MonoBehaviour
         }
     }
 
+    private void setCorners()
+    {
+        heightCamera = mainCamera.orthographicSize;
+        widthCamera = heightCamera * mainCamera.aspect;
+
+        CameraPosition = mainCamera.transform.position;
+
+        offsetX = widthCamera / offset;
+        offsetY = heightCamera / offset;
+
+        lowerCorner = new Vector3(CameraPosition.x - widthCamera - offsetX, CameraPosition.y - heightCamera - offsetX, 0);
+        upperCorner = new Vector3(CameraPosition.x + widthCamera + offsetY, CameraPosition.y + heightCamera + offsetY, 0);
+    }
+
     public void SpawnEnemy()
     {
         if (!bossIaAlive)
         {
-            //SceneView sceneView = mainCamera.GetComponent<SceneView>();
-            float heightCamera = mainCamera.orthographicSize;
-            float widthCamera = heightCamera * mainCamera.aspect;
-
-            Vector3 CameraPosition = mainCamera.transform.position;
-
-            float offsetX = widthCamera / offset;
-            float offsetY = heightCamera / offset;
-
-            Vector3 lowerCorner = new Vector3(CameraPosition.x - widthCamera - offsetX, CameraPosition.y - heightCamera - offsetX, 0);
-            Vector3 upperCorner = new Vector3(CameraPosition.x + widthCamera + offsetY, CameraPosition.y + heightCamera + offsetY, 0);
+            setCorners();
 
             float randomX = Random.Range(lowerCorner.x - offsetX, upperCorner.x + offsetX);
             float randomY;
