@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class Background : MonoBehaviour
 {
+    public Sprite livingBackground;
+
+    public Sprite deadBackground;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,11 +17,11 @@ public class Background : MonoBehaviour
 
     private void ToDeadLand()
     {
-        GetComponent<Image>().color = Color.gray;
+        GetComponent<Image>().sprite = deadBackground;
     }
     private void ToLivingLand()
     {
-        GetComponent<Image>().color = Color.green;
+        GetComponent<Image>().sprite = livingBackground;
     }
 
     // Update is called once per frame

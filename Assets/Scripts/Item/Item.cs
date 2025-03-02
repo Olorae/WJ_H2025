@@ -19,10 +19,15 @@ public class Item : MonoBehaviour
     public float madnessDefense;
     public float madnessPerSecondReduce;
     public float bossSpawnChanceReduction;
+    public Color rarityColor;
     public bool firstItem;
     public GameObject popUpPreFab;
     protected GameObject popUpInstance;
     protected bool isPickable = false;
+    private int switchWorldCount = 0;
+    public Sprite WeaponSprite;
+    public Sprite HatSprite;
+    public Sprite ShirtSprite;
 
 
     string Name
@@ -83,6 +88,8 @@ public class Item : MonoBehaviour
         Initialize();
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += visible;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += invisible;
+        // GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += destroySwitchWorld;
+
         if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
         {
            invisible();
@@ -194,6 +201,26 @@ public class Item : MonoBehaviour
             Color tempColor = sr.color;
             tempColor.a = 0.5f;
             sr.color = tempColor;
+            if (switchWorldCount == 1)
+            { 
+                Destroy(this.gameObject);
+                switchWorldCount = 0;
+            }
+            else
+            {
+                switchWorldCount++;
+            }
+           
+            
+        }
+    }
+
+    private void destroySwitchWorld()
+    {
+        if (FindObjectsOfType<Item>().Length > 0)
+        {
+            // Destroy(this.gameObject);
+
         }
     }
 

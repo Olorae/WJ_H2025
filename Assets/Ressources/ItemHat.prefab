@@ -29,7 +29,7 @@ RectTransform:
   m_GameObject: {fileID: 2485749364794719034}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5.0000005, y: 5.0000005, z: 5.0000005}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 0}
@@ -73,7 +73,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.5
+  m_Radius: 2.5
 --- !u!222 &8789744923840828137
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -147,6 +147,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   name: 
+  description: 
   type: 
   attackSpeed: 0
   attackDamage: 0
@@ -154,4 +155,9 @@ MonoBehaviour:
   madnessDefense: 0
   madnessPerSecondReduce: 0
   bossSpawnChanceReduction: 0
+  rarityColor: {r: 0, g: 0, b: 0, a: 0}
+  firstItem: 0
   popUpPreFab: {fileID: 4222573595077430403, guid: c4e393a9b25f5ba4a8946cdd241eb051, type: 3}
+  WeaponSprite: {fileID: 21300000, guid: 01b6465c2dada0844a29b22894c4111f, type: 3}
+  HatSprite: {fileID: 21300000, guid: b7191cf6ee11ea145aaf439de7e59a54, type: 3}
+  ShirtSprite: {fileID: 21300000, guid: e0639e43f40760543b378131737a5c42, type: 3}

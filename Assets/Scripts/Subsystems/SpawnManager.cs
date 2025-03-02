@@ -83,10 +83,14 @@ public class SpawnManager : MonoBehaviour
 
             if (folie >= InsanityToSpawnBoss && chanceToSpawnBoss <= (folie - InsanityToSpawnBoss) * 2)
             {
+                GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
+                GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
+                FindObjectOfType<PortalScript>().GameObject().SetActive(false);
                 bossIaAlive = true;
-                
                 // Spawn Boss
                 BossSpawned.Invoke();
+                
+               
 
                 // TODO: check if stop works
                 StopCoroutine(coroutine);
