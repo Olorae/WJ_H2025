@@ -6,6 +6,7 @@ using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
@@ -101,6 +102,7 @@ public class PlayerController : MonoBehaviour
     {
         if (InsanityEnabled)
         {
+            coroutine = WaitAndPrint(0.5f);
             StartCoroutine(coroutine);
         }
     }
@@ -163,8 +165,8 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Pickup.performed += Pickup;
         playerInput.Player.Pickup.Enable();
         
-        playerInput.Player.Pause.performed += setPause;
-        playerInput.Player.Pause.Enable();
+        //playerInput.Player.Pause.performed += setPause;
+        //playerInput.Player.Pause.Enable();
         
     }
 
@@ -176,7 +178,10 @@ public class PlayerController : MonoBehaviour
            CameraPosition.z = 0;
            menuInstance = Instantiate(menuPreFab, CameraPosition, Quaternion.identity);
            isPaused = true;
-           Time.timeScale = 0;
+           
+           
+           //menuInstance.GetComponent<EventSystem>().isFocused;
+           //Time.timeScale = .5f;
 
            // set valeur dans le menu 
            if (FindObjectOfType<PlayerController>().hat != null)
@@ -224,7 +229,7 @@ public class PlayerController : MonoBehaviour
            {
                Destroy(menuInstance);
                isPaused = false;
-               Time.timeScale = 1;
+               //Time.timeScale = 1;
            }
        }
         
@@ -232,9 +237,11 @@ public class PlayerController : MonoBehaviour
 
     public void setPause2()
     {
-        isPaused = false;
-        Destroy(this.gameObject);
-        Time.timeScale = 1;
+        //isPaused = false;
+        //Time.timeScale = 1;
+        //Destroy(this.gameObject);
+        //Destroy(this);
+        
     }
 
     private void OnDisable()
