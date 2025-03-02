@@ -12,29 +12,29 @@ public class Armor : Item
         description = GetRandomDescription("Assets/EquipmentText/ArmorOf.txt");
         
         int objectRarity = Random.Range(1, 100);
-        if (objectRarity < 90) // Normal item stat 
+        if (objectRarity < 60) // Normal item stat 
         {
             rarity = 0;
             mouvementSpeed = Random.Range(0, 5);
             madnessDefense = Random.Range(0, 25);
-            rarityColor = new Color(0, 145, 18);
+            GetComponent<SpriteRenderer>().color = rarityColor= new Color(82, 104, 91);
         }
-        else if (objectRarity <= 98 ) // Good item 
+        else if (objectRarity <= 90 ) // Good item 
         {
             rarity = 1;
             mouvementSpeed = Random.Range(5, 10);
             madnessDefense = Random.Range(25, 50);
-            rarityColor = new Color(138, 65, 120);
+            GetComponent<SpriteRenderer>().color = rarityColor= new Color(141, 200, 200);
         }
         else // Prefect item 
         {
             rarity = 2;
             mouvementSpeed = 10;
             madnessDefense = 50;
-            rarityColor = new Color(210, 141, 0);
+            GetComponent<SpriteRenderer>().color = rarityColor= new Color(68, 141, 200);
         }
+       // GetComponent<SpriteRenderer>().sprite = ShirtSprite;
         GetComponent<SpriteRenderer>().color = rarityColor;
-        GetComponent<SpriteRenderer>().sprite = ShirtSprite;
        
     }
 
