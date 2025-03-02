@@ -17,13 +17,14 @@ public class EnemyCharacter : MonoBehaviour
     public HealthManager healthManager;
     public Animator animator;
     public HealthManager healthBar;
+    public SpawnManager spawnManager;
     
     private IEnumerator coroutine;
     
-    public bool RealEnemy, followPlayer;
+    public bool RealEnemy, followPlayer, bossPushBack;
     public float Speed, InitialSpeed, Life, MaxLife, Damage, pushForce;
-    
-    private bool TouchingPlayer, bossIsComing, runAway, bossPushBack;
+
+    private bool TouchingPlayer, bossIsComing, runAway;
     private float previousLife = 0f;
     
     private void bossSpawned()
@@ -43,11 +44,12 @@ public class EnemyCharacter : MonoBehaviour
         SpriteRenderer = GetComponent<SpriteRenderer>();
         CapsuleCollider2D = GetComponent<CapsuleCollider2D>();
         healthManager = FindObjectOfType<HealthManager>();
+        spawnManager = FindObjectOfType<SpawnManager>();
         animator = GetComponent<Animator>();
         followPlayer = true;
         TouchingPlayer = false;
         runAway = false;
-        bossPushBack = false;
+        bossPushBack = spawnManager.tutorialScene;
         InitialSpeed = Speed;
         bossIsComing = false;
         float facteurDeCroissanceVieEnnemie = 10f;
@@ -94,7 +96,7 @@ public class EnemyCharacter : MonoBehaviour
             Vector3 newPosition = Vector3.MoveTowards(currentLocation, targetLocation, Speed * Time.deltaTime);
             rigidbody2D.position = newPosition;
         }
-        else if (runAway || bossPushBack)
+        else if (runAway || (bossPushBack && CompareTag("Boss")))
         {
             // Calculate the opposite direction
             Vector3 oppositeDirection = (currentLocation - targetLocation).normalized;
@@ -146,8 +148,11 @@ public class EnemyCharacter : MonoBehaviour
             healthManager.takeDamage(Life, MaxLife);
             animator.SetTrigger("Hit");
             //GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().HitSFX);
-            runAway = true;
-            bossPushBack = true;
+            if (!spawnManager.tutorialScene)
+            {
+                runAway = true;
+                bossPushBack = true;
+            }
             Speed = pushForce;
             TouchingPlayer = false;
             Invoke("PushedBackOver", .05f);
@@ -160,6 +165,7 @@ public class EnemyCharacter : MonoBehaviour
         {
             Life = 0;
             healthManager.takeDamage(Life, MaxLife);
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().EvilLaugh);
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage, false);
         }
 
@@ -177,7 +183,10 @@ public class EnemyCharacter : MonoBehaviour
             // Change scene
             
             //TODO: change music
-            SceneManager.LoadSceneAsync("MainScenes/LoseScene");
+
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().LoseJingle);
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().MenuMusic);
+            SceneManager.LoadSceneAsync("MainScenes/LostScene");
         }
     }
 
@@ -282,7 +291,7 @@ public class EnemyCharacter : MonoBehaviour
         }
     }
 
-    private void ToLivingLand()
+    public void ToLivingLand()
     {
         followPlayer = true;
         changeOpacity(1f);
@@ -294,6 +303,18 @@ public class EnemyCharacter : MonoBehaviour
         {
             GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab, Player.HatPrefab,
                 Player.ArmorPrefab, transform.position, transform.rotation);
+        }
+        if (tag.Equals("Boss"))
+        {
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().DeathBoss);
+        }
+        else
+        {
+            if (RealEnemy)
+            {
+                GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().DeathEnemy);
+            }
+            
         }
 
         Destroy(this.GameObject());

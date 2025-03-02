@@ -75,6 +75,8 @@ public class PlayerController : MonoBehaviour
         coroutine = WaitAndPrint(0.5f);
         HitElapsed = true;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
+        
+        playerInput.Enable();
     }
 
 
@@ -85,7 +87,12 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("wait and print");
         while (true)
         {
-            float reducGainMadness = (FindObjectOfType<PlayerController>().hat.madnessPerSecondReduce) / 100f;
+            float reducGainMadness = 0;
+            if (FindObjectOfType<PlayerController>().hat != null)
+            {
+                reducGainMadness = (FindObjectOfType<PlayerController>().hat.madnessPerSecondReduce) / 100f;  
+            }
+            
             float amountGained = 0.5f;
             
             yield return new WaitForSeconds(waitTime);
@@ -105,12 +112,6 @@ public class PlayerController : MonoBehaviour
             coroutine = WaitAndPrint(0.5f);
             StartCoroutine(coroutine);
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-      
     }
 
     private void Update()
@@ -281,6 +282,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Boss iS Dead");
 
             // Change scene
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().VictoryJingle);
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().MenuMusic);
             SceneManager.LoadSceneAsync("MainScenes/WinScene");
         }
     }
@@ -300,7 +303,7 @@ public class PlayerController : MonoBehaviour
         List<GameObject> toDestroy = new();
         GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SwordSFX);
         // Attack only if in livingLand
-        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
+        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand || FindObjectOfType<SpawnManager>().tutorialScene)
         {
             foreach (GameObject gObject in ObjectsInHitBox)
             {
@@ -320,6 +323,9 @@ public class PlayerController : MonoBehaviour
             foreach (var gObject in toDestroy)
             {
                 gObject.GetComponent<EnemyCharacter>().animator.SetTrigger("Death");
+                
+                
+                
                 gObject.GetComponent<EnemyCharacter>().followPlayer = false;
                 ObjectsInHitBox.Remove(gObject);
                 //Destroy(gObject); 

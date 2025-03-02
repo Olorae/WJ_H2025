@@ -6,6 +6,9 @@ using UnityEngine.UI;
 public class Background : MonoBehaviour
 {
     public Sprite livingBackground;
+    
+    
+    private int count = 0;
 
     public Sprite deadBackground;
     // Start is called before the first frame update

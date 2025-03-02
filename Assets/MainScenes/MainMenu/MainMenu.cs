@@ -32,6 +32,11 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadSceneAsync("SceneMainMenu");
     }
 
+    public void TutorialScene()
+    {
+        SceneManager.LoadSceneAsync("TutorialScene");
+    }
+
     public void WinScene()
     {
         GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX(GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().btnSound);
