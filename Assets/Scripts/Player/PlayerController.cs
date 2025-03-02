@@ -286,6 +286,8 @@ public class PlayerController : MonoBehaviour
             Debug.Log("Boss iS Dead");
 
             // Change scene
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().VictoryJingle);
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().MenuMusic);
             SceneManager.LoadSceneAsync("MainScenes/WinScene");
         }
     }
@@ -325,6 +327,9 @@ public class PlayerController : MonoBehaviour
             foreach (var gObject in toDestroy)
             {
                 gObject.GetComponent<EnemyCharacter>().animator.SetTrigger("Death");
+                
+                
+                
                 gObject.GetComponent<EnemyCharacter>().followPlayer = false;
                 ObjectsInHitBox.Remove(gObject);
                 //Destroy(gObject); 

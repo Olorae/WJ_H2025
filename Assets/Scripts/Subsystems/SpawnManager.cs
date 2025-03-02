@@ -63,7 +63,7 @@ public class SpawnManager : MonoBehaviour
     {
         while (true)
         {
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(waitTime - (float)(GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill * 0.001));
             SpawnEnemy();
         }
     }
