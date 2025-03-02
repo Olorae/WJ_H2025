@@ -8,6 +8,7 @@ using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -206,14 +207,6 @@ public class PlayerController : MonoBehaviour
                menuInstance.transform.Find("Menu/BackGround/Weapon/Stat1").GetComponent<TextMeshProUGUI>().text = "Attack Dmg: None";
                menuInstance.transform.Find("Menu/BackGround/Weapon/Stat2").GetComponent<TextMeshProUGUI>().text = "Attack Speed: None";
            }
-           
-
-
-
-           
-
-           
-
        }
        else
        {
@@ -238,15 +231,33 @@ public class PlayerController : MonoBehaviour
         Vector2 moveValue = move.ReadValue<Vector2>();
         //Debug.Log(GetMovementSpeed());
         rb.velocity = new Vector2(moveValue.x * GetMovementSpeed(), moveValue.y * GetMovementSpeed());
+
+        Vector3 currentLocation = transform.position;
+        Vector3 targetLocation = new Vector3(rb.velocity.x, rb.velocity.y, 0f) + currentLocation;
+
+        Rotate(currentLocation, targetLocation);
+    }
+    
+    private void Rotate(Vector3 currentLocation, Vector3 targetLocation)
+    {
+        if ((targetLocation - currentLocation).x > 0)
+        {
+            transform.rotation = new Quaternion(0f, 0f, transform.rotation.z, transform.rotation.w);
+        }
+        else if ((targetLocation - currentLocation).x < 0)
+        {
+            transform.rotation = new Quaternion(0f, 180f, transform.rotation.z, transform.rotation.w);
+        }
     }
 
     private void damageInflicted(EnemyCharacter enemyCharacter)
     {
         if (enemyCharacter.CompareTag("Boss") && enemyCharacter.Life <= 0)
         {
-            Debug.Log("Boss id Dead");
+            Debug.Log("Boss iS Dead");
 
-            // TODO: change scene
+            // Change scene
+            SceneManager.LoadSceneAsync("MainScenes/WinScene");
         }
     }
 
@@ -256,6 +267,13 @@ public class PlayerController : MonoBehaviour
         List<GameObject> toDestroy = new();
         Debug.Log("attack");
 
+        isAttacking(toDestroy);
+    }
+
+    private void isAttacking(List<GameObject> toDestroy)
+    {
+        playerInput.Disable();
+        
         // Attack only if in livingLand
         if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
         {
@@ -282,6 +300,12 @@ public class PlayerController : MonoBehaviour
                 //Destroy(gObject); 
             }
         }
+        
+    }
+
+    public void EnableInput()
+    {
+        playerInput.Enable();
     }
 
     public void Pickup(InputAction.CallbackContext obj)

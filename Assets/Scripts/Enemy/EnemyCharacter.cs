@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Serialization;
 
 public class EnemyCharacter : MonoBehaviour
@@ -27,7 +28,7 @@ public class EnemyCharacter : MonoBehaviour
     public Animator animator;
     private float previousLife = 0f;
     public HealthManager healthBar;
-    
+
     private IEnumerator coroutine;
 
     private bool runAway;
@@ -40,8 +41,8 @@ public class EnemyCharacter : MonoBehaviour
 
     void Start()
     {
-        healthBar.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
-        
+        //healthBar.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+
         // Initialisations
         Player = FindObjectOfType<PlayerController>();
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -62,12 +63,13 @@ public class EnemyCharacter : MonoBehaviour
         }
         else
         {
-            Life = previousLife + (GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill * facteurDeCroissanceVieEnnemie); // Peut etre faire un fontion log pour plus calme au début
+            Life = previousLife + (GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill *
+                                   facteurDeCroissanceVieEnnemie); // Peut etre faire un fontion log pour plus calme au début
             // et plus intense a la fin 
         }
-        
+
         Debug.Log(GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill);
-        
+
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
 
@@ -76,7 +78,7 @@ public class EnemyCharacter : MonoBehaviour
         followPlayer = GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand;
         if (Player == null)
         {
-           // Debug.Log("Player not found");
+            // Debug.Log("Player not found");
             return;
             // TODO: disable
         }
@@ -115,19 +117,9 @@ public class EnemyCharacter : MonoBehaviour
 
     private void Rotate(Vector3 currentLocation, Vector3 targetLocation)
     {
-        if ((targetLocation - currentLocation).x >= 0)
-        {
-            transform.rotation = new Quaternion(0f, 0f, transform.rotation.z, transform.rotation.w);
-            //healthManager.gameObject.transform.rotation = new Quaternion(0f, 0f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
-            //healthBar.transform.rotation = new Quaternion(0f, 0f, 0f, healthManager.transform.rotation.w);
-        }
-        else
-        {
-            transform.rotation = new Quaternion(0f, 180f, transform.rotation.z, transform.rotation.w);
-            //healthManager.gameObject.transform.rotation = new Quaternion(0f, 180f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
-            //healthBar.transform.rotation = new Quaternion(0f, 0f, 180f, healthManager.transform.rotation.w);
-        }
-        
+        transform.rotation = ((targetLocation - currentLocation).x >= 0)
+            ? new Quaternion(0f, 0f, transform.rotation.z, transform.rotation.w)
+            : new Quaternion(0f, 180f, transform.rotation.z, transform.rotation.w);
         healthBar.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
     }
 
@@ -142,9 +134,9 @@ public class EnemyCharacter : MonoBehaviour
         if (RealEnemy)
         {
             //Debug.Log("Real enemy attacked");
-            
+
             Life -= damage;
-            healthManager.takeDamage(Life,MaxLife);
+            healthManager.takeDamage(Life, MaxLife);
             animator.SetTrigger("Hit");
             runAway = true;
             Speed = pushForce;
@@ -157,12 +149,12 @@ public class EnemyCharacter : MonoBehaviour
         else
         {
             Life = 0;
-            healthManager.takeDamage(Life,MaxLife);
-            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,false);
+            healthManager.takeDamage(Life, MaxLife);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage, false);
         }
 
         //Debug.Log("Life = " + Life);
-        
+
         return Life <= 0;
     }
 
@@ -172,7 +164,8 @@ public class EnemyCharacter : MonoBehaviour
         {
             Debug.Log("Player is dead");
 
-            // TODO: change scene
+            // Change scene
+            SceneManager.LoadSceneAsync("MainScenes/LoseScene");
         }
     }
 
@@ -185,7 +178,7 @@ public class EnemyCharacter : MonoBehaviour
             {
                 followPlayer = false;
                 TouchingPlayer = true;
-                
+
                 InvokeRepeating("DamagePlayer", .1f, 1f); // Démarre après 1s, se répète toutes les 1s
 
                 /*
@@ -221,7 +214,7 @@ public class EnemyCharacter : MonoBehaviour
             {
                 Player.OnHit((CompareTag("Boss")) ? -Damage : Damage);
                 damageInflicted();
-                
+
                 //GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
             }
             else
@@ -306,7 +299,6 @@ public class EnemyCharacter : MonoBehaviour
         Destroy(this.GameObject());
         Destroy(this);
         GameManager.GetGameManager().GetSubsystem<DataSubsystem>().EnemyKilled();
-        
     }
 
     // Update is called once per frame
