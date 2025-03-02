@@ -18,7 +18,7 @@ public class HealthManager : MonoBehaviour
     {
         healthAmount -= life;
         healthAmount = Mathf.Clamp(healthAmount, 0f, healthMax);
-        healthBar.fillAmount = healthAmount / healthMax;
+        healthBar.fillAmount = life / maxLife;
         
         gameObject.SetActive(true);
         Invoke("deactivateHealthBar", 5f);

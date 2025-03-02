@@ -16,7 +16,7 @@ public class DataSubsystem : ISubSystem
     public DataSubsystem()
     {
         insanity = 0;
-        maxInsanity = 120;
+        maxInsanity = 100;
     }
 
     public void GainInsanity(float amountGained,bool hit)
@@ -35,7 +35,7 @@ public class DataSubsystem : ISubSystem
             }
             else
             {
-                insanity += Math.Max(amountGained - player.GetDefense(), 0);
+                insanity += Math.Max(amountGained, 0);
             }
             
             

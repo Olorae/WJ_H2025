@@ -53,8 +53,16 @@ public class EnemyCharacter : MonoBehaviour
         bossIsComing = false;
         float facteurDeCroissanceVieEnnemie = 10f;
         previousLife = MaxLife;
-        Life = previousLife + (GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill * facteurDeCroissanceVieEnnemie); // Peut etre faire un fontion log pour plus calme au début
-                                                                                                                              // et plus intense a la fin 
+        if (tag.Equals("Boss"))
+        {
+            Life = MaxLife;
+        }
+        else
+        {
+            Life = previousLife + (GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill * facteurDeCroissanceVieEnnemie); // Peut etre faire un fontion log pour plus calme au début
+            // et plus intense a la fin 
+        }
+        
         Debug.Log(GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill);
         
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;

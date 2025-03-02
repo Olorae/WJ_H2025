@@ -134,7 +134,7 @@ MonoBehaviour:
   RealEnemy: 1
   followPlayer: 0
   Life: 1800
-  MaxLife: 0
+  MaxLife: 1800
   Damage: 20
   pushForce: 500
   animator: {fileID: 0}
