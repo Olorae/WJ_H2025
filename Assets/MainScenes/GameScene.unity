@@ -156,6 +156,7 @@ MonoBehaviour:
   EnemyBoss: {fileID: 3432444620411077157, guid: f1333a722cbcce54aa2d7fbb4ea96a06, type: 3}
   offset: 10
   InsanityToSpawnBoss: 50
+  bossIaAlive: 0
 --- !u!4 &78829521
 Transform:
   m_ObjectHideFlags: 0
@@ -274,6 +275,63 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1001 &282628155
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -0.30185306
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -2.870418
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5006035517041079225, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8594652052115297132, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
+      propertyPath: m_Name
+      value: FakeEnemy
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 431607517d3ee814b8b79abe1fb81457, type: 3}
 --- !u!114 &314892731 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8748947249739841676, guid: 9f0f339464b77b04f972b7e5ab9cdad4, type: 3}
@@ -868,6 +926,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUi: {fileID: 0}
   healthBar: {fileID: 0}
+  healthAmount: 0
+  healthMax: 0
 --- !u!4 &1177661736
 Transform:
   m_ObjectHideFlags: 0
@@ -938,6 +998,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ba8480ab84ef4468ec707eaf6086df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  livingBackground: {fileID: 21300000, guid: a2e19e65534975b48821d405a945a278, type: 3}
+  deadBackground: {fileID: 21300000, guid: 6ab32edbae6e9dc438a36fc1d596399b, type: 3}
 --- !u!114 &1598496084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -951,14 +1013,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.575052, g: 0.7075472, b: 0.5573603, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 6ab32edbae6e9dc438a36fc1d596399b, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1210,3 +1272,5 @@ SceneRoots:
   - {fileID: 100231281}
   - {fileID: 499278112}
   - {fileID: 1779969755}
+  - {fileID: 1177661736}
+  - {fileID: 282628155}

@@ -45,7 +45,7 @@ public class PlayerController : MonoBehaviour
         InsanityEnabled = false;
         StopCoroutine = false;
         
-        coroutine = WaitAndPrint(1f);
+        coroutine = WaitAndPrint(0.5f);
         HitElapsed = true;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
     }
