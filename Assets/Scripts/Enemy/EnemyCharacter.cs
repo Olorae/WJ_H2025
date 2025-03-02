@@ -25,6 +25,7 @@ public class EnemyCharacter : MonoBehaviour
     public float pushForce;// = 500f;
     private bool bossIsComing;
     public Animator animator;
+    private float previousLife = 0f;
     
     private IEnumerator coroutine;
 
@@ -50,6 +51,11 @@ public class EnemyCharacter : MonoBehaviour
         runAway = false;
         InitialSpeed = Speed;
         bossIsComing = false;
+        float facteurDeCroissanceVieEnnemie = 10f;
+        previousLife = Life;
+        Life = previousLife + (GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill * facteurDeCroissanceVieEnnemie); // Peut etre faire un fontion log pour plus calme au début
+                                                                                                                              // et plus intense a la fin 
+        Debug.Log(Life);
         
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
@@ -251,6 +257,8 @@ public class EnemyCharacter : MonoBehaviour
         }
         Destroy(this.GameObject());
         Destroy(this);
+        GameManager.GetGameManager().GetSubsystem<DataSubsystem>().EnemyKilled();
+        
     }
 
     // Update is called once per frame
