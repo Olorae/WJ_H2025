@@ -54,22 +54,25 @@ public class SpawnManager : MonoBehaviour
 
             Vector3 CameraPosition = mainCamera.transform.position;
 
-            Vector3 lowerCorner = new Vector3(CameraPosition.x - widthCamera + 5, CameraPosition.y - heightCamera + 5, 0);
-            Vector3 upperCorner = new Vector3(CameraPosition.x + widthCamera + 5, CameraPosition.y + heightCamera + 5, 0);
+            float offsetX = widthCamera / offset;
+            float offsetY = heightCamera / offset;
 
-            float randomX = Random.Range(lowerCorner.x - offset, upperCorner.x + offset);
+            Vector3 lowerCorner = new Vector3(CameraPosition.x - widthCamera - offsetX, CameraPosition.y - heightCamera - offsetX, 0);
+            Vector3 upperCorner = new Vector3(CameraPosition.x + widthCamera + offsetY, CameraPosition.y + heightCamera + offsetY, 0);
+
+            float randomX = Random.Range(lowerCorner.x - offsetX, upperCorner.x + offsetX);
             float randomY;
             // if X is in the screen
             if (randomX > lowerCorner.x && randomX < upperCorner.x)
             {
                 randomY = (Random.value > 0.5)
-                    ? Random.Range(lowerCorner.y - offset, lowerCorner.y)
-                    : Random.Range(upperCorner.y + offset, upperCorner.y);
+                    ? Random.Range(lowerCorner.y - offsetY, lowerCorner.y)
+                    : Random.Range(upperCorner.y + offsetY, upperCorner.y);
             }
             else
             {
                 // X is out of the screen
-                randomY = Random.Range(lowerCorner.y - offset, upperCorner.y + offset);
+                randomY = Random.Range(lowerCorner.y - offsetY, upperCorner.y + offsetY);
             }
 
             SpawnPosition = new Vector3(randomX, randomY, 0);
