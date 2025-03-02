@@ -138,6 +138,7 @@ public class SpawnManager : MonoBehaviour
                 bossIaAlive = true;
                 // Spawn Boss 
                 BossSpawned.Invoke();
+                GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().BossMusic);
                 
                
 

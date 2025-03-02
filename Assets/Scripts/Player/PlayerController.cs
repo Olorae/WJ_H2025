@@ -123,6 +123,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(HitElapsed);
         if (HitElapsed)
         {
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().HitSFX);
             HitElapsed = false;
             EndHitCooldown = Time.time + CoolDownTime;
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(damage, true);
@@ -292,6 +293,7 @@ public class PlayerController : MonoBehaviour
     {
         
         List<GameObject> toDestroy = new();
+        GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SwordSFX);
         // Attack only if in livingLand
         if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
         {
@@ -328,8 +330,10 @@ public class PlayerController : MonoBehaviour
 
     public void Pickup(InputAction.CallbackContext obj)
     {
+        
         if (!GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand && pickableItem != null)
         {
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().ArmureSFX);
             switch (pickableItem.type)
             {
             case "Hat":
