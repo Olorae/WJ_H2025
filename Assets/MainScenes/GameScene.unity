@@ -540,7 +540,19 @@ PrefabInstance:
     - target: {fileID: 5446287653172816192, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: m_Controller
       value: 
-      objectReference: {fileID: 22100000, guid: d144b43e640f04f449779d715a217a7f, type: 2}
+      objectReference: {fileID: 9100000, guid: 47f63ffd5a542274ead280ba32fee810, type: 2}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ArmorC1
+      value: 
+      objectReference: {fileID: 21300000, guid: 37dd72b9f535898418b23c12454a1a3f, type: 3}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ArmorC2
+      value: 
+      objectReference: {fileID: 21300000, guid: 5d253b1f836931a45af8341c3ed56c00, type: 3}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ArmorC3
+      value: 
+      objectReference: {fileID: 21300000, guid: bff9e7b503ece3f46826b6246c11bf78, type: 3}
     - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: HatPrefab
       value: 
@@ -549,6 +561,18 @@ PrefabInstance:
       propertyPath: portalRef
       value: 
       objectReference: {fileID: 1551694324}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ClothingC1
+      value: 
+      objectReference: {fileID: 21300000, guid: b058593753955ab4796a8d0f965da8ae, type: 3}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ClothingC2
+      value: 
+      objectReference: {fileID: 21300000, guid: 3bfb2a0b9b4c97741ade3dafec1376ce, type: 3}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ClothingC3
+      value: 
+      objectReference: {fileID: 21300000, guid: 49439184bb900bb4e9f154918dcd66e7, type: 3}
     - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: mainCamera
       value: 
@@ -565,6 +589,30 @@ PrefabInstance:
       propertyPath: insanityBarRef
       value: 
       objectReference: {fileID: 2075935725}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ArmorC1Animator
+      value: 
+      objectReference: {fileID: 22100000, guid: 9dd49fd49202fae4ea015d90a6bbd826, type: 2}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ArmorC2Animator
+      value: 
+      objectReference: {fileID: 22100000, guid: fb700c1ecbcdbe244b49143681fc102f, type: 2}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ArmorC3Animator
+      value: 
+      objectReference: {fileID: 22100000, guid: 73b5fded4be17f849b85a6a49edd15e9, type: 2}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ClothingC1Animator
+      value: 
+      objectReference: {fileID: 22100000, guid: 322d9457343a5a34189cf1a5254d948a, type: 2}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ClothingC2Animator
+      value: 
+      objectReference: {fileID: 22100000, guid: 458cd3baffc585e43a89f657f9f53d03, type: 2}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: ClothingC3Animator
+      value: 
+      objectReference: {fileID: 22100000, guid: d144b43e640f04f449779d715a217a7f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

@@ -37,6 +37,22 @@ public class PlayerController : MonoBehaviour
     private float CoolDownTime = .1f;
     private bool isPaused = false;
     
+    //clothing and armor references
+     //armor
+     public Sprite ArmorC1;
+     public Sprite ArmorC2;
+     public Sprite ArmorC3;
+     public Sprite ClothingC1;
+     public Sprite ClothingC2;
+     public Sprite ClothingC3;
+
+     public AnimatorOverrideController ArmorC1Animator;
+     public AnimatorOverrideController ArmorC2Animator;
+     public AnimatorOverrideController ArmorC3Animator;
+     public AnimatorOverrideController ClothingC1Animator;
+     public AnimatorOverrideController ClothingC2Animator;
+     public AnimatorOverrideController ClothingC3Animator;
+    
     
     public GameObject menuPreFab;
     protected GameObject menuInstance;
@@ -267,16 +283,16 @@ public class PlayerController : MonoBehaviour
     public void Attack(InputAction.CallbackContext obj)
     {
         animator.SetTrigger("Attack");
-        List<GameObject> toDestroy = new();
+        
         Debug.Log("attack");
-
-        isAttacking(toDestroy);
+        playerInput.Disable();
+        //isAttacking();
     }
 
-    private void isAttacking(List<GameObject> toDestroy)
+    private void isAttacking()
     {
-        playerInput.Disable();
         
+        List<GameObject> toDestroy = new();
         // Attack only if in livingLand
         if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
         {
@@ -329,7 +345,29 @@ public class PlayerController : MonoBehaviour
                 hat.type = pickableItem.type;
                 hat.name = pickableItem.name;
                 hat.description = pickableItem.description;
+                
+                //change sprites and animation
+                switch (pickableItem.rarity)
+                {
+                    case 2:
+                        GetComponent<SpriteRenderer>().sprite = ArmorC3;
+                        GetComponent<Animator>().runtimeAnimatorController = ArmorC3Animator;
+                        break;
+                    case 1:
+                        GetComponent<SpriteRenderer>().sprite = ArmorC2;
+                        GetComponent<Animator>().runtimeAnimatorController = ArmorC2Animator;
+                        break;
+                    case 0:
+                        GetComponent<SpriteRenderer>().sprite = ArmorC1;
+                        GetComponent<Animator>().runtimeAnimatorController = ArmorC1Animator;
+                        break;
+                    default:
+                        GetComponent<SpriteRenderer>().sprite = ArmorC1;
+                        GetComponent<Animator>().runtimeAnimatorController = ArmorC1Animator;
+                        break;
+                }
                 pickableItem.ItemPickedUp();
+
                 break;
             case "Armor":
                 Debug.Log("armor");
@@ -344,6 +382,25 @@ public class PlayerController : MonoBehaviour
                 armor.name = pickableItem.name;
                 armor.description = pickableItem.description;
                 //armor = pickableItem;
+                switch (pickableItem.rarity)
+                {
+                    case 2:
+                        GetComponent<SpriteRenderer>().sprite = ClothingC3;
+                        GetComponent<Animator>().runtimeAnimatorController = ClothingC3Animator;
+                        break;
+                    case 1:
+                        GetComponent<SpriteRenderer>().sprite = ClothingC2;
+                        GetComponent<Animator>().runtimeAnimatorController = ClothingC2Animator;
+                        break;
+                    case 0:
+                        GetComponent<SpriteRenderer>().sprite = ClothingC1;
+                        GetComponent<Animator>().runtimeAnimatorController = ClothingC1Animator;
+                        break;
+                    default:
+                        GetComponent<SpriteRenderer>().sprite = ClothingC1;
+                        GetComponent<Animator>().runtimeAnimatorController = ClothingC1Animator;
+                        break;
+                }
                 pickableItem.ItemPickedUp();
                 break;
             case "Weapon":
