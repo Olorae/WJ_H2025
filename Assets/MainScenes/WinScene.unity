@@ -258,7 +258,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Congratulations on defeating the Dead King
+  m_text: Applause at vaoquishing the Dead Kiog
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: c0d8438de15c15e419526fad2bba3f45, type: 2}
   m_sharedMaterial: {fileID: -5563776513884762997, guid: c0d8438de15c15e419526fad2bba3f45, type: 2}

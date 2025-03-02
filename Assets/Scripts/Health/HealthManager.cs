@@ -20,8 +20,8 @@ public class HealthManager : MonoBehaviour
         healthAmount = Mathf.Clamp(healthAmount, 0f, healthMax);
         healthBar.fillAmount = life / maxLife;
         
-        this.GameObject().SetActive(true);
-        Invoke("deactivateHealthBar", 5f);
+        //this.GameObject().SetActive(true);
+        //Invoke("deactivateHealthBar", 5f);
     }
 
     private void deactivateHealthBar(){
@@ -30,7 +30,7 @@ public class HealthManager : MonoBehaviour
 
     private void Awake()
     {
-        Invoke("deactivateHealthBar", .1f);
+        //Invoke("deactivateHealthBar", .1f);
     }
 
     // Start is called before the first frame update
@@ -39,7 +39,6 @@ public class HealthManager : MonoBehaviour
         owner = gameObject.GetComponent<EnemyCharacter>();
         healthMax = 100f;
         healthAmount = healthMax;
-        
     }
 
     // Update is called once per frame
