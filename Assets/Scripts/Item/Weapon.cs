@@ -23,19 +23,19 @@ public class Weapon : Item
             if (objectRarity < 90) // Normal item stat 
             {
                 attackDamage = Random.Range(15, 25);
-                attackSpeed = Random.Range(0, 50);
+                attackRange = Random.Range(0, 50);
                 rarityColor = new Color(0, 145, 18);
             }
             else if (objectRarity <= 98 ) // Good item 
             {
                 attackDamage = Random.Range(25, 45);
-                attackSpeed = Random.Range(50, 100);
+                attackRange = Random.Range(50, 100);
                 rarityColor = new Color(138, 65, 120);
             }
             else // Prefect item 
             {
                 attackDamage = 50;
-                attackSpeed = 100;
+                attackRange = 100;
                 rarityColor = new Color(210, 141, 0);
             } 
             GetComponent<SpriteRenderer>().color = rarityColor;
