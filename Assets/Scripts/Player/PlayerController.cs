@@ -34,7 +34,9 @@ public class PlayerController : MonoBehaviour
     public GameObject insanityBarRef;
     private float EndHitCooldown;
     private float CoolDownTime = .1f;
-    private bool isPaused = false;
+    public bool isPaused = false;
+    public bool resumePressed = false;
+    
     
     //clothing and armor references
      //armor
@@ -166,13 +168,9 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    private void setPause(InputAction.CallbackContext obj)
+    public void setPause(InputAction.CallbackContext obj)
     {
-        // Height
-       // float heightCamera = mainCamera.orthographicSize;
-       // float widthCamera = heightCamera * mainCamera.aspect;
-
-       if (!isPaused)
+       if (isPaused == false)
        {
            Vector3 CameraPosition = mainCamera.transform.position;
            CameraPosition.z = 0;
@@ -230,6 +228,13 @@ public class PlayerController : MonoBehaviour
            }
        }
         
+    }
+
+    public void setPause2()
+    {
+        isPaused = false;
+        Destroy(this.gameObject);
+        Time.timeScale = 1;
     }
 
     private void OnDisable()
