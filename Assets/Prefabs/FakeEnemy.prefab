@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5191129331748708124}
   - component: {fileID: 3432444620411077157}
   - component: {fileID: 8915845656187877834}
+  - component: {fileID: 5739154997024732128}
   m_Layer: 0
   m_Name: FakeEnemy
   m_TagString: Enemy
@@ -77,8 +78,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.11084986, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 6d57f3c5038c43342a2e5bbb7c76a4f4, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -132,10 +133,12 @@ MonoBehaviour:
   rigidbody2D: {fileID: 0}
   SpriteRenderer: {fileID: 0}
   RealEnemy: 0
+  followPlayer: 0
   Life: 0
   MaxLife: 0
   Damage: 10
   pushForce: 0
+  animator: {fileID: 0}
 --- !u!70 &8915845656187877834
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -171,6 +174,27 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 1}
   m_Direction: 0
+--- !u!95 &5739154997024732128
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8594652052115297132}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 22100000, guid: 37a98cdbef1bad541ae5140e82c3b682, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &900960502037758893
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -21,7 +21,7 @@ public class Background : MonoBehaviour
     }
     private void ToLivingLand()
     {
-        GetComponent<Image>().color = Color.green;
+        GetComponent<Image>().sprite = livingBackground;
     }
 
     // Update is called once per frame
