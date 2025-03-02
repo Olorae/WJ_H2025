@@ -147,6 +147,7 @@ public class EnemyCharacter : MonoBehaviour
             Life -= damage;
             healthManager.takeDamage(Life, MaxLife);
             animator.SetTrigger("Hit");
+            //GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().HitSFX);
             runAway = true;
             Speed = pushForce;
             TouchingPlayer = false;

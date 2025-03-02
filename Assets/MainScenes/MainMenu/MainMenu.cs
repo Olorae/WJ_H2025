@@ -9,6 +9,8 @@ public class MainMenu : MonoBehaviour
     public void StartGame()
     {
         SceneManager.LoadSceneAsync("GameScene");
+        GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX(GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().btnSound);
+        GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic(GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().DeadMusic);
     }
     public void GuideScene()
     {
@@ -20,8 +22,9 @@ public class MainMenu : MonoBehaviour
     }
     public void QuitGame()
     {
-        UnityEditor.EditorApplication.isPlaying = false;
-        QuitGame();
+        //UnityEditor.EditorApplication.isPlaying = false;
+        GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX(GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().btnSound);
+        Application.Quit();
     }
 
     public void BackToMainMenu()
@@ -31,11 +34,13 @@ public class MainMenu : MonoBehaviour
 
     public void WinScene()
     {
+        GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX(GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().btnSound);
         SceneManager.LoadSceneAsync("WinScene");
     }
 
     public void LoseScene()
     {
+        GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX(GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().btnSound);
         SceneManager.LoadSceneAsync("LoseScene");
     }
 }

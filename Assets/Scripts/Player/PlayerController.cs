@@ -5,7 +5,6 @@ using TMPro;
 using Unity.Collections;
 using Unity.VisualScripting;
 using UnityEditor;
-using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
@@ -37,6 +36,22 @@ public class PlayerController : MonoBehaviour
     private float CoolDownTime = .1f;
     private bool isPaused = false;
     
+    //clothing and armor references
+     //armor
+     public Sprite ArmorC1;
+     public Sprite ArmorC2;
+     public Sprite ArmorC3;
+     public Sprite ClothingC1;
+     public Sprite ClothingC2;
+     public Sprite ClothingC3;
+
+     public AnimatorOverrideController ArmorC1Animator;
+     public AnimatorOverrideController ArmorC2Animator;
+     public AnimatorOverrideController ArmorC3Animator;
+     public AnimatorOverrideController ClothingC1Animator;
+     public AnimatorOverrideController ClothingC2Animator;
+     public AnimatorOverrideController ClothingC3Animator;
+    
     
     public GameObject menuPreFab;
     protected GameObject menuInstance;
@@ -67,8 +82,11 @@ public class PlayerController : MonoBehaviour
         //Debug.Log("wait and print");
         while (true)
         {
+            float reducGainMadness = (FindObjectOfType<PlayerController>().hat.madnessPerSecondReduce) / 100f;
+            float amountGained = 0.5f;
+            
             yield return new WaitForSeconds(waitTime);
-            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(0.5f, false);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(amountGained-(amountGained*reducGainMadness), false);
         }
     }
 
@@ -105,6 +123,7 @@ public class PlayerController : MonoBehaviour
         //Debug.Log(HitElapsed);
         if (HitElapsed)
         {
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().HitSFX);
             HitElapsed = false;
             EndHitCooldown = Time.time + CoolDownTime;
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(damage, true);
@@ -192,13 +211,13 @@ public class PlayerController : MonoBehaviour
            {
                menuInstance.transform.Find("Menu/BackGround/Weapon/Description").GetComponent<TextMeshProUGUI>().text = FindObjectOfType<PlayerController>().weapon.description;
                menuInstance.transform.Find("Menu/BackGround/Weapon/Stat1").GetComponent<TextMeshProUGUI>().text = "Attack Dmg: " + FindObjectOfType<PlayerController>().weapon.attackDamage;
-               menuInstance.transform.Find("Menu/BackGround/Weapon/Stat2").GetComponent<TextMeshProUGUI>().text = "Attack Speed: " + FindObjectOfType<PlayerController>().weapon.attackSpeed;
+               menuInstance.transform.Find("Menu/BackGround/Weapon/Stat2").GetComponent<TextMeshProUGUI>().text = "Attack Range: " + FindObjectOfType<PlayerController>().weapon.attackRange;
            }
            else
            {
                menuInstance.transform.Find("Menu/BackGround/Weapon/Description").GetComponent<TextMeshProUGUI>().text = "Emptiness";
                menuInstance.transform.Find("Menu/BackGround/Weapon/Stat1").GetComponent<TextMeshProUGUI>().text = "Attack Dmg: None";
-               menuInstance.transform.Find("Menu/BackGround/Weapon/Stat2").GetComponent<TextMeshProUGUI>().text = "Attack Speed: None";
+               menuInstance.transform.Find("Menu/BackGround/Weapon/Stat2").GetComponent<TextMeshProUGUI>().text = "Attack RAnge: None";
            }
        }
        else
@@ -257,16 +276,17 @@ public class PlayerController : MonoBehaviour
     public void Attack(InputAction.CallbackContext obj)
     {
         animator.SetTrigger("Attack");
-        List<GameObject> toDestroy = new();
+        
         Debug.Log("attack");
-
-        isAttacking(toDestroy);
+        playerInput.Disable();
+        //isAttacking();
     }
 
-    private void isAttacking(List<GameObject> toDestroy)
+    private void isAttacking()
     {
-        //playerInput.Disable();
         
+        List<GameObject> toDestroy = new();
+        GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SwordSFX);
         // Attack only if in livingLand
         if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
         {
@@ -303,8 +323,10 @@ public class PlayerController : MonoBehaviour
 
     public void Pickup(InputAction.CallbackContext obj)
     {
+        
         if (!GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand && pickableItem != null)
         {
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().ArmureSFX);
             switch (pickableItem.type)
             {
             case "Hat":
@@ -313,13 +335,35 @@ public class PlayerController : MonoBehaviour
                 hat.attackDamage = pickableItem.attackDamage;
                 hat.mouvementSpeed = pickableItem.mouvementSpeed;
                 hat.madnessDefense = pickableItem.madnessDefense;
-                hat.attackSpeed = pickableItem.attackSpeed;
+                hat.attackRange = pickableItem.attackRange;
                 hat.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
                 hat.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
                 hat.type = pickableItem.type;
                 hat.name = pickableItem.name;
                 hat.description = pickableItem.description;
+                
+                //change sprites and animation
+                switch (pickableItem.rarity)
+                {
+                    case 2:
+                        GetComponent<SpriteRenderer>().sprite = ArmorC3;
+                        GetComponent<Animator>().runtimeAnimatorController = ArmorC3Animator;
+                        break;
+                    case 1:
+                        GetComponent<SpriteRenderer>().sprite = ArmorC2;
+                        GetComponent<Animator>().runtimeAnimatorController = ArmorC2Animator;
+                        break;
+                    case 0:
+                        GetComponent<SpriteRenderer>().sprite = ArmorC1;
+                        GetComponent<Animator>().runtimeAnimatorController = ArmorC1Animator;
+                        break;
+                    default:
+                        GetComponent<SpriteRenderer>().sprite = ArmorC1;
+                        GetComponent<Animator>().runtimeAnimatorController = ArmorC1Animator;
+                        break;
+                }
                 pickableItem.ItemPickedUp();
+
                 break;
             case "Armor":
                 Debug.Log("armor");
@@ -327,13 +371,32 @@ public class PlayerController : MonoBehaviour
                 armor.attackDamage = pickableItem.attackDamage;
                 armor.mouvementSpeed = pickableItem.mouvementSpeed;
                 armor.madnessDefense = pickableItem.madnessDefense;
-                armor.attackSpeed = pickableItem.attackSpeed;
+                armor.attackRange = pickableItem.attackRange;
                 armor.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
                 armor.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
                 armor.type = pickableItem.type;
                 armor.name = pickableItem.name;
                 armor.description = pickableItem.description;
                 //armor = pickableItem;
+                switch (pickableItem.rarity)
+                {
+                    case 2:
+                        GetComponent<SpriteRenderer>().sprite = ClothingC3;
+                        GetComponent<Animator>().runtimeAnimatorController = ClothingC3Animator;
+                        break;
+                    case 1:
+                        GetComponent<SpriteRenderer>().sprite = ClothingC2;
+                        GetComponent<Animator>().runtimeAnimatorController = ClothingC2Animator;
+                        break;
+                    case 0:
+                        GetComponent<SpriteRenderer>().sprite = ClothingC1;
+                        GetComponent<Animator>().runtimeAnimatorController = ClothingC1Animator;
+                        break;
+                    default:
+                        GetComponent<SpriteRenderer>().sprite = ClothingC1;
+                        GetComponent<Animator>().runtimeAnimatorController = ClothingC1Animator;
+                        break;
+                }
                 pickableItem.ItemPickedUp();
                 break;
             case "Weapon":
@@ -342,7 +405,7 @@ public class PlayerController : MonoBehaviour
                 weapon.attackDamage = pickableItem.attackDamage;
                 weapon.mouvementSpeed = pickableItem.mouvementSpeed;
                 weapon.madnessDefense = pickableItem.madnessDefense;
-                weapon.attackSpeed = pickableItem.attackSpeed;
+                weapon.attackRange = pickableItem.attackRange;
                 weapon.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
                 weapon.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
                 weapon.type = pickableItem.type;

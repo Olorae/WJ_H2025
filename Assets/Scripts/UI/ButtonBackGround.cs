@@ -1,10 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditor.VersionControl;
 using UnityEngine;
-using UnityEngine.UIElements;
-using UnityEngine.UI;
+
 using Image = UnityEngine.UI.Image;
 
 public class ButtonBackGround : MonoBehaviour

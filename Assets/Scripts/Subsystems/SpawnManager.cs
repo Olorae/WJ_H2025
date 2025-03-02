@@ -114,11 +114,18 @@ public class SpawnManager : MonoBehaviour
             float chanceToSpawnBoss = Random.Range(1, 100);
             float reduceChanceSpawn = 0;
 
-            if (FindObjectOfType<PlayerController>().hat != null)
+            if (FindObjectOfType<PlayerController>().hat != null )
             {
                 reduceChanceSpawn = FindObjectOfType<PlayerController>().hat.bossSpawnChanceReduction;
                 Debug.Log("REduce chance spawn : " + reduceChanceSpawn);
             }
+            /*
+            else if (FindObjectOfType<PlayerController>().weapon != null)
+            {
+                reduceChanceSpawn = FindObjectOfType<PlayerController>().weapon.bossSpawnChanceReduction;
+                Debug.Log("REduce chance spawn : " + reduceChanceSpawn);
+            }
+            */
             
             // Spawn Boss
             if (folie >= InsanityToSpawnBoss &&
@@ -129,6 +136,9 @@ public class SpawnManager : MonoBehaviour
                 FindObjectOfType<PortalScript>().GameObject().SetActive(false);
                 bossIaAlive = true;
                 BossSpawned.Invoke();
+                GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().BossMusic);
+                
+               
 
                 // TODO: check if stop works
                 StopCoroutine(coroutine);
