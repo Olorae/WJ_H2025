@@ -31,7 +31,7 @@ public class DataSubsystem : ISubSystem
         {
             if (hit)
             {
-                insanity += Math.Max(amountGained - player.GetDefense(), 0);
+                insanity += Math.Max(amountGained - (amountGained * (player.GetDefense()/100)), 0);
             }
             else
             {

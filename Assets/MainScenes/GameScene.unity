@@ -428,6 +428,10 @@ PrefabInstance:
       propertyPath: firstItem
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2709655865975138821, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
+      propertyPath: madnessDefense
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2725300016012169886, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
       propertyPath: m_FlipX
       value: 0
