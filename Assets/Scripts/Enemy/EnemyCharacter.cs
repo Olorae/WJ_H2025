@@ -175,6 +175,8 @@ public class EnemyCharacter : MonoBehaviour
             Debug.Log("Player is dead");
 
             // Change scene
+            
+            //TODO: change music
             SceneManager.LoadSceneAsync("MainScenes/LoseScene");
         }
     }
@@ -217,6 +219,10 @@ public class EnemyCharacter : MonoBehaviour
         {
             if (RealEnemy)
             {
+                if(tag.Equals("Boss"))
+                {
+                    GetComponent<Animator>().SetTrigger("Attack");
+                }
                 Player.OnHit((CompareTag("Boss")) ? -Damage : Damage);
                 damageInflicted();
 
