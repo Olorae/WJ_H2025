@@ -5,11 +5,11 @@ public class ItemData
 {
     public string name;
     public string type;
-    public float attackSpeed;
-    public float attackDamage;
-    public float mouvementSpeed;
-    public float madnessDefense;
-    public float madnessPerSecondReduce;
-    public float bossSpawnChanceReduction;
+    public float attackRange;               // not set 
+    public float attackDamage;              // set
+    public float mouvementSpeed;            // set
+    public float madnessDefense;            // set
+    public float madnessPerSecondReduce;   // not set
+    public float bossSpawnChanceReduction; // set
     public string description;
 }

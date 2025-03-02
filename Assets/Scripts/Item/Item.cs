@@ -13,7 +13,7 @@ public class Item : MonoBehaviour
     public string name;
     public string description;
     public string type;
-    public float attackSpeed;
+    public float attackRange;
     public float attackDamage;
     public float mouvementSpeed;
     public float madnessDefense;
@@ -47,10 +47,10 @@ public class Item : MonoBehaviour
         set { type = value; }
     }
 
-    float AttackSpeed
+    float AttackRange
     {
-        get { return attackSpeed; }
-        set { attackSpeed = value; }
+        get { return attackRange; }
+        set { attackRange = value; }
     }
 
     float AttackDamage
@@ -128,7 +128,7 @@ public class Item : MonoBehaviour
                     popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().text = compareStat(this,"Attack Damage").ToString();
 
                     
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Attack Speed: {AttackSpeed}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Attack Range: {attackRange }";
                     break;
                 case "Armor":
                     popUpInstance.transform.Find("PopUp/BackGround/Title").GetComponent<TextMeshProUGUI>().text = "Armor of";
@@ -142,7 +142,7 @@ public class Item : MonoBehaviour
                 case "Hat":
                     popUpInstance.transform.Find("PopUp/BackGround/Title").GetComponent<TextMeshProUGUI>().text = "Hat of";
                     popUpInstance.transform.Find("PopUp/BackGround/Description").GetComponent<TextMeshProUGUI>().text = description;
-                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Madness Per Second Reduce: {MadnessPerSecondReduce}";
+                    popUpInstance.transform.Find("PopUp/BackGround/Stat1").GetComponent<TextMeshProUGUI>().text = $"Madness Per Second Reduce: {MadnessPerSecondReduce} %";
                     popUpInstance.transform.Find("PopUp/BackGround/Stat2").GetComponent<TextMeshProUGUI>().text = $"Reduce Boss Chance: {BossSpawnChanceReduction}";
                     break;
                 default:
@@ -255,9 +255,23 @@ public class Item : MonoBehaviour
 
                     }
                 }
-                else if (statName == "Attack Speed")
+                else if (statName == "Attack Range")
                 {
-                    
+                    differenceStat = ItemOnGround.attackRange - FindObjectOfType<PlayerController>().weapon.attackRange;
+                    if(differenceStat > 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.green;
+                    }
+                    else if (differenceStat < 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.red;
+
+                    }
+                    else
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.white;
+
+                    }
                 }
                 break;
             case "Hat":
