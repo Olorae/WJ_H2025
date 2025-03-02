@@ -478,6 +478,18 @@ PrefabInstance:
       value: Player
       objectReference: {fileID: 0}
     - target: {fileID: 2084996927071341366, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084996927071341366, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084996927071341366, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2084996927071341366, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: m_LocalPosition.x
       value: -6.3008847
       objectReference: {fileID: 0}
@@ -525,6 +537,10 @@ PrefabInstance:
       propertyPath: m_SortingOrder
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5446287653172816192, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 22100000, guid: d144b43e640f04f449779d715a217a7f, type: 2}
     - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: HatPrefab
       value: 
