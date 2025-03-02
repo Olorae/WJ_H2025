@@ -269,6 +269,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUi: {fileID: 3529846579596456210}
   healthBar: {fileID: 0}
+  healthAmount: 0
+  healthMax: 0
+  LinkedPlayer: {fileID: 0}
 --- !u!1 &8641701319392325723
 GameObject:
   m_ObjectHideFlags: 0

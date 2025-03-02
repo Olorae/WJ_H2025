@@ -8,7 +8,7 @@ public class MainMenu : MonoBehaviour
 {
     public void StartGame()
     {
-        SceneManager.LoadSceneAsync("PlayerTestScene");
+        SceneManager.LoadSceneAsync("GameScene");
     }
     public void GuideScene()
     {
@@ -20,7 +20,6 @@ public class MainMenu : MonoBehaviour
     }
     public void QuitGame()
     {
-       
         UnityEditor.EditorApplication.isPlaying = false;
         QuitGame();
     }

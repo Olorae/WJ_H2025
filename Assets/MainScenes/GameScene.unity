@@ -534,6 +534,14 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1551694324}
     - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1020590979}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: menuPreFab
+      value: 
+      objectReference: {fileID: 4222573595077430403, guid: 99b2e9599a985bb47aede0fe18bbdf9a, type: 3}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: ArmorPrefab
       value: 
       objectReference: {fileID: 2485749364794719034, guid: 9ec7c6b31e7731745b8258f41dec13e8, type: 3}
