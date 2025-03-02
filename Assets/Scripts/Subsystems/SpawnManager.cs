@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
@@ -49,10 +50,17 @@ public class SpawnManager : MonoBehaviour
 
         setCorners();
         
-        LeftWall.transform.position = new Vector3(lowerCorner.x, LeftWall.transform.position.y, 0f);
+        LeftWall.transform.position = new Vector3(lowerCorner.x + offsetX, LeftWall.transform.position.y, 0f);
         RightWall.transform.position = new Vector3(upperCorner.x, RightWall.transform.position.y, 0f);
-        TopWall.transform.position = new Vector3(TopWall.transform.position.x, lowerCorner.y, 0f);
-        BottomWall.transform.position = new Vector3(BottomWall.transform.position.x, upperCorner.y, 0f);
+        //TopWall.transform.position = new Vector3(TopWall.transform.position.x, upperCorner.y - offsetY, 0f);
+        //BottomWall.transform.position = new Vector3(BottomWall.transform.position.x, lowerCorner.y + offsetY*1.5f, 0f);
+        
+        //LeftWall.transform.localScale = new Vector3(LeftWall.transform.localScale.x, heightCamera*2, 1f);
+        //RightWall.transform.localScale = new Vector3(RightWall.transform.localScale.x, heightCamera*2, 1f);
+        TopWall.transform.localScale = new Vector3(widthCamera*2, TopWall.transform.localScale.y, 1f);
+        BottomWall.transform.localScale = new Vector3(widthCamera*2, BottomWall.transform.localScale.y, 1f);
+        
+        //TopWall.transform.rotation = quaternion.identity;
     }
 
     private IEnumerator WaitAndPrint(float waitTime)
