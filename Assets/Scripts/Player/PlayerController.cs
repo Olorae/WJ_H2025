@@ -133,13 +133,6 @@ public class PlayerController : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         ObjectsInHitBox.Add(other.GameObject());
-
-        if (other.CompareTag("Frontier"))
-        {
-            Debug.Log("Entered");
-
-            playerInput.Enable();
-        }
     }
 
     private void OnTriggerExit2D(Collider2D other)

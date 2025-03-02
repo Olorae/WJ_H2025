@@ -128,7 +128,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccfaef52806fe05469c3b6b324526261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 3
+  Speed: 2
   InitialSpeed: 0
   rigidbody2D: {fileID: 0}
   SpriteRenderer: {fileID: 0}
@@ -136,7 +136,7 @@ MonoBehaviour:
   followPlayer: 0
   Life: 10
   MaxLife: 100
-  Damage: 10
+  Damage: 5
   pushForce: 800
   animator: {fileID: 0}
   healthBar: {fileID: 3564244114116990630}
