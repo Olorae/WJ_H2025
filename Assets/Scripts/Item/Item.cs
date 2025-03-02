@@ -161,6 +161,8 @@ public class Item : MonoBehaviour
             FindObjectOfType<SpawnManager>().StartSpawning();
             FindObjectOfType<PlayerController>().EnableInsanity();
             GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().LivingMusic);
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PortailSFX);
             GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
         }
         Item itemToDestroy = this.GetComponent<Item>();

@@ -248,6 +248,156 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 20377960}
   m_CullTransparentMesh: 1
+--- !u!1 &38881701
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 38881704}
+  - component: {fileID: 38881703}
+  - component: {fileID: 38881702}
+  m_Layer: 0
+  m_Name: SoundPlayer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!82 &38881702
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38881701}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 24644fd71c701b4439da47bc83b1cb6a, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &38881703
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38881701}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac049dbee74e534ebdad0bb3cf8ac99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ArmureSFX: {fileID: 8300000, guid: ca3ff9b00d7f07c48a15adc35e6e62d8, type: 3}
+  HitSFX: {fileID: 8300000, guid: 7b38e0f6df49cd841acd4a6cd6cffde1, type: 3}
+  PortailSFX: {fileID: 8300000, guid: 9c58de30926e6864a8ab15803d4d5ab6, type: 3}
+  BossMusic: {fileID: 8300000, guid: b0f7319285ea96b4481cbd22e2526af6, type: 3}
+  DeadMusic: {fileID: 8300000, guid: 24644fd71c701b4439da47bc83b1cb6a, type: 3}
+  LivingMusic: {fileID: 8300000, guid: 80bea222fce4eb342b4ea8f2379efc99, type: 3}
+  SwordSFX: {fileID: 8300000, guid: ae5be85bb4cf59f4783ed09557cc5f8f, type: 3}
+  btnSound: {fileID: 8300000, guid: 3d1a4419a5472004aaf7ba45943c1aa7, type: 3}
+  maxVolume: 1
+--- !u!4 &38881704
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 38881701}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.3167365, y: -1.4526119, z: -0.05456581}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &72051455
 GameObject:
   m_ObjectHideFlags: 0
@@ -686,9 +836,9 @@ RectTransform:
   - {fileID: 1628276651}
   m_Father: {fileID: 1152386588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 319.976, y: -400.82623}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 347.95203, y: 96.51099}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &571740705
@@ -928,9 +1078,9 @@ RectTransform:
   - {fileID: 239738267}
   m_Father: {fileID: 1152386588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 300.59396, y: -200.17542}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 347.95203, y: 96.51099}
   m_Pivot: {x: 0.44429675, y: 0.5}
 --- !u!114 &1052737408
@@ -1636,9 +1786,9 @@ RectTransform:
   - {fileID: 335071003}
   m_Father: {fileID: 1152386588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 319.976, y: -601.47705}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 347.95203, y: 96.51099}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1328751617
@@ -1878,9 +2028,9 @@ RectTransform:
   - {fileID: 1828216095}
   m_Father: {fileID: 1152386588}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 319.975, y: -802.12787}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 347.95, y: 96.511}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1619291081
@@ -2600,3 +2750,4 @@ SceneRoots:
   - {fileID: 1915036258}
   - {fileID: 1262345447}
   - {fileID: 1196090517}
+  - {fileID: 38881704}
