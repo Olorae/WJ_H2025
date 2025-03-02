@@ -134,8 +134,8 @@ MonoBehaviour:
   RealEnemy: 1
   followPlayer: 0
   Life: 1800
-  MaxLife: 0
-  Damage: 15
+  MaxLife: 1800
+  Damage: 20
   pushForce: 500
   animator: {fileID: 0}
 --- !u!70 &-126375861314704453
@@ -167,7 +167,7 @@ CapsuleCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
