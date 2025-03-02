@@ -148,8 +148,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.30259585, y: -0.5270126}
-  m_Size: {x: 3.438026, y: 4.4034743}
+  m_Offset: {x: 0.62610596, y: -0.5270126}
+  m_Size: {x: 1.7693955, y: 4.4034743}
   m_Direction: 0
 --- !u!114 &8588260064703592482
 MonoBehaviour:
@@ -175,6 +175,18 @@ MonoBehaviour:
   ArmorPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
   portalRef: {fileID: 0}
   insanityBarRef: {fileID: 0}
+  ArmorC1: {fileID: 0}
+  ArmorC2: {fileID: 0}
+  ArmorC3: {fileID: 0}
+  ClothingC1: {fileID: 0}
+  ClothingC2: {fileID: 0}
+  ClothingC3: {fileID: 0}
+  ArmorC1Animator: {fileID: 0}
+  ArmorC2Animator: {fileID: 0}
+  ArmorC3Animator: {fileID: 0}
+  ClothingC1Animator: {fileID: 0}
+  ClothingC2Animator: {fileID: 0}
+  ClothingC3Animator: {fileID: 0}
   menuPreFab: {fileID: 0}
   mainCamera: {fileID: 0}
 --- !u!95 &5446287653172816192
