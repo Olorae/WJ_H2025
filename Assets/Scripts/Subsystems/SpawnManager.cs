@@ -52,11 +52,7 @@ public class SpawnManager : MonoBehaviour
         
         LeftWall.transform.position = new Vector3(lowerCorner.x + offsetX, LeftWall.transform.position.y, 0f);
         RightWall.transform.position = new Vector3(upperCorner.x, RightWall.transform.position.y, 0f);
-        //TopWall.transform.position = new Vector3(TopWall.transform.position.x, upperCorner.y - offsetY, 0f);
-        //BottomWall.transform.position = new Vector3(BottomWall.transform.position.x, lowerCorner.y + offsetY*1.5f, 0f);
         
-        //LeftWall.transform.localScale = new Vector3(LeftWall.transform.localScale.x, heightCamera*2, 1f);
-        //RightWall.transform.localScale = new Vector3(RightWall.transform.localScale.x, heightCamera*2, 1f);
         TopWall.transform.localScale = new Vector3(widthCamera*2, TopWall.transform.localScale.y, 1f);
         BottomWall.transform.localScale = new Vector3(widthCamera*2, BottomWall.transform.localScale.y, 1f);
         
@@ -82,8 +78,27 @@ public class SpawnManager : MonoBehaviour
         offsetX = widthCamera / offset;
         offsetY = heightCamera / offset;
 
-        lowerCorner = new Vector3(CameraPosition.x - widthCamera - offsetX, CameraPosition.y - heightCamera - offsetX, 0);
-        upperCorner = new Vector3(CameraPosition.x + widthCamera + offsetY, CameraPosition.y + heightCamera + offsetY, 0);
+        lowerCorner = new Vector3(CameraPosition.x - widthCamera - offsetX, CameraPosition.y - heightCamera - offsetY, 0);
+        upperCorner = new Vector3(CameraPosition.x + widthCamera + offsetX, CameraPosition.y + heightCamera + offsetY, 0);
+    }
+
+    private void setSpawnPosition()
+    {
+        float randomX = Random.Range(lowerCorner.x - offsetX, upperCorner.x + offsetX);
+        float randomY;
+        // if X is in the screen
+        if (randomX > lowerCorner.x && randomX < upperCorner.x)
+        {
+            randomY = (Random.value > 0.5)
+                ? Random.Range(lowerCorner.y - offsetY, lowerCorner.y)
+                : Random.Range(upperCorner.y + offsetY, upperCorner.y);
+        }
+        else
+        {
+            // X is out of the screen
+            randomY = Random.Range(lowerCorner.y - offsetY, upperCorner.y + offsetY);
+        }
+        SpawnPosition = new Vector3(randomX, randomY, 0);
     }
 
     public void SpawnEnemy()
@@ -91,29 +106,11 @@ public class SpawnManager : MonoBehaviour
         if (!bossIaAlive)
         {
             setCorners();
-
-            float randomX = Random.Range(lowerCorner.x - offsetX, upperCorner.x + offsetX);
-            float randomY;
-            // if X is in the screen
-            if (randomX > lowerCorner.x && randomX < upperCorner.x)
-            {
-                randomY = (Random.value > 0.5)
-                    ? Random.Range(lowerCorner.y - offsetY, lowerCorner.y)
-                    : Random.Range(upperCorner.y + offsetY, upperCorner.y);
-            }
-            else
-            {
-                // X is out of the screen
-                randomY = Random.Range(lowerCorner.y - offsetY, upperCorner.y + offsetY);
-            }
-
-            SpawnPosition = new Vector3(randomX, randomY, 0);
-
-            Debug.Log("Spawn Position = " + SpawnPosition.x + ", " + SpawnPosition.y);
-
+            setSpawnPosition();
+            
             // Spawn Enemy
             float folie = GameManager.GetGameManager().GetSubsystem<DataSubsystem>().insanity;
-            float chanceToSpawnFake = Random.Range(1, 100);
+            float chanceToSpawnFake = Mathf.Clamp((50f - (8f / 9f) * folie), 0f, 50f);
             float chanceToSpawnBoss = Random.Range(1, 100);
             float reduceChanceSpawn = 0;
 
@@ -123,33 +120,32 @@ public class SpawnManager : MonoBehaviour
                 Debug.Log("REduce chance spawn : " + reduceChanceSpawn);
             }
             
-            if (folie >= InsanityToSpawnBoss && chanceToSpawnBoss + reduceChanceSpawn <= (folie - InsanityToSpawnBoss) * 2)
+            // Spawn Boss
+            if (folie >= InsanityToSpawnBoss &&
+                chanceToSpawnBoss + reduceChanceSpawn <= (folie - InsanityToSpawnBoss) * 2)
             {
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
                 FindObjectOfType<PortalScript>().GameObject().SetActive(false);
                 bossIaAlive = true;
-                // Spawn Boss 
                 BossSpawned.Invoke();
-                
-               
 
                 // TODO: check if stop works
                 StopCoroutine(coroutine);
                 Clone = Instantiate(EnemyBoss, SpawnPosition, Quaternion.identity);
             }
-            else if (chanceToSpawnFake <= folie / 1.5)
+            else if (nbTotalEnemy > chanceToSpawnFake)
             {
                 // Spawn faux
                 Clone = Instantiate(EnemyFake, SpawnPosition, Quaternion.identity);
+                nbTotalEnemy = 0;
             }
             else
             {
                 // Spawn vrai
                 Clone = Instantiate(EnemyReal, SpawnPosition, Quaternion.identity);
+                nbTotalEnemy++;
             }
-
-            nbTotalEnemy++;
         }
     }
 
