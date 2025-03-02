@@ -52,10 +52,10 @@ public class EnemyCharacter : MonoBehaviour
         InitialSpeed = Speed;
         bossIsComing = false;
         float facteurDeCroissanceVieEnnemie = 10f;
-        previousLife = Life;
+        previousLife = MaxLife;
         Life = previousLife + (GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill * facteurDeCroissanceVieEnnemie); // Peut etre faire un fontion log pour plus calme au début
                                                                                                                               // et plus intense a la fin 
-        Debug.Log(Life);
+        Debug.Log(GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill);
         
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand += ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand += ToLivingLand;
@@ -65,12 +65,12 @@ public class EnemyCharacter : MonoBehaviour
         followPlayer = GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand;
         if (Player == null)
         {
-            Debug.Log("Player not found");
+           // Debug.Log("Player not found");
             return;
             // TODO: disable
         }
 
-        Debug.Log("Player : " + Player.name + " found \\^o^/");
+        //Debug.Log("Player : " + Player.name + " found \\^o^/");
     }
 
     private void FixedUpdate()
@@ -125,7 +125,7 @@ public class EnemyCharacter : MonoBehaviour
     {
         if (RealEnemy)
         {
-            Debug.Log("Real enemy attacked");
+            //Debug.Log("Real enemy attacked");
             
             Life -= damage;
             healthManager.takeDamage(Life,MaxLife);
@@ -145,7 +145,7 @@ public class EnemyCharacter : MonoBehaviour
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,false);
         }
 
-        Debug.Log("Life = " + Life);
+        //Debug.Log("Life = " + Life);
         
         return Life <= 0;
     }

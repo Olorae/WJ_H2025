@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnHit(float damage)
     {
-        Debug.Log(HitElapsed);
+        //Debug.Log(HitElapsed);
         if (HitElapsed)
         {
             HitElapsed = false;
@@ -143,7 +143,7 @@ public class PlayerController : MonoBehaviour
     {
         animator.SetTrigger("Attack");
         List<GameObject> toDestroy = new();
-        Debug.Log("attack");
+        //Debug.Log("attack");
         foreach (GameObject gObject in ObjectsInHitBox)
         {
             if (gObject != null)
