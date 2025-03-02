@@ -26,6 +26,7 @@ public class MainMenu : MonoBehaviour
 
     public void BackToMainMenu()
     {
+        FindObjectOfType<PlayerController>().isPaused = false;
         SceneManager.LoadSceneAsync("SceneMainMenu");
     }
 

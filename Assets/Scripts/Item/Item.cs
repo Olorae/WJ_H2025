@@ -108,8 +108,7 @@ public class Item : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (other.tag == "Player" &&
-            GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand.Equals(false))
+        if (other.tag == "Player" && GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand.Equals(false))
         {
             other.GameObject().GetComponent<PlayerController>().pickableItem = this;
             isPickable = true;
@@ -277,11 +276,40 @@ public class Item : MonoBehaviour
             case "Hat":
                 if (statName == "Madness Per Second Reduce")
                 {
+                    differenceStat = ItemOnGround.madnessPerSecondReduce - FindObjectOfType<PlayerController>().hat.madnessPerSecondReduce;
+                    if(differenceStat > 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.green;
+                    }
+                    else if (differenceStat < 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.red;
+
+                    }
+                    else
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.white;
+
+                    }
                 
                 }
                 else if (statName == "Reduce Boss Chance")
                 {
-                    
+                    differenceStat = ItemOnGround.bossSpawnChanceReduction - FindObjectOfType<PlayerController>().hat.bossSpawnChanceReduction;
+                    if(differenceStat > 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.green;
+                    }
+                    else if (differenceStat < 0)
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.red;
+
+                    }
+                    else
+                    {
+                        popUpInstance.transform.Find("PopUp/BackGround/Stat1/Stat1Number").GetComponent<TextMeshProUGUI>().color = Color.white;
+
+                    }
                 }
                 break;
             case "Armor":
