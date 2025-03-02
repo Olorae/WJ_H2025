@@ -10,6 +10,8 @@ public class SpawnManager : MonoBehaviour
 {
     private static SpawnManager SpawnSubsystemInstance;
 
+    public bool tutorialScene;
+
     private static int nbTotalEnemy;
     private Camera mainCamera;
     public EnemyCharacter EnemyFake;
@@ -161,7 +163,10 @@ public class SpawnManager : MonoBehaviour
 
     public void StartSpawning()
     {
-        SpawnEnemy();
-        StartCoroutine(coroutine);
+        if (!tutorialScene)
+        {
+            SpawnEnemy();
+            StartCoroutine(coroutine);
+        }
     }
 }

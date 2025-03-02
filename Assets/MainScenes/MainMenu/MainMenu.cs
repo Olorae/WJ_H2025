@@ -29,8 +29,13 @@ public class MainMenu : MonoBehaviour
 
     public void BackToMainMenu()
     {
-        FindObjectOfType<PlayerController>().isPaused = false;
+        //FindObjectOfType<PlayerController>().isPaused = false;
         SceneManager.LoadSceneAsync("SceneMainMenu");
+    }
+
+    public void TutorialScene()
+    {
+        SceneManager.LoadSceneAsync("TutorialScene");
     }
 
     public void WinScene()

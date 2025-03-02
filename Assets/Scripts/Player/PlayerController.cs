@@ -74,6 +74,8 @@ public class PlayerController : MonoBehaviour
         coroutine = WaitAndPrint(0.5f);
         HitElapsed = true;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
+        
+        playerInput.Enable();
     }
 
 
@@ -103,12 +105,6 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(coroutine);
         }
-    }
-
-    // Start is called before the first frame update
-    void Start()
-    {
-      
     }
 
     private void Update()
@@ -293,7 +289,7 @@ public class PlayerController : MonoBehaviour
         List<GameObject> toDestroy = new();
         GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SwordSFX);
         // Attack only if in livingLand
-        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
+        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand || FindObjectOfType<SpawnManager>().tutorialScene)
         {
             foreach (GameObject gObject in ObjectsInHitBox)
             {
