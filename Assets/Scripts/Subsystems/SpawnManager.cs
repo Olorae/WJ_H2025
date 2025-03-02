@@ -115,8 +115,15 @@ public class SpawnManager : MonoBehaviour
             float folie = GameManager.GetGameManager().GetSubsystem<DataSubsystem>().insanity;
             float chanceToSpawnFake = Random.Range(1, 100);
             float chanceToSpawnBoss = Random.Range(1, 100);
+            float reduceChanceSpawn = 0;
 
-            if (folie >= InsanityToSpawnBoss && chanceToSpawnBoss <= (folie - InsanityToSpawnBoss) * 2)
+            if (FindObjectOfType<PlayerController>().hat != null)
+            {
+                reduceChanceSpawn = FindObjectOfType<PlayerController>().hat.bossSpawnChanceReduction;
+                Debug.Log("REduce chance spawn : " + reduceChanceSpawn);
+            }
+            
+            if (folie >= InsanityToSpawnBoss && chanceToSpawnBoss + reduceChanceSpawn <= (folie - InsanityToSpawnBoss) * 2)
             {
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
