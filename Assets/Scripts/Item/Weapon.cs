@@ -22,18 +22,21 @@ public class Weapon : Item
             int objectRarity = Random.Range(1, 100);
             if (objectRarity < 90) // Normal item stat 
             {
+                rarity = 0;
                 attackDamage = Random.Range(15, 25);
                 attackRange = Random.Range(0, 50);
                 rarityColor = new Color(0, 145, 18);
             }
             else if (objectRarity <= 98 ) // Good item 
             {
+                rarity = 1;
                 attackDamage = Random.Range(25, 45);
                 attackRange = Random.Range(50, 100);
                 rarityColor = new Color(138, 65, 120);
             }
             else // Prefect item 
             {
+                rarity = 2;
                 attackDamage = 50;
                 attackRange = 100;
                 rarityColor = new Color(210, 141, 0);

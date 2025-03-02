@@ -20,6 +20,7 @@ public class Item : MonoBehaviour
     public float madnessPerSecondReduce;
     public float bossSpawnChanceReduction;
     public Color rarityColor;
+    public int rarity;
     public bool firstItem;
     public GameObject popUpPreFab;
     protected GameObject popUpInstance;
