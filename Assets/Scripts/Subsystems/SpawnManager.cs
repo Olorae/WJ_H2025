@@ -122,7 +122,7 @@ public class SpawnManager : MonoBehaviour
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
                 FindObjectOfType<PortalScript>().GameObject().SetActive(false);
                 bossIaAlive = true;
-                // Spawn Boss
+                // Spawn Boss 
                 BossSpawned.Invoke();
                 
                
