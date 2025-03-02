@@ -19,11 +19,15 @@ public class Item : MonoBehaviour
     public float madnessDefense;
     public float madnessPerSecondReduce;
     public float bossSpawnChanceReduction;
+    public Color rarityColor;
     public bool firstItem;
     public GameObject popUpPreFab;
     protected GameObject popUpInstance;
     protected bool isPickable = false;
     private int switchWorldCount = 0;
+    public Sprite WeaponSprite;
+    public Sprite HatSprite;
+    public Sprite ShirtSprite;
 
 
     string Name

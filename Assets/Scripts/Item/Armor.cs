@@ -16,18 +16,22 @@ public class Armor : Item
         {
             mouvementSpeed = Random.Range(0, 5);
             madnessDefense = Random.Range(0, 25);
+            rarityColor = new Color(0, 145, 18);
         }
         else if (objectRarity <= 98 ) // Good item 
         {
             mouvementSpeed = Random.Range(5, 10);
             madnessDefense = Random.Range(25, 50);
+            rarityColor = new Color(138, 65, 120);
         }
         else // Prefect item 
         {
             mouvementSpeed = 10;
             madnessDefense = 50;
+            rarityColor = new Color(210, 141, 0);
         }
-
+        GetComponent<SpriteRenderer>().color = rarityColor;
+        GetComponent<SpriteRenderer>().sprite = ShirtSprite;
        
     }
 

@@ -122,7 +122,7 @@ public class EnemyCharacter : MonoBehaviour
             Debug.Log("Real enemy attacked");
             
             Life -= damage;
-            healthManager.takeDamage(damage);
+            healthManager.takeDamage(Life,MaxLife);
             animator.SetTrigger("Hit");
             runAway = true;
             Speed = pushForce;
@@ -135,7 +135,7 @@ public class EnemyCharacter : MonoBehaviour
         else
         {
             Life = 0;
-            healthManager.takeDamage(Life);
+            healthManager.takeDamage(Life,MaxLife);
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,false);
         }
 

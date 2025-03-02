@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 public class HealthManager : MonoBehaviour
@@ -9,33 +10,32 @@ public class HealthManager : MonoBehaviour
     public Image healthBar;
     public float healthAmount;
     public float healthMax;
+    public GameObject LinkedPlayer;
 
     private EnemyCharacter owner;
 
-    public void takeDamage(float damage)
+    public void takeDamage(float life, float maxLife)
     {
-        healthAmount -= damage;
-        healthAmount = Mathf.Clamp(healthAmount, 0f, healthMax);
-        healthBar.fillAmount = healthAmount / healthMax;
+        
+        healthBar.fillAmount = life / maxLife;
     }
     
     // Start is called before the first frame update
     void Start()
     {
-        owner = gameObject.GetComponent<EnemyCharacter>();
-        healthMax = 100f;
-        healthAmount = healthMax;
+
+        owner = LinkedPlayer.GetComponent<EnemyCharacter>();
+        owner.Life = owner.MaxLife;
     }
 
     // Update is called once per frame
     
     void Update()
     {
-        //TODO: remplacer par owner.MaxLife
-        if (owner)
+       /* if (owner)
         {
-            healthBar.fillAmount = owner.Life / 100;
-        }
+            healthBar.fillAmount = owner.Life / owner.MaxLife;
+        }*/
     }
     
 }
