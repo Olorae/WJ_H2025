@@ -24,4 +24,9 @@ public class MainMenu : MonoBehaviour
         UnityEditor.EditorApplication.isPlaying = false;
         QuitGame();
     }
+
+    public void BackToMainMenu()
+    {
+        SceneManager.LoadSceneAsync("SceneMainMenu");
+    }
 }
