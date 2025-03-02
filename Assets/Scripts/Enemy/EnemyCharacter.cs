@@ -26,6 +26,7 @@ public class EnemyCharacter : MonoBehaviour
     private bool bossIsComing;
     public Animator animator;
     private float previousLife = 0f;
+    public HealthManager healthBar;
     
     private IEnumerator coroutine;
 
@@ -39,6 +40,8 @@ public class EnemyCharacter : MonoBehaviour
 
     void Start()
     {
+        healthBar.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+        
         // Initialisations
         Player = FindObjectOfType<PlayerController>();
         rigidbody2D = GetComponent<Rigidbody2D>();
@@ -115,15 +118,17 @@ public class EnemyCharacter : MonoBehaviour
         if ((targetLocation - currentLocation).x >= 0)
         {
             transform.rotation = new Quaternion(0f, 0f, transform.rotation.z, transform.rotation.w);
-            healthManager.transform.rotation = new Quaternion(0f, 0f, healthManager.transform.rotation.z,
-                healthManager.transform.rotation.w);
+            //healthManager.gameObject.transform.rotation = new Quaternion(0f, 0f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
+            //healthBar.transform.rotation = new Quaternion(0f, 0f, 0f, healthManager.transform.rotation.w);
         }
         else
         {
             transform.rotation = new Quaternion(0f, 180f, transform.rotation.z, transform.rotation.w);
-            healthManager.transform.rotation = new Quaternion(0f, 180f, healthManager.transform.rotation.z,
-                healthManager.transform.rotation.w);
+            //healthManager.gameObject.transform.rotation = new Quaternion(0f, 180f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
+            //healthBar.transform.rotation = new Quaternion(0f, 0f, 180f, healthManager.transform.rotation.w);
         }
+        
+        healthBar.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
     }
 
     private void PushedBackOver()
