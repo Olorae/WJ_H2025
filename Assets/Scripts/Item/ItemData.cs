@@ -11,4 +11,5 @@ public class ItemData
     public float madnessDefense;
     public float madnessPerSecondReduce;
     public float bossSpawnChanceReduction;
+    public string description;
 }
