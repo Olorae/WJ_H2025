@@ -156,6 +156,7 @@ MonoBehaviour:
   EnemyBoss: {fileID: 3432444620411077157, guid: f1333a722cbcce54aa2d7fbb4ea96a06, type: 3}
   offset: 10
   InsanityToSpawnBoss: 50
+  bossIaAlive: 0
 --- !u!4 &78829521
 Transform:
   m_ObjectHideFlags: 0
@@ -441,6 +442,10 @@ PrefabInstance:
     - target: {fileID: 2084996927071341366, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4891675808184086469, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: HatPrefab
@@ -868,6 +873,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   thisUi: {fileID: 0}
   healthBar: {fileID: 0}
+  healthAmount: 0
+  healthMax: 0
 --- !u!4 &1177661736
 Transform:
   m_ObjectHideFlags: 0
@@ -938,6 +945,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ba8480ab84ef4468ec707eaf6086df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  livingBackground: {fileID: 0}
+  deadBackground: {fileID: 0}
 --- !u!114 &1598496084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1034,6 +1043,10 @@ PrefabInstance:
     - target: {fileID: 5006035517041079225, guid: 50c7c541b0affe34faa2d45cb65d17a0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6021116584014697935, guid: 50c7c541b0affe34faa2d45cb65d17a0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8594652052115297132, guid: 50c7c541b0affe34faa2d45cb65d17a0, type: 3}
       propertyPath: m_Name
@@ -1177,6 +1190,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: 21300000, guid: 9965baa994ffeb64fadced016e7b0d1b, type: 3}
+    - target: {fileID: 2834143976463889887, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4405766691352426624, guid: 12c4dfeec5a6df14b874a71b18b4a89e, type: 3}
       propertyPath: DeadLand
       value: 
@@ -1210,3 +1227,4 @@ SceneRoots:
   - {fileID: 100231281}
   - {fileID: 499278112}
   - {fileID: 1779969755}
+  - {fileID: 1177661736}
