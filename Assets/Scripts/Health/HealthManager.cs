@@ -16,16 +16,26 @@ public class HealthManager : MonoBehaviour
 
     public void takeDamage(float life, float maxLife)
     {
+        healthAmount -= damage;
+        healthAmount = Mathf.Clamp(healthAmount, 0f, healthMax);
+        healthBar.fillAmount = healthAmount / healthMax;
         
-        healthBar.fillAmount = life / maxLife;
+        gameObject.SetActive(true);
+        Invoke("deactivateHealthBar", 5f);
     }
-    
+
+    private void deactivateHealthBar(){
+        gameObject.SetActive(false);
+    }
+
     // Start is called before the first frame update
     void Start()
     {
+        owner = gameObject.GetComponent<EnemyCharacter>();
+        healthMax = 100f;
+        healthAmount = healthMax;
 
-        owner = LinkedPlayer.GetComponent<EnemyCharacter>();
-        owner.Life = owner.MaxLife;
+        gameObject.SetActive(false);
     }
 
     // Update is called once per frame
