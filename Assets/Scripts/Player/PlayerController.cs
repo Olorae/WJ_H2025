@@ -91,7 +91,7 @@ public class PlayerController : MonoBehaviour
 
     public void OnHit(float damage)
     {
-        Debug.Log(HitElapsed);
+        //Debug.Log(HitElapsed);
         if (HitElapsed)
         {
             HitElapsed = false;

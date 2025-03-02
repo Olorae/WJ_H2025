@@ -56,6 +56,8 @@ public class DataSubsystem : ISubSystem
 
     public void EnemyKilled()
     {
+       
         nbKill++;
+        Debug.Log("nbKil : " + nbKill);
     }
 }
