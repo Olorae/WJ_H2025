@@ -98,7 +98,7 @@ Rigidbody2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1498458289397487604}
-  m_BodyType: 1
+  m_BodyType: 0
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
@@ -168,13 +168,14 @@ MonoBehaviour:
   baseDamage: 5
   baseDefense: 0
   rb: {fileID: 0}
-  armor: {fileID: 0}
-  weapon: {fileID: 0}
-  hat: {fileID: 0}
+  InsanityEnabled: 0
+  HitElapsed: 0
   pickableItem: {fileID: 0}
   WeaponPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
   HatPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
   ArmorPrefab: {fileID: 2485749364794719034, guid: 86d3f4749ee1add49bcba3e232a2d437, type: 3}
+  portalRef: {fileID: 0}
+  insanityBarRef: {fileID: 0}
 --- !u!95 &5446287653172816192
 Animator:
   serializedVersion: 5
