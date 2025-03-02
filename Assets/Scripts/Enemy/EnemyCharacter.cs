@@ -22,7 +22,7 @@ public class EnemyCharacter : MonoBehaviour
     public float MaxLife;
     public float Damage;
     private HealthManager healthManager;
-    public float pushForce;// = 500f;
+    public float pushForce; // = 500f;
     private bool bossIsComing;
     public Animator animator;
     private float previousLife = 0f;
@@ -77,7 +77,7 @@ public class EnemyCharacter : MonoBehaviour
     {
         Vector3 currentLocation = transform.position;
         Vector3 targetLocation = Player.transform.position;
-        
+
         if ((followPlayer && !runAway) || CompareTag("Boss"))
         {
             Vector3 newPosition = Vector3.MoveTowards(currentLocation, targetLocation, Speed * Time.deltaTime);
@@ -89,13 +89,14 @@ public class EnemyCharacter : MonoBehaviour
             {
                 // TODO: something pour que les ennemis regarde derrière eux en partant
             }
+
             // Calculate the opposite direction
             Vector3 oppositeDirection = (currentLocation - targetLocation).normalized;
 
             // Move away from the player
-            Vector3 newPosition = Vector3.MoveTowards(currentLocation, currentLocation + oppositeDirection, Speed * Time.deltaTime);
+            Vector3 newPosition = Vector3.MoveTowards(currentLocation, currentLocation + oppositeDirection,
+                Speed * Time.deltaTime);
             rigidbody2D.position = newPosition;
-            
         }
 
         Rotate(currentLocation, targetLocation);
@@ -106,12 +107,14 @@ public class EnemyCharacter : MonoBehaviour
         if ((targetLocation - currentLocation).x >= 0)
         {
             transform.rotation = new Quaternion(0f, 0f, transform.rotation.z, transform.rotation.w);
-            healthManager.transform.rotation = new Quaternion(0f, 0f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
+            healthManager.transform.rotation = new Quaternion(0f, 0f, healthManager.transform.rotation.z,
+                healthManager.transform.rotation.w);
         }
         else
         {
             transform.rotation = new Quaternion(0f, 180f, transform.rotation.z, transform.rotation.w);
-            healthManager.transform.rotation = new Quaternion(0f, 180f, healthManager.transform.rotation.z, healthManager.transform.rotation.w);
+            healthManager.transform.rotation = new Quaternion(0f, 180f, healthManager.transform.rotation.z,
+                healthManager.transform.rotation.w);
         }
     }
 
@@ -150,7 +153,17 @@ public class EnemyCharacter : MonoBehaviour
         return Life <= 0;
     }
 
-    // Enemy touched player
+    private void damageInflicted()
+    {
+        if (GameManager.GetGameManager().GetSubsystem<DataSubsystem>().insanity <= 0 && CompareTag("Boss"))
+        {
+            Debug.Log("Player is dead");
+
+            // TODO: change scene
+        }
+    }
+
+    // Enemy touched player 
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
@@ -159,30 +172,52 @@ public class EnemyCharacter : MonoBehaviour
             {
                 followPlayer = false;
                 TouchingPlayer = true;
+                
+                InvokeRepeating("DamagePlayer", .1f, 1f); // Démarre après 1s, se répète toutes les 1s
 
+                /*
                 if (RealEnemy)
                 {
-                    if (CompareTag("Boss"))
-                    {
-                        Player.OnHit(-Damage);
-                    }
-                    else
-                    {
-                        Player.OnHit(Damage);
-                    }
+                    Player.OnHit((CompareTag("Boss")) ? -Damage : Damage);
+
+                    damageInflicted();
                     //GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
                     coroutine = WaitAndPrint(5.0f);
                     //StartCoroutine(coroutine);
                 }
                 else
                 {
-                    GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage/2,false);
+                    GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage / 2, false);
                     Destroy(this.GameObject());
                     Destroy(this);
                 }
+                */
             }
         }
-        
+    }
+
+    private void DamagePlayer()
+    {
+        if (!TouchingPlayer)
+        {
+            CancelInvoke("DamagePlayer");
+        }
+        else
+        {
+            if (RealEnemy)
+            {
+                Player.OnHit((CompareTag("Boss")) ? -Damage : Damage);
+                damageInflicted();
+                
+                //GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
+            }
+            else
+            {
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage / 2, false);
+                Destroy(this.GameObject());
+                Destroy(this);
+            }
+        }
     }
 
     private IEnumerator WaitAndPrint(float waitTime)
@@ -192,8 +227,8 @@ public class EnemyCharacter : MonoBehaviour
             if (TouchingPlayer)
             {
                 yield return new WaitForSeconds(waitTime);
-                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
-                
+                GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage, true);
+
                 Debug.Log("touching player");
             }
             else
@@ -211,17 +246,15 @@ public class EnemyCharacter : MonoBehaviour
             if (Life > 0)
             {
                 followPlayer = true;
-                TouchingPlayer = false; 
+                TouchingPlayer = false;
             }
-           
         }
-        
     }
 
     private void OnDestroy()
     {
         // FindObjectOfType<SpawnManager>().BossSpawned -= bossSpawned;
-        
+
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
     }
@@ -253,8 +286,10 @@ public class EnemyCharacter : MonoBehaviour
     {
         if (RealEnemy)
         {
-            GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab,Player.HatPrefab,Player.ArmorPrefab,transform.position,transform.rotation);
+            GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab, Player.HatPrefab,
+                Player.ArmorPrefab, transform.position, transform.rotation);
         }
+
         Destroy(this.GameObject());
         Destroy(this);
         GameManager.GetGameManager().GetSubsystem<DataSubsystem>().EnemyKilled();
@@ -264,6 +299,5 @@ public class EnemyCharacter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
     }
 }

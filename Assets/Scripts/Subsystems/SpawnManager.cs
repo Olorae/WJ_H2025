@@ -54,8 +54,8 @@ public class SpawnManager : MonoBehaviour
 
             Vector3 CameraPosition = mainCamera.transform.position;
 
-            Vector3 lowerCorner = new Vector3(CameraPosition.x - widthCamera, CameraPosition.y - heightCamera, 0);
-            Vector3 upperCorner = new Vector3(CameraPosition.x + widthCamera, CameraPosition.y + heightCamera, 0);
+            Vector3 lowerCorner = new Vector3(CameraPosition.x - widthCamera + 5, CameraPosition.y - heightCamera + 5, 0);
+            Vector3 upperCorner = new Vector3(CameraPosition.x + widthCamera + 5, CameraPosition.y + heightCamera + 5, 0);
 
             float randomX = Random.Range(lowerCorner.x - offset, upperCorner.x + offset);
             float randomY;

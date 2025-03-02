@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -25,13 +24,13 @@ public class PlayerController : MonoBehaviour
     public ItemData weapon;
     public ItemData hat;
     public Item pickableItem;
-    public  GameObject WeaponPrefab;
-    public  GameObject HatPrefab;
-    public  GameObject ArmorPrefab;
+    public GameObject WeaponPrefab;
+    public GameObject HatPrefab;
+    public GameObject ArmorPrefab;
     public GameObject portalRef;
     public GameObject insanityBarRef;
     private float EndHitCooldown;
-    private float CoolDownTime = 2f;
+    private float CoolDownTime = .1f;
 
     private void Awake()
     {
@@ -49,17 +48,20 @@ public class PlayerController : MonoBehaviour
         HitElapsed = true;
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
     }
-   
-    
+
+
     private IEnumerator coroutine;
+
     private IEnumerator WaitAndPrint(float waitTime)
     {
         //Debug.Log("wait and print");
-        while (true) {
+        while (true)
+        {
             yield return new WaitForSeconds(waitTime);
-            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(0.5f,false);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(0.5f, false);
         }
     }
+
     private void ToLivingLand()
     {
         StopCoroutine(coroutine);
@@ -71,13 +73,11 @@ public class PlayerController : MonoBehaviour
         {
             StartCoroutine(coroutine);
         }
-        
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
     }
 
     private void Update()
@@ -96,14 +96,20 @@ public class PlayerController : MonoBehaviour
         {
             HitElapsed = false;
             EndHitCooldown = Time.time + CoolDownTime;
-            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(damage,true);
+            GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(damage, true);
         }
-       
     }
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         ObjectsInHitBox.Add(other.GameObject());
+
+        if (other.CompareTag("Frontier"))
+        {
+            Debug.Log("Entered");
+
+            playerInput.Enable();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D other)
@@ -112,7 +118,15 @@ public class PlayerController : MonoBehaviour
         {
             ObjectsInHitBox.Remove(other.GameObject());
         }
-        
+
+        if (other.CompareTag("Frontier"))
+        {
+            /*
+            Rigidbody2D rb = GetComponent<Rigidbody2D>();
+            rb.velocity = Vector3.zero;
+            */
+            Debug.Log("Exit");
+        }
     }
 
     private void OnEnable()
@@ -136,41 +150,50 @@ public class PlayerController : MonoBehaviour
         Vector2 moveValue = move.ReadValue<Vector2>();
         //Debug.Log(GetMovementSpeed());
         rb.velocity = new Vector2(moveValue.x * GetMovementSpeed(), moveValue.y * GetMovementSpeed());
+    }
 
+    private void damageInflicted(EnemyCharacter enemyCharacter)
+    {
+        if (enemyCharacter.CompareTag("Boss") && enemyCharacter.Life <= 0)
+        {
+            Debug.Log("Boss id Dead");
+
+            // TODO: change scene
+        }
     }
 
     public void Attack(InputAction.CallbackContext obj)
     {
         animator.SetTrigger("Attack");
         List<GameObject> toDestroy = new();
-        //Debug.Log("attack");
-        foreach (GameObject gObject in ObjectsInHitBox)
-        {
-            if (gObject != null)
-            {
-                if (gObject.tag.Equals("Enemy"))
-                {
-                    //TODO: give knockback to enemy
-                    if (gObject.GetComponent<EnemyCharacter>().Attacked(GetDamage()))
-                    {
-                        toDestroy.Add(gObject);
-                    }
+        Debug.Log("attack");
 
+        // Attack only if in livingLand
+        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
+        {
+            foreach (GameObject gObject in ObjectsInHitBox)
+            {
+                if (gObject != null)
+                {
+                    if (gObject.tag.Equals("Enemy") || gObject.tag.Equals("Boss"))
+                    {
+                        damageInflicted(gObject.GetComponent<EnemyCharacter>());
+                        if (gObject.GetComponent<EnemyCharacter>().Attacked(GetDamage()))
+                        {
+                            toDestroy.Add(gObject);
+                        }
+                    }
                 }
             }
             
+            foreach (var gObject in toDestroy)
+            {
+                gObject.GetComponent<EnemyCharacter>().animator.SetTrigger("Death");
+                gObject.GetComponent<EnemyCharacter>().followPlayer = false;
+                ObjectsInHitBox.Remove(gObject);
+                //Destroy(gObject); 
+            }
         }
-
-        foreach (var gObject in toDestroy)
-        {
-            gObject.GetComponent<EnemyCharacter>().animator.SetTrigger("Death");
-            gObject.GetComponent<EnemyCharacter>().followPlayer = false;
-            ObjectsInHitBox.Remove(gObject);
-           //Destroy(gObject); 
-        }
-        
-        //Debug.Log(GetDamage());
-        
     }
 
     public void Pickup(InputAction.CallbackContext obj)
@@ -179,51 +202,50 @@ public class PlayerController : MonoBehaviour
         {
             switch (pickableItem.type)
             {
-            case "Hat":
-                Debug.Log("hat");
-                hat = new ItemData();
-                hat.attackDamage = pickableItem.attackDamage;
-                hat.mouvementSpeed = pickableItem.mouvementSpeed;
-                hat.madnessDefense = pickableItem.madnessDefense;
-                hat.attackSpeed = pickableItem.attackSpeed;
-                hat.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
-                hat.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
-                hat.type = pickableItem.type;
-                hat.name = pickableItem.name;
-                pickableItem.ItemPickedUp();
-                break;
-            case "Armor":
-                Debug.Log("armor");
-                armor = new ItemData();
-                armor.attackDamage = pickableItem.attackDamage;
-                armor.mouvementSpeed = pickableItem.mouvementSpeed;
-                armor.madnessDefense = pickableItem.madnessDefense;
-                armor.attackSpeed = pickableItem.attackSpeed;
-                armor.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
-                armor.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
-                armor.type = pickableItem.type;
-                armor.name = pickableItem.name;
-                //armor = pickableItem;
-                pickableItem.ItemPickedUp();
-                break;
-            case "Weapon":
-                Debug.Log("weapon");
-                weapon = new ItemData();
-                weapon.attackDamage = pickableItem.attackDamage;
-                weapon.mouvementSpeed = pickableItem.mouvementSpeed;
-                weapon.madnessDefense = pickableItem.madnessDefense;
-                weapon.attackSpeed = pickableItem.attackSpeed;
-                weapon.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
-                weapon.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
-                weapon.type = pickableItem.type;
-                weapon.name = pickableItem.name;
-                //weapon = pickableItem;
-                pickableItem.ItemPickedUp();
-                break;
-            default:
-                break;
+                case "Hat":
+                    Debug.Log("hat");
+                    hat = new ItemData();
+                    hat.attackDamage = pickableItem.attackDamage;
+                    hat.mouvementSpeed = pickableItem.mouvementSpeed;
+                    hat.madnessDefense = pickableItem.madnessDefense;
+                    hat.attackSpeed = pickableItem.attackSpeed;
+                    hat.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
+                    hat.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
+                    hat.type = pickableItem.type;
+                    hat.name = pickableItem.name;
+                    pickableItem.ItemPickedUp();
+                    break;
+                case "Armor":
+                    Debug.Log("armor");
+                    armor = new ItemData();
+                    armor.attackDamage = pickableItem.attackDamage;
+                    armor.mouvementSpeed = pickableItem.mouvementSpeed;
+                    armor.madnessDefense = pickableItem.madnessDefense;
+                    armor.attackSpeed = pickableItem.attackSpeed;
+                    armor.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
+                    armor.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
+                    armor.type = pickableItem.type;
+                    armor.name = pickableItem.name;
+                    //armor = pickableItem;
+                    pickableItem.ItemPickedUp();
+                    break;
+                case "Weapon":
+                    Debug.Log("weapon");
+                    weapon = new ItemData();
+                    weapon.attackDamage = pickableItem.attackDamage;
+                    weapon.mouvementSpeed = pickableItem.mouvementSpeed;
+                    weapon.madnessDefense = pickableItem.madnessDefense;
+                    weapon.attackSpeed = pickableItem.attackSpeed;
+                    weapon.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
+                    weapon.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
+                    weapon.type = pickableItem.type;
+                    weapon.name = pickableItem.name;
+                    //weapon = pickableItem;
+                    pickableItem.ItemPickedUp();
+                    break;
+                default:
+                    break;
             }
-        
         }
         else
         {
@@ -233,18 +255,20 @@ public class PlayerController : MonoBehaviour
 
     public float GetDefense()
     {
-        return baseDefense + ((hat != null)? hat.madnessDefense : 0) + ((armor != null)? armor.madnessDefense : 0) + ((weapon != null)? weapon.madnessDefense : 0) ;
+        return baseDefense + ((hat != null) ? hat.madnessDefense : 0) + ((armor != null) ? armor.madnessDefense : 0) +
+               ((weapon != null) ? weapon.madnessDefense : 0);
     }
 
     public float GetDamage()
     {
-        return baseDamage + ((hat != null)? hat.attackDamage : 0) + ((armor != null)? armor.attackDamage : 0) + ((weapon != null)? weapon.attackDamage : 0) ;
+        return baseDamage + ((hat != null) ? hat.attackDamage : 0) + ((armor != null) ? armor.attackDamage : 0) +
+               ((weapon != null) ? weapon.attackDamage : 0);
     }
 
     public float GetMovementSpeed()
     {
-        
-        return baseSpeed + ((hat != null)? hat.mouvementSpeed : 0) + ((armor != null)? armor.mouvementSpeed : 0) + ((weapon != null)? weapon.mouvementSpeed : 0) ;
+        return baseSpeed + ((hat != null) ? hat.mouvementSpeed : 0) + ((armor != null) ? armor.mouvementSpeed : 0) +
+               ((weapon != null) ? weapon.mouvementSpeed : 0);
     }
 
     private void OnDestroy()
@@ -255,10 +279,10 @@ public class PlayerController : MonoBehaviour
 
     public void EnableInsanity()
     {
-       Debug.Log("INSANITYENABLED");
-       portalRef.SetActive(true);
-       insanityBarRef.SetActive(true);
-       
+        Debug.Log("INSANITYENABLED");
+        portalRef.SetActive(true);
+        insanityBarRef.SetActive(true);
+
         InsanityEnabled = true;
     }
 }
