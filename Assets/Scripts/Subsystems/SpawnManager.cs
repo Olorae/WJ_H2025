@@ -138,7 +138,7 @@ public class SpawnManager : MonoBehaviour
                 StopCoroutine(coroutine);
                 Clone = Instantiate(EnemyBoss, SpawnPosition, Quaternion.identity);
             }
-            else if (chanceToSpawnFake <= folie / 2)
+            else if (chanceToSpawnFake <= folie / 1.5)
             {
                 // Spawn faux
                 Clone = Instantiate(EnemyFake, SpawnPosition, Quaternion.identity);
