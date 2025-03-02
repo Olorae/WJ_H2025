@@ -17,19 +17,25 @@ public class Hat : Item
         {
             madnessPerSecondReduce = Random.Range(0, 20);
             bossSpawnChanceReduction = Random.Range(0, 10);
+            rarityColor = new Color(0, 145, 18);
         }
         else if (objectRarity <= 98 ) // Good item 
         {
             madnessPerSecondReduce = Random.Range(20, 40);
             bossSpawnChanceReduction = Random.Range(10, 20);
+            rarityColor = new Color(138, 65, 120);
         }
         else // Prefect item 
         {
             madnessPerSecondReduce = 40;
             bossSpawnChanceReduction = 20;
+            rarityColor = new Color(210, 141, 0);
         }
         
-        
+
+        GetComponent<SpriteRenderer>().color = rarityColor;
+        GetComponent<SpriteRenderer>().sprite = HatSprite;
+
     }
     private string GetRandomDescription(string filePath)
     {
