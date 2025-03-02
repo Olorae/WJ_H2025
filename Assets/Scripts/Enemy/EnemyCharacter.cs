@@ -11,31 +11,25 @@ public class EnemyCharacter : MonoBehaviour
     // Start is called before the first frame update
 
     public static PlayerController Player = null;
-    public float Speed;
-    public float InitialSpeed;
     public Rigidbody2D rigidbody2D;
     public SpriteRenderer SpriteRenderer;
-    private CapsuleCollider2D CapsuleCollider2D;
-    public bool RealEnemy;
-    public bool followPlayer;
-    private bool TouchingPlayer;
-    public float Life;
-    public float MaxLife;
-    public float Damage;
-    private HealthManager healthManager;
-    public float pushForce; // = 500f;
-    private bool bossIsComing;
+    public CapsuleCollider2D CapsuleCollider2D;
+    public HealthManager healthManager;
     public Animator animator;
-    private float previousLife = 0f;
     public HealthManager healthBar;
-
+    
     private IEnumerator coroutine;
-
-    private bool runAway;
-
+    
+    public bool RealEnemy, followPlayer;
+    public float Speed, InitialSpeed, Life, MaxLife, Damage, pushForce;
+    
+    private bool TouchingPlayer, bossIsComing, runAway, bossPushBack;
+    private float previousLife = 0f;
+    
     private void bossSpawned()
     {
         runAway = true;
+        bossPushBack = false;
         bossIsComing = true;
     }
 
@@ -53,10 +47,12 @@ public class EnemyCharacter : MonoBehaviour
         followPlayer = true;
         TouchingPlayer = false;
         runAway = false;
+        bossPushBack = false;
         InitialSpeed = Speed;
         bossIsComing = false;
         float facteurDeCroissanceVieEnnemie = 10f;
         previousLife = MaxLife;
+        
         if (tag.Equals("Boss"))
         {
             Life = MaxLife;
@@ -65,7 +61,7 @@ public class EnemyCharacter : MonoBehaviour
         {
             Life = previousLife + (GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill *
                                    facteurDeCroissanceVieEnnemie); // Peut etre faire un fontion log pour plus calme au début
-            // et plus intense a la fin 
+            // TODO: et plus intense a la fin 
         }
 
         Debug.Log(GameManager.GetGameManager().GetSubsystem<DataSubsystem>().nbKill);
@@ -93,20 +89,21 @@ public class EnemyCharacter : MonoBehaviour
         currentLocation = transform.position;
         targetLocation = Player.transform.position;
 
-        if ((followPlayer && !runAway) || CompareTag("Boss"))
+        if ((followPlayer && !runAway) || (CompareTag("Boss") && !bossPushBack))
         {
             Vector3 newPosition = Vector3.MoveTowards(currentLocation, targetLocation, Speed * Time.deltaTime);
             rigidbody2D.position = newPosition;
         }
-        else if (runAway)
+        else if (runAway || bossPushBack)
         {
-            if (bossIsComing)
-            {
-                // TODO: something pour que les ennemis regarde derrière eux en partant
-            }
-
             // Calculate the opposite direction
             Vector3 oppositeDirection = (currentLocation - targetLocation).normalized;
+            
+            if (bossIsComing && !bossPushBack)
+            {
+                // Les ennemis regarde derrière eux en partant
+                targetLocation = currentLocation + currentLocation;
+            }
 
             // Move away from the player
             Vector3 newPosition = Vector3.MoveTowards(currentLocation, currentLocation + oppositeDirection,
@@ -135,6 +132,7 @@ public class EnemyCharacter : MonoBehaviour
     private void PushedBackOver()
     {
         runAway = false;
+        bossPushBack = false;
         Speed = InitialSpeed;
     }
 
@@ -149,6 +147,7 @@ public class EnemyCharacter : MonoBehaviour
             animator.SetTrigger("Hit");
             //GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().HitSFX);
             runAway = true;
+            bossPushBack = true;
             Speed = pushForce;
             TouchingPlayer = false;
             Invoke("PushedBackOver", .05f);
