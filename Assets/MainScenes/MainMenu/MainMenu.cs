@@ -28,4 +28,14 @@ public class MainMenu : MonoBehaviour
     {
         SceneManager.LoadSceneAsync("SceneMainMenu");
     }
+
+    public void WinScene()
+    {
+        SceneManager.LoadSceneAsync("WinScene");
+    }
+
+    public void LoseScene()
+    {
+        SceneManager.LoadSceneAsync("LoseScene");
+    }
 }
