@@ -1,7 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
+using Unity.Collections;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -31,6 +34,12 @@ public class PlayerController : MonoBehaviour
     public GameObject insanityBarRef;
     private float EndHitCooldown;
     private float CoolDownTime = .1f;
+    private bool isPaused = false;
+    
+    
+    public GameObject menuPreFab;
+    protected GameObject menuInstance;
+    public Camera mainCamera;
 
     private void Awake()
     {
@@ -78,6 +87,7 @@ public class PlayerController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+      
     }
 
     private void Update()
@@ -137,6 +147,84 @@ public class PlayerController : MonoBehaviour
         playerInput.Player.Attack.Enable();
         playerInput.Player.Pickup.performed += Pickup;
         playerInput.Player.Pickup.Enable();
+        
+        playerInput.Player.Pause.performed += setPause;
+        playerInput.Player.Pause.Enable();
+        
+    }
+
+    private void setPause(InputAction.CallbackContext obj)
+    {
+        // Height
+       // float heightCamera = mainCamera.orthographicSize;
+       // float widthCamera = heightCamera * mainCamera.aspect;
+
+       if (!isPaused)
+       {
+           Vector3 CameraPosition = mainCamera.transform.position;
+           CameraPosition.z = 0;
+           menuInstance = Instantiate(menuPreFab, CameraPosition, Quaternion.identity);
+           isPaused = true;
+           Time.timeScale = 0;
+
+           // set valeur dans le menu 
+           if (FindObjectOfType<PlayerController>().hat != null)
+           {
+               menuInstance.transform.Find("Menu/BackGround/Hat/Description").GetComponent<TextMeshProUGUI>().text = FindObjectOfType<PlayerController>().hat.description;
+               menuInstance.transform.Find("Menu/BackGround/Hat/Stat1").GetComponent<TextMeshProUGUI>().text = "Madness/s reduce: " + FindObjectOfType<PlayerController>().hat.madnessPerSecondReduce;
+               menuInstance.transform.Find("Menu/BackGround/Hat/Stat2").GetComponent<TextMeshProUGUI>().text = "Boss Spwn Chance: " + FindObjectOfType<PlayerController>().hat.bossSpawnChanceReduction;
+           }
+           else
+           {
+               menuInstance.transform.Find("Menu/BackGround/Hat/Description").GetComponent<TextMeshProUGUI>().text = "Emptiness";
+               menuInstance.transform.Find("Menu/BackGround/Hat/Stat1").GetComponent<TextMeshProUGUI>().text = "Madness/s reduce: None";
+               menuInstance.transform.Find("Menu/BackGround/Hat/Stat2").GetComponent<TextMeshProUGUI>().text = "Boss Spwn Chance: None";
+           }
+
+           if (FindObjectOfType<PlayerController>().armor != null)
+           {
+               menuInstance.transform.Find("Menu/BackGround/Armor/Description").GetComponent<TextMeshProUGUI>().text = FindObjectOfType<PlayerController>().armor.description;
+               menuInstance.transform.Find("Menu/BackGround/Armor/Stat1").GetComponent<TextMeshProUGUI>().text = "Madness Defense: " + FindObjectOfType<PlayerController>().armor.madnessPerSecondReduce; 
+               menuInstance.transform.Find("Menu/BackGround/Armor/Stat2").GetComponent<TextMeshProUGUI>().text = "Mouv. Speed: " + FindObjectOfType<PlayerController>().armor.mouvementSpeed;
+           }
+           else
+           {
+               menuInstance.transform.Find("Menu/BackGround/Armor/Description").GetComponent<TextMeshProUGUI>().text = "Emptiness";
+               menuInstance.transform.Find("Menu/BackGround/Armor/Stat1").GetComponent<TextMeshProUGUI>().text = "Madness Defense: None" ; 
+               menuInstance.transform.Find("Menu/BackGround/Armor/Stat2").GetComponent<TextMeshProUGUI>().text = "Mouv. Speed: None" ;
+           }
+
+           if (FindObjectOfType<PlayerController>().weapon != null)
+           {
+               menuInstance.transform.Find("Menu/BackGround/Weapon/Description").GetComponent<TextMeshProUGUI>().text = FindObjectOfType<PlayerController>().weapon.description;
+               menuInstance.transform.Find("Menu/BackGround/Weapon/Stat1").GetComponent<TextMeshProUGUI>().text = "Attack Dmg: " + FindObjectOfType<PlayerController>().weapon.attackDamage;
+               menuInstance.transform.Find("Menu/BackGround/Weapon/Stat2").GetComponent<TextMeshProUGUI>().text = "Attack Speed: " + FindObjectOfType<PlayerController>().weapon.attackSpeed;
+           }
+           else
+           {
+               menuInstance.transform.Find("Menu/BackGround/Weapon/Description").GetComponent<TextMeshProUGUI>().text = "Emptiness";
+               menuInstance.transform.Find("Menu/BackGround/Weapon/Stat1").GetComponent<TextMeshProUGUI>().text = "Attack Dmg: None";
+               menuInstance.transform.Find("Menu/BackGround/Weapon/Stat2").GetComponent<TextMeshProUGUI>().text = "Attack Speed: None";
+           }
+           
+
+
+
+           
+
+           
+
+       }
+       else
+       {
+           if (menuInstance != null)
+           {
+               Destroy(menuInstance);
+               isPaused = false;
+               Time.timeScale = 1;
+           }
+       }
+        
     }
 
     private void OnDisable()
@@ -202,49 +290,52 @@ public class PlayerController : MonoBehaviour
         {
             switch (pickableItem.type)
             {
-                case "Hat":
-                    Debug.Log("hat");
-                    hat = new ItemData();
-                    hat.attackDamage = pickableItem.attackDamage;
-                    hat.mouvementSpeed = pickableItem.mouvementSpeed;
-                    hat.madnessDefense = pickableItem.madnessDefense;
-                    hat.attackSpeed = pickableItem.attackSpeed;
-                    hat.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
-                    hat.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
-                    hat.type = pickableItem.type;
-                    hat.name = pickableItem.name;
-                    pickableItem.ItemPickedUp();
-                    break;
-                case "Armor":
-                    Debug.Log("armor");
-                    armor = new ItemData();
-                    armor.attackDamage = pickableItem.attackDamage;
-                    armor.mouvementSpeed = pickableItem.mouvementSpeed;
-                    armor.madnessDefense = pickableItem.madnessDefense;
-                    armor.attackSpeed = pickableItem.attackSpeed;
-                    armor.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
-                    armor.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
-                    armor.type = pickableItem.type;
-                    armor.name = pickableItem.name;
-                    //armor = pickableItem;
-                    pickableItem.ItemPickedUp();
-                    break;
-                case "Weapon":
-                    Debug.Log("weapon");
-                    weapon = new ItemData();
-                    weapon.attackDamage = pickableItem.attackDamage;
-                    weapon.mouvementSpeed = pickableItem.mouvementSpeed;
-                    weapon.madnessDefense = pickableItem.madnessDefense;
-                    weapon.attackSpeed = pickableItem.attackSpeed;
-                    weapon.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
-                    weapon.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
-                    weapon.type = pickableItem.type;
-                    weapon.name = pickableItem.name;
-                    //weapon = pickableItem;
-                    pickableItem.ItemPickedUp();
-                    break;
-                default:
-                    break;
+            case "Hat":
+                Debug.Log("hat");
+                hat = new ItemData();
+                hat.attackDamage = pickableItem.attackDamage;
+                hat.mouvementSpeed = pickableItem.mouvementSpeed;
+                hat.madnessDefense = pickableItem.madnessDefense;
+                hat.attackSpeed = pickableItem.attackSpeed;
+                hat.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
+                hat.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
+                hat.type = pickableItem.type;
+                hat.name = pickableItem.name;
+                hat.description = pickableItem.description;
+                pickableItem.ItemPickedUp();
+                break;
+            case "Armor":
+                Debug.Log("armor");
+                armor = new ItemData();
+                armor.attackDamage = pickableItem.attackDamage;
+                armor.mouvementSpeed = pickableItem.mouvementSpeed;
+                armor.madnessDefense = pickableItem.madnessDefense;
+                armor.attackSpeed = pickableItem.attackSpeed;
+                armor.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
+                armor.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
+                armor.type = pickableItem.type;
+                armor.name = pickableItem.name;
+                armor.description = pickableItem.description;
+                //armor = pickableItem;
+                pickableItem.ItemPickedUp();
+                break;
+            case "Weapon":
+                Debug.Log("weapon");
+                weapon = new ItemData();
+                weapon.attackDamage = pickableItem.attackDamage;
+                weapon.mouvementSpeed = pickableItem.mouvementSpeed;
+                weapon.madnessDefense = pickableItem.madnessDefense;
+                weapon.attackSpeed = pickableItem.attackSpeed;
+                weapon.bossSpawnChanceReduction = pickableItem.bossSpawnChanceReduction;
+                weapon.madnessPerSecondReduce = pickableItem.madnessPerSecondReduce;
+                weapon.type = pickableItem.type;
+                weapon.name = pickableItem.name;
+                weapon.description = pickableItem.description;
+                //weapon = pickableItem;
+                pickableItem.ItemPickedUp();
+                break;
+            default:
+                break;
             }
         }
         else
@@ -285,4 +376,5 @@ public class PlayerController : MonoBehaviour
 
         InsanityEnabled = true;
     }
+    
 }

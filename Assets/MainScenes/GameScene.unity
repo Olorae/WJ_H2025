@@ -157,6 +157,10 @@ MonoBehaviour:
   offset: 10
   InsanityToSpawnBoss: 50
   bossIaAlive: 0
+  LeftWall: {fileID: 1479916009}
+  RightWall: {fileID: 2023008347}
+  TopWall: {fileID: 1644395592}
+  BottomWall: {fileID: 979349155}
 --- !u!4 &78829521
 Transform:
   m_ObjectHideFlags: 0
@@ -529,6 +533,14 @@ PrefabInstance:
       propertyPath: portalRef
       value: 
       objectReference: {fileID: 1551694324}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: mainCamera
+      value: 
+      objectReference: {fileID: 1020590979}
+    - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
+      propertyPath: menuPreFab
+      value: 
+      objectReference: {fileID: 4222573595077430403, guid: 99b2e9599a985bb47aede0fe18bbdf9a, type: 3}
     - target: {fileID: 8588260064703592482, guid: fb17ece20a022774cb079d4f8a30583f, type: 3}
       propertyPath: ArmorPrefab
       value: 
