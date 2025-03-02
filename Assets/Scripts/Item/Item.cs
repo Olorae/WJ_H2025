@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.Experimental.AI;
 using Random = UnityEngine.Random;
@@ -20,6 +19,7 @@ public class Item : MonoBehaviour
     public float madnessPerSecondReduce;
     public float bossSpawnChanceReduction;
     public Color rarityColor;
+    public int rarity;
     public bool firstItem;
     public GameObject popUpPreFab;
     protected GameObject popUpInstance;
@@ -160,6 +160,8 @@ public class Item : MonoBehaviour
             FindObjectOfType<SpawnManager>().StartSpawning();
             FindObjectOfType<PlayerController>().EnableInsanity();
             GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().LivingMusic);
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PortailSFX);
             GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
         }
         Item itemToDestroy = this.GetComponent<Item>();

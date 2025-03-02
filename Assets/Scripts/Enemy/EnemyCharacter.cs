@@ -88,8 +88,10 @@ public class EnemyCharacter : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Vector3 currentLocation = transform.position;
-        Vector3 targetLocation = Player.transform.position;
+        Vector3 currentLocation = new Vector3(0f, 0f, 0f);
+        Vector3 targetLocation = new Vector3(0f, 0f, 0f);
+        currentLocation = transform.position;
+        targetLocation = Player.transform.position;
 
         if ((followPlayer && !runAway) || CompareTag("Boss"))
         {
@@ -120,7 +122,14 @@ public class EnemyCharacter : MonoBehaviour
         transform.rotation = ((targetLocation - currentLocation).x >= 0)
             ? new Quaternion(0f, 0f, transform.rotation.z, transform.rotation.w)
             : new Quaternion(0f, 180f, transform.rotation.z, transform.rotation.w);
-        healthBar.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+        if (healthBar)
+        {
+            healthBar.transform.rotation = new Quaternion(0f, 180f, 0f, 0f);
+        }
+        else
+        {
+            Debug.Log("Health Bar is null");
+        }
     }
 
     private void PushedBackOver()
@@ -138,8 +147,10 @@ public class EnemyCharacter : MonoBehaviour
             Life -= damage;
             healthManager.takeDamage(Life, MaxLife);
             animator.SetTrigger("Hit");
+            //GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().HitSFX);
             runAway = true;
             Speed = pushForce;
+            TouchingPlayer = false;
             Invoke("PushedBackOver", .05f);
             /*
             Vector2 force = -(Player.transform.position - transform.position) * 1f;
@@ -179,25 +190,20 @@ public class EnemyCharacter : MonoBehaviour
                 followPlayer = false;
                 TouchingPlayer = true;
 
+                // TODO: Boss loop pas car passe par Exit direct après, réglé avec le sprite???
                 InvokeRepeating("DamagePlayer", .1f, 1f); // Démarre après 1s, se répète toutes les 1s
-
-                /*
-                if (RealEnemy)
-                {
-                    Player.OnHit((CompareTag("Boss")) ? -Damage : Damage);
-
-                    damageInflicted();
-                    //GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage,true);
-                    coroutine = WaitAndPrint(5.0f);
-                    //StartCoroutine(coroutine);
-                }
-                else
-                {
-                    GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(-Damage / 2, false);
-                    Destroy(this.GameObject());
-                    Destroy(this);
-                }
-                */
+            }
+        }
+    }
+    
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
+        {
+            if (Life > 0)
+            {
+                followPlayer = true;
+                TouchingPlayer = false;
             }
         }
     }
@@ -240,22 +246,11 @@ public class EnemyCharacter : MonoBehaviour
             else
             {
                 StopCoroutine("WaitAndPrint");
-                //break;
             }
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand)
-        {
-            if (Life > 0)
-            {
-                followPlayer = true;
-                TouchingPlayer = false;
-            }
-        }
-    }
+    
 
     private void OnDestroy()
     {

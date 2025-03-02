@@ -26,6 +26,8 @@ public class PortalScript : MonoBehaviour
             {
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = false;
+                GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().DeadMusic);
+                GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PortailSFX);
                 GetComponent<SpriteRenderer>().sprite = LivingLand;
 
             }
@@ -33,6 +35,8 @@ public class PortalScript : MonoBehaviour
             {
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand.Invoke();
                 GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand = true;
+                GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().LivingMusic);
+                GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PortailSFX);
                 GetComponent<SpriteRenderer>().sprite = DeadLand;
             }
         }
