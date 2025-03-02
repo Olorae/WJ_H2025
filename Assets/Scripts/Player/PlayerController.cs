@@ -196,7 +196,7 @@ public class PlayerController : MonoBehaviour
 
            if (FindObjectOfType<PlayerController>().weapon != null)
            {
-               menuInstance.transform.Find("Menu/BackGround/Weapon/Description").GetComponent<TextMeshProUGUI>().text = FindObjectOfType<PlayerController>().hat.description;
+               menuInstance.transform.Find("Menu/BackGround/Weapon/Description").GetComponent<TextMeshProUGUI>().text = FindObjectOfType<PlayerController>().weapon.description;
                menuInstance.transform.Find("Menu/BackGround/Weapon/Stat1").GetComponent<TextMeshProUGUI>().text = "Attack Dmg: " + FindObjectOfType<PlayerController>().weapon.attackDamage;
                menuInstance.transform.Find("Menu/BackGround/Weapon/Stat2").GetComponent<TextMeshProUGUI>().text = "Attack Speed: " + FindObjectOfType<PlayerController>().weapon.attackSpeed;
            }

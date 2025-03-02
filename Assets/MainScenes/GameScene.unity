@@ -157,6 +157,10 @@ MonoBehaviour:
   offset: 10
   InsanityToSpawnBoss: 50
   bossIaAlive: 0
+  LeftWall: {fileID: 1479916009}
+  RightWall: {fileID: 2023008347}
+  TopWall: {fileID: 1644395592}
+  BottomWall: {fileID: 979349155}
 --- !u!4 &78829521
 Transform:
   m_ObjectHideFlags: 0
