@@ -240,6 +240,11 @@ public class Item : MonoBehaviour
         GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= invisible;
     }
 
+    private void OnDisable()
+    {
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= visible;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= invisible;
+    }
     private float compareStat(Item ItemOnGround, String statName)
     {
         float differenceStat = 0;

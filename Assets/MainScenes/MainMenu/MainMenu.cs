@@ -11,6 +11,7 @@ public class MainMenu : MonoBehaviour
         SceneManager.LoadSceneAsync("GameScene");
         GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX(GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().btnSound);
         GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().SetMusic(GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().DeadMusic);
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
     }
     public void GuideScene()
     {

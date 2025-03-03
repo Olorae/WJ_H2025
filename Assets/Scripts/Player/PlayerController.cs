@@ -74,7 +74,7 @@ public class PlayerController : MonoBehaviour
         
         coroutine = WaitAndPrint(0.5f);
         HitElapsed = true;
-        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
+        //GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
         
         playerInput.Enable();
     }
@@ -248,6 +248,11 @@ public class PlayerController : MonoBehaviour
     private void OnDisable()
     {
         move.Disable();
+        playerInput.Player.Attack.performed -= Attack;
+        playerInput.Player.Attack.Disable();
+        playerInput.Player.Pickup.performed -= Pickup;
+        playerInput.Player.Pickup.Disable();
+        playerInput.Disable();
     }
 
     // Update is called once per frame
@@ -295,6 +300,12 @@ public class PlayerController : MonoBehaviour
         Debug.Log("attack");
         playerInput.Disable();
         //isAttacking();
+        if (FindObjectOfType<SpawnManager>().tutorialScene)
+        {
+            GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().DeadMusic);
+            SceneManager.LoadSceneAsync("GameScene");
+            GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand.Invoke();
+        }
     }
 
     private void isAttacking()
@@ -342,6 +353,7 @@ public class PlayerController : MonoBehaviour
     public void Pickup(InputAction.CallbackContext obj)
     {
         
+        Debug.Log("pickup");
         if (!GameManager.GetGameManager().GetSubsystem<DimensionManager>().inLivingLand && pickableItem != null)
         {
             GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().ArmureSFX);
