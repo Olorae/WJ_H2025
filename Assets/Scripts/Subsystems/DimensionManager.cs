@@ -16,7 +16,20 @@ public class DimensionManager : ISubSystem
     public DimensionManager()
     {
         inLivingLand = false;
+        ToDeadLand += goToDeadLand;
+        ToLivingLand += goToLivingLand;
     }
+
+    private void goToLivingLand()
+    {
+        inLivingLand = true;
+    }
+
+    private void goToDeadLand()
+    {
+        inLivingLand = false; 
+    }
+    
     public static ISubSystem GetSubSystem()
     {
 

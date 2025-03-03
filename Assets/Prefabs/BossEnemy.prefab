@@ -128,18 +128,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccfaef52806fe05469c3b6b324526261, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 1
-  InitialSpeed: 0
   rigidbody2D: {fileID: 0}
   SpriteRenderer: {fileID: 0}
-  RealEnemy: 1
-  followPlayer: 0
-  Life: 1800
-  MaxLife: 1800
-  Damage: 20
-  pushForce: 500
+  CapsuleCollider2D: {fileID: 0}
+  healthManager: {fileID: 0}
   animator: {fileID: 0}
   healthBar: {fileID: 0}
+  spawnManager: {fileID: 0}
+  RealEnemy: 1
+  followPlayer: 0
+  bossPushBack: 0
+  Speed: 1
+  InitialSpeed: 0
+  Life: 600
+  MaxLife: 600
+  Damage: 20
+  pushForce: 500
 --- !u!70 &-126375861314704453
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
