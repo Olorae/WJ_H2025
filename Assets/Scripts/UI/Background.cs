@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,7 +21,11 @@ public class Background : MonoBehaviour
 
     private void ToDeadLand()
     {
-        GetComponent<Image>().sprite = deadBackground;
+        if (deadBackground != null && GetComponent<Image>() != null)
+        {
+            GetComponent<Image>().sprite = deadBackground;
+        }
+        
     }
     private void ToLivingLand()
     {
@@ -36,5 +41,16 @@ public class Background : MonoBehaviour
     void SwitchDimension()
     {
         
+    }
+
+    private void OnDisable()
+    {
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
+    }
+    private void OnDestroy()
+    {
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToDeadLand -= ToDeadLand;
+        GameManager.GetGameManager().GetSubsystem<DimensionManager>().ToLivingLand -= ToLivingLand;
     }
 }

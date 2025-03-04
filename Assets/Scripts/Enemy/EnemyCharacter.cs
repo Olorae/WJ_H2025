@@ -168,6 +168,7 @@ public class EnemyCharacter : MonoBehaviour
             GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().PlaySFX( GameManager.GetGameManager().GetSubsystem<SoundPlayerSubsystem>().EvilLaugh);
             GameManager.GetGameManager().GetSubsystem<DataSubsystem>().GainInsanity(Damage, false);
         }
+        
 
         //Debug.Log("Life = " + Life);
 
@@ -303,6 +304,10 @@ public class EnemyCharacter : MonoBehaviour
         {
             GameManager.GetGameManager().GetSubsystem<ItemSpawner>().ItemSpawn(Player.WeaponPrefab, Player.HatPrefab,
                 Player.ArmorPrefab, transform.position, transform.rotation);
+        }
+        else
+        {
+            
         }
         if (tag.Equals("Boss"))
         {

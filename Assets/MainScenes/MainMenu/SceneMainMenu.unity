@@ -382,6 +382,12 @@ MonoBehaviour:
   LivingMusic: {fileID: 8300000, guid: 80bea222fce4eb342b4ea8f2379efc99, type: 3}
   SwordSFX: {fileID: 8300000, guid: ae5be85bb4cf59f4783ed09557cc5f8f, type: 3}
   btnSound: {fileID: 8300000, guid: 3d1a4419a5472004aaf7ba45943c1aa7, type: 3}
+  LoseJingle: {fileID: 0}
+  VictoryJingle: {fileID: 0}
+  DeathEnemy: {fileID: 0}
+  DeathBoss: {fileID: 0}
+  EvilLaugh: {fileID: 0}
+  MenuMusic: {fileID: 0}
   maxVolume: 1
 --- !u!4 &38881704
 Transform:
@@ -464,8 +470,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 1728053248
-  m_fontColor: {r: 0, g: 0, b: 0, a: 0.40392157}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -725,7 +731,7 @@ MonoBehaviour:
     m_Mode: 4
     m_WrapAround: 0
     m_SelectOnUp: {fileID: 1052737408}
-    m_SelectOnDown: {fileID: 0}
+    m_SelectOnDown: {fileID: 1619291081}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
@@ -1673,7 +1679,7 @@ MonoBehaviour:
   m_Navigation:
     m_Mode: 4
     m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
+    m_SelectOnUp: {fileID: 571740705}
     m_SelectOnDown: {fileID: 0}
     m_SelectOnLeft: {fileID: 0}
     m_SelectOnRight: {fileID: 0}
